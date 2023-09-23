@@ -4,12 +4,17 @@
 // writing unit tests, visit
 // https://flutter.dev/docs/cookbook/testing/unit/introduction
 
+import 'package:excel/excel.dart';
+import 'package:flutter_dashboard/data/datasources/excel_local.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Plus Operator', () {
-    test('should add two numbers together', () {
-      expect(1 + 1, 2);
+  EcxelLocalData localData = ExcelLocalDataImpl();
+  group('Excel', () {
+    test('Read', () async {
+      var excel = await localData.loadExcelByPath(
+          'C:/Users/user/Downloads/Telegram Desktop/test.xlsx');
+      expect(excel.tables.isNotEmpty, true);
     });
   });
 }
