@@ -163,7 +163,16 @@ class _SalesPageState extends State<SalesPage> {
               flex: 6,
               child: Container(
                 color: ThemeColors().background01,
-                child: ColumnChart(),
+                child: ColumnChart(
+                  data: const [
+                    ["First", "12", "3", "56"],
+                    ["Second", "52", "15", "65"],
+                    ["Third", "13", "2", "43"],
+                    ["Fourth", "45", "2", "33"],
+                    ["Fifth", "83", "7", "38"],
+                    ["Sixth", "12", "5", "44"],
+                  ],
+                ),
               ),
             ),
           ],
