@@ -10,6 +10,7 @@ abstract class JsonRemoteData {
   Future<DataAndPlots> loadJson();
   Future<void> serverWatcher(int seconds);
   List<Datum> getData();
+  Charts getCharts();
 }
 
 class JsonRemoteDataImpl implements JsonRemoteData {
@@ -72,5 +73,10 @@ class JsonRemoteDataImpl implements JsonRemoteData {
   @override
   List<Datum> getData() {
     return _dataAndPlots.data;
+  }
+
+  @override
+  Charts getCharts() {
+    return _dataAndPlots.charts;
   }
 }
