@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/presentation/colors.dart';
 
 class SalesPage extends StatefulWidget {
   const SalesPage({super.key});
@@ -11,48 +12,25 @@ class _SalesPageState extends State<SalesPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        // width: 1000,
-        child: Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ],
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      // width: 1000,
+
+      child: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: ThemeColors().background01,
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        color: Colors.green,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.teal,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        color: Colors.cyan,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ));
+        ],
+      ),
+    );
   }
 }
