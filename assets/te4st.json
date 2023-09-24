@@ -1,0 +1,34 @@
+{
+    "data":{
+        "name": "row name",
+        "series": [
+            "sdfs",
+            "sdfsdf"
+        ],
+        "price": [
+            2,
+            12
+        ]
+    },
+    "plots": [
+        {
+            "x": "name",
+            "y": "price",
+            "stats": "sum",
+            "param": {
+                "bp": 454
+            }
+        }
+    ],
+    "hist": [
+        {
+            "x": "name",
+            "y": "price",
+            "stats": "sum",
+            "param": {
+                "bp": 454
+            }
+        }
+    ]   
+
+}

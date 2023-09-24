@@ -1,0 +1,30 @@
+{
+    "data": [
+        {
+            "name": "raaaaafdddaaassow name",
+            "series": [
+                "ssssdfs",
+                "sdfsdf",
+                "asdssdadsddfsdsdfasd",
+                "adasdddsssd"
+            ]
+        },
+        {
+            "name": "row name 2",
+            "series": [
+                "sdfs",
+                "sdfsdf"
+            ]
+        }
+    ],
+    "plots": [
+        {
+            "x": "name",
+            "y": "priasdce",
+            "stats": "sum",
+            "param": {
+                "bp": 454
+            }
+        }
+    ]
+}
