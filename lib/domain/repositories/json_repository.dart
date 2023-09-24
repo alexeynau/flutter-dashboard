@@ -8,5 +8,5 @@ abstract class JsonRepository {
   Future<DataAndPlots> getDataAndPlots();
   Future<Datum> getDatum();
   StreamController<StreamEvent> get eventStream;
-  List<dynamic> getSeriesByName(String name, List<Datum> data);
+  List<dynamic> getSeriesByName(String name);
 }

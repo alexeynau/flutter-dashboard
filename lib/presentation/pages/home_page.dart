@@ -17,44 +17,34 @@ class _HomePageState extends State<HomePage> {
       // width: 1000,
       child: Column(
         children: [
-          Expanded(
+          const Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    color: Colors.amber,
-                    child: ListenWidget(
-                        child: Container(), x: "Price", y: ["Cars"]),
-                  ),
+                  child: ListenWidget(x: "Price", y: ["Cars"]),
                 ),
                 Expanded(
-                  child: Container(
-                    color: Colors.red,
-                    child: ListenWidget(
-                        child: Container(),
-                        x: "Money",
-                        y: ["Guns", "Company A"]),
-                  ),
+                  child: ListenWidget(x: "Money", y: ["Guns", "Company A"]),
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.amber,
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Expanded(
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         child: Container(
+          //           color: Colors.amber,
+          //         ),
+          //       ),
+          //       Expanded(
+          //         child: Container(
+          //           color: Colors.red,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

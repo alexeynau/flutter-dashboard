@@ -25,7 +25,10 @@ class JsonRepositoryImpl implements JsonRepository {
   }
 
   @override
-  List getSeriesByName(String name, List<Datum> data) {
-    return data.firstWhere((element) => element.name == name).series;
+  List getSeriesByName(String name) {
+    return remoteDataSource
+        .getData()
+        .firstWhere((element) => element.name == name)
+        .series;
   }
 }

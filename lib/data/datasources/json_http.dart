@@ -9,6 +9,7 @@ abstract class JsonRemoteData {
   StreamController<StreamEvent> get eventStream;
   Future<DataAndPlots> loadJson();
   Future<void> serverWatcher(int seconds);
+  List<Datum> getData();
 }
 
 class JsonRemoteDataImpl implements JsonRemoteData {
@@ -62,8 +63,14 @@ class JsonRemoteDataImpl implements JsonRemoteData {
   }
 
   StreamController<StreamEvent> get eventStream => _eventStream;
+
   @override
   Future<DataAndPlots> loadJson() async {
     return _dataAndPlots;
+  }
+
+  @override
+  List<Datum> getData() {
+    return _dataAndPlots.data;
   }
 }
