@@ -6,22 +6,14 @@ import 'package:flutter_dashboard/presentation/colors.dart';
 
 class LineChartSample2 extends StatefulWidget {
   List<String>? data;
+  String? name;
   List<List<String>>? value;
-  LineChartSample2({this.data, this.value, super.key});
+  LineChartSample2({this.name, this.data, this.value, super.key});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
 }
 
-List<Color> gradientColors = [
-  ThemeColors().firstgrad,
-  ThemeColors().secondgrad,
-];
-
-List<Color> gradientColorsSec = [
-  ThemeColors().firstgradSec,
-  ThemeColors().secondgradSec,
-];
 @override
 void initState() {}
 
@@ -35,20 +27,17 @@ class _LineChartSample2State extends State<LineChartSample2> {
       data.add(
         LineChartBarData(
           gradient: LinearGradient(
-            colors: _currentIndex == 1 ? gradientColors : gradientColorsSec,
+            colors: getGradColor(_currentIndex),
           ),
           barWidth: 3,
           dotData: FlDotData(show: false),
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-                colors: _currentIndex == 1
-                    ? gradientColors
-                        .map((color) => color.withOpacity(0.3))
-                        .toList()
-                    : gradientColorsSec
-                        .map((color) => color.withOpacity(0.3))
-                        .toList()),
+              colors: getGradColor(_currentIndex)
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
+            ),
           ),
           spots: [
             ...element.map((e) {
@@ -77,7 +66,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             padding: const EdgeInsets.only(
               right: 40,
               left: 20,
-              top: 20,
+              top: 25,
               bottom: 30,
             ),
             child: LineChart(
@@ -90,28 +79,79 @@ class _LineChartSample2State extends State<LineChartSample2> {
             padding: const EdgeInsets.only(
               right: 20,
               left: 40,
-              top: 20,
+              top: 23,
               bottom: 30,
             ),
             child: Column(
               children: [
                 ...widget.value!.map((e) {
                   indexData += 1;
-                  return Text(
-                    getSum(e).toString(),
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: indexData == 0
-                            ? ThemeColors().firstgrad
-                            : ThemeColors().firstgradSec),
-                  );
+                  return Text(getSum(e).toString(),
+                      style:
+                          TextStyle(fontSize: 20, color: getColor(indexData)));
                 }),
               ],
             ),
           ),
-        )
+        ),
+        Container(
+          child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                widget.name!,
+                style: TextStyle(fontSize: 20),
+              )),
+        ),
       ],
     );
+  }
+
+  List<Color> getGradColor(int i) {
+    switch (i) {
+      case 2:
+        return [ThemeColors().firstgradSec, ThemeColors().secondgradSec];
+      case 3:
+        return [ThemeColors().firstgrad3, ThemeColors().secondgrad3];
+      case 4:
+        return [ThemeColors().firstgrad4, ThemeColors().secondgrad4];
+      case 5:
+        return [ThemeColors().firstgrad5, ThemeColors().secondgrad5];
+      case 6:
+        return [ThemeColors().firstgrad6, ThemeColors().secondgrad6];
+      case 7:
+        return [ThemeColors().firstgrad7, ThemeColors().secondgrad7];
+      case 8:
+        return [ThemeColors().firstgrad8, ThemeColors().secondgrad8];
+      case 9:
+        return [ThemeColors().firstgrad9, ThemeColors().secondgrad9];
+      case 10:
+        return [ThemeColors().firstgrad10, ThemeColors().secondgrad10];
+    }
+    return [ThemeColors().firstgrad, ThemeColors().secondgrad];
+  }
+
+  Color getColor(int i) {
+    switch (i) {
+      case 1:
+        return ThemeColors().firstgradSec;
+      case 2:
+        return ThemeColors().firstgrad3;
+      case 3:
+        return ThemeColors().firstgrad4;
+      case 4:
+        return ThemeColors().firstgrad5;
+      case 5:
+        return ThemeColors().firstgrad6;
+      case 6:
+        return ThemeColors().firstgrad7;
+      case 7:
+        return ThemeColors().firstgrad8;
+      case 8:
+        return ThemeColors().firstgrad9;
+      case 9:
+        return ThemeColors().firstgrad10;
+    }
+    return ThemeColors().firstgrad;
   }
 
   double getSum(List<String> str) {

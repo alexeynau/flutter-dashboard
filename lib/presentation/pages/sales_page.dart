@@ -28,6 +28,7 @@ class _SalesPageState extends State<SalesPage> {
                     child: Container(
                       color: ThemeColors().background01,
                       child: LineChartSample2(
+                        name: "Numbers",
                         data: const [
                           "First",
                           "Second",
@@ -53,6 +54,7 @@ class _SalesPageState extends State<SalesPage> {
                     child: Container(
                       color: ThemeColors().background01,
                       child: LineChartSample2(
+                        name: "Months",
                         data: const [
                           "Jan",
                           "Feb",
@@ -129,6 +131,7 @@ class _SalesPageState extends State<SalesPage> {
                     child: Container(
                       color: ThemeColors().background01,
                       child: LineChartSample2(
+                        name: "Names",
                         data: const [
                           "Alexey",
                           "Dmitriy",
@@ -139,6 +142,16 @@ class _SalesPageState extends State<SalesPage> {
                             "12",
                             "271",
                             "220",
+                          ],
+                          [
+                            "120",
+                            "22",
+                            "229",
+                          ],
+                          [
+                            "1",
+                            "145",
+                            "300",
                           ]
                         ],
                       ),
