@@ -17,7 +17,7 @@ Future<void> main() async {
 class App extends StatelessWidget {
   App({super.key});
 
-  int _currentIndex = 0;
+  int _currentIndex = 1;
 
   final List<Widget> _tabs = [
     const HomePage(),
