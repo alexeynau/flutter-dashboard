@@ -21,7 +21,7 @@ class _ListenWidgetState extends State<ListenWidget> {
   @override
   void initState() {
     // JsonRepository repository = getIt.get<JsonRepository>();
-
+    print("repaint");
     repository.eventStream.stream.listen((event) {
       if (widget.x.contains(event.name) || widget.y.contains(event.name)) {
         setState(() {});
