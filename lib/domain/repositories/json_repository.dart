@@ -9,4 +9,5 @@ abstract class JsonRepository {
   Future<Datum> getDatum();
   StreamController<StreamEvent> get eventStream;
   List<dynamic> getSeriesByName(String name);
+  List<Plot> getPlots();
 }

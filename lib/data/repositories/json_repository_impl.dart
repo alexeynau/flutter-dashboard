@@ -31,4 +31,9 @@ class JsonRepositoryImpl implements JsonRepository {
         .firstWhere((element) => element.name == name)
         .series;
   }
+
+  @override
+  List<Plot> getPlots() {
+    return remoteDataSource.getCharts().plots;
+  }
 }
