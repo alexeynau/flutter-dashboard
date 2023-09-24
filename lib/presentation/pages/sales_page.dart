@@ -1,5 +1,7 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
+import 'package:flutter_dashboard/presentation/widgets/column.dart';
 import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
 
 class SalesPage extends StatefulWidget {
@@ -19,7 +21,7 @@ class _SalesPageState extends State<SalesPage> {
         child: Column(
           children: [
             Expanded(
-              flex: 6,
+              flex: 4,
               child: Row(
                 children: [
                   Expanded(
@@ -36,12 +38,12 @@ class _SalesPageState extends State<SalesPage> {
                         ],
                         value: const [
                           [
-                            "1",
-                            "2",
-                            "3",
-                            "1",
-                            "2",
-                            "3",
+                            "10",
+                            "29",
+                            "34",
+                            "10",
+                            "23",
+                            "31",
                           ]
                         ],
                       ),
@@ -114,7 +116,7 @@ class _SalesPageState extends State<SalesPage> {
               ),
             ),
             Expanded(
-              flex: 6,
+              flex: 4,
               child: Row(
                 children: [
                   Expanded(
@@ -148,6 +150,7 @@ class _SalesPageState extends State<SalesPage> {
               flex: 6,
               child: Container(
                 color: ThemeColors().background01,
+                child: ColumnChart(),
               ),
             ),
           ],
