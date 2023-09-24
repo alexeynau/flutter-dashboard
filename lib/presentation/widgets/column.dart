@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/data/models/data.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -45,12 +46,14 @@ class _ColumnChartState extends State<ColumnChart> {
           width: 0.3,
           spacing: 0,
           xValueMapper: (ExpenseData exp, _) => exp.year,
-          yValueMapper: (ExpenseData exp, _) => exp.sng,
+          yValueMapper: (ExpenseData exp, i) {
+            return exp.sng;
+          },
           color: ThemeColors().sng,
-          // dataLabelSettings: const DataLabelSettings(
-          //   isVisible: true,
-          //   labelAlignment: ChartDataLabelAlignment.middle,
-          // ),
+          dataLabelSettings: const DataLabelSettings(
+            isVisible: true,
+            labelAlignment: ChartDataLabelAlignment.middle,
+          ),
           name: "СНГ",
         ),
         StackedColumn100Series<ExpenseData, String>(
@@ -60,7 +63,8 @@ class _ColumnChartState extends State<ColumnChart> {
           xValueMapper: (ExpenseData exp, _) => exp.year,
           yValueMapper: (ExpenseData exp, _) => exp.innerMarket,
           dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
+            isVisible:
+                true /*(ExpenseData exp) {return (exp>=10) ? true: false} */,
             labelAlignment: ChartDataLabelAlignment.middle,
           ),
           color: ThemeColors().innerMarket,
