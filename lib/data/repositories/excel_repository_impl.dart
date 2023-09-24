@@ -6,7 +6,7 @@ import 'package:flutter_dashboard/data/datasources/excel_local.dart';
 import 'package:flutter_dashboard/domain/repositories/excel_repository.dart';
 
 class ExcelRepositoryImpl extends ExcelRepository {
-  final EcxelLocalData localDataSource;
+  final ExcelLocalData localDataSource;
 
   ExcelRepositoryImpl({required this.localDataSource});
 

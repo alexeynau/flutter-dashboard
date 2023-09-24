@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:flutter_dashboard/common/errors/exceptions.dart';
 
-abstract class EcxelLocalData {
+abstract class ExcelLocalData {
   Future<Excel> loadExcelByPath(String path);
 }
 
-class ExcelLocalDataImpl implements EcxelLocalData {
+class ExcelLocalDataImpl implements ExcelLocalData {
   /// Read excel file by path given in params and returns Excel file
   ///
   /// Throws [FileException] when file not found
