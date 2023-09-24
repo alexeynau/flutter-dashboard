@@ -29,4 +29,9 @@ class ThemeColors {
 
   //bg fot tooltip
   Color get tooltipBg => Color.fromARGB(237, 253, 253, 253);
+
+  //for markets
+  Color get export => Color.fromARGB(255, 54, 147, 101);
+  Color get sng => Color.fromARGB(255, 10, 54, 7);
+  Color get innerMarket => Color.fromARGB(255, 219, 250, 62);
 }

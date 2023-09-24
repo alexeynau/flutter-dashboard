@@ -45,10 +45,10 @@ class App extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                leading: Icon(
-                  Icons.access_time_filled,
-                  color: ThemeColors().primary,
-                ),
+                // leading: Icon(
+                //   Icons.access_time_filled,
+                //   color: ThemeColors().primary,
+                // ),
                 backgroundColor: ThemeColors().secondary,
                 title: TabBar(
                   indicatorColor: ThemeColors().secondary,

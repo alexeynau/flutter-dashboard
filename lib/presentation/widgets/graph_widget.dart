@@ -69,38 +69,84 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   Widget build(BuildContext context) {
+    int indexData = -1;
     return Stack(
       children: <Widget>[
         Container(
           child: Padding(
             padding: const EdgeInsets.only(
               right: 40,
-              left: 12,
-              top: 50,
-              bottom: 12,
+              left: 20,
+              top: 20,
+              bottom: 30,
             ),
             child: LineChart(
               mainData(),
             ),
           ),
         ),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              right: 20,
+              left: 40,
+              top: 20,
+              bottom: 30,
+            ),
+            child: Column(
+              children: [
+                ...widget.value!.map((e) {
+                  indexData += 1;
+                  return Text(
+                    getSum(e).toString(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: indexData == 0
+                            ? ThemeColors().firstgrad
+                            : ThemeColors().firstgradSec),
+                  );
+                }),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 15,
-    );
-    String text;
-    if (value.toInt() % 2 == 1)
-      text = (value.toInt() * 10).toString() + "K";
-    else
-      return Container();
-
-    return Text(text, style: style, textAlign: TextAlign.left);
+  double getSum(List<String> str) {
+    double sum = 0;
+    str.forEach((e) {
+      double a = double.parse(e);
+      sum += a;
+    });
+    return sum;
   }
+
+  double getMax() {
+    double max = 0;
+    widget.value!.forEach((element) {
+      element.forEach((e) {
+        double a = double.parse(e);
+        a > max ? max = a : max = max;
+      });
+    });
+    return max;
+  }
+
+  // Widget leftTitleWidgets(double value, TitleMeta meta) {
+  //   const style = TextStyle(
+  //     fontWeight: FontWeight.bold,
+  //     fontSize: 15,
+  //   );
+  //   String text;
+  //   if (value.toInt() % 2 == 1)
+  //     text = (value.toInt() * 10).toString() + "K";
+  //   else
+  //     return Container();
+
+  //   return Text(text, style: style, textAlign: TextAlign.left);
+  // }
 
   String getMonth(double x) {
     String s = "";
@@ -165,9 +211,9 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
+            showTitles: false,
             interval: 1,
-            getTitlesWidget: leftTitleWidgets,
+            // getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
         ),
@@ -179,7 +225,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
       minY: 0,
-      maxY: 10,
+      maxY: getMax() + getMax(),
       lineBarsData: getLineBarsData(),
     );
   }
