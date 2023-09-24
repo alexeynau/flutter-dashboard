@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
+import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
 import 'package:flutter_dashboard/service_locator.dart';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -7,9 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 class ListenWidget extends StatefulWidget {
   final String x;
   final List<String> y;
-  final Widget child;
-  const ListenWidget(
-      {super.key, required this.child, required this.x, required this.y});
+  const ListenWidget({super.key, required this.x, required this.y});
 
   @override
   State<ListenWidget> createState() => _ListenWidgetState();
@@ -38,30 +37,36 @@ class _ListenWidgetState extends State<ListenWidget> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            xs = List.generate(
-                4,
-                // repository
-                //     .getSeriesByName(widget.x, snapshot.data!.data)
-                //     .length,
-                (index) => index);
             if (snapshot.hasData) {
               if (snapshot.data!.data.isNotEmpty &&
                   snapshot.data!.charts.plots.isNotEmpty) {
-                print("here");
-                return LineChart(LineChartData(lineBarsData: [
-                  ...widget.y.map(
-                    (seriesName) {
-                      var ys = repository.getSeriesByName(
-                          seriesName, snapshot.data!.data);
-                      return LineChartBarData(
-                        spots: xs
-                            .map((index) => FlSpot(index.toDouble(), ys[index]))
-                            .toList(),
-                        //  snapshot.data!.data.firstWhere((data) => seriesName == data.name).series.map((y) => FlSpot(snapshot.data!.data.firstWhere((x) => seriesName == data.name), y)).toList(),
-                      );
-                    },
-                  ).toList()
-                ]));
+                return LineChartSample2(
+                  data: repository
+                      .getSeriesByName(widget.x)
+                      .map((e) => e.toString())
+                      .toList(),
+                  value: widget.y
+                      .map((y) => repository
+                          .getSeriesByName(y)
+                          .map((e) => e.toString())
+                          .toList())
+                      .toList(),
+                );
+
+                // LineChart(LineChartData(lineBarsData: [
+                //   ...widget.y.map(
+                //     (seriesName) {
+                //       var ys = repository.getSeriesByName(
+                //           seriesName, snapshot.data!.data);
+                //       return LineChartBarData(
+                //         spots: xs
+                //             .map((index) => FlSpot(index.toDouble(), ys[index]))
+                //             .toList(),
+                //         //  snapshot.data!.data.firstWhere((data) => seriesName == data.name).series.map((y) => FlSpot(snapshot.data!.data.firstWhere((x) => seriesName == data.name), y)).toList(),
+                //       );
+                //     },
+                //   ).toList()
+                // ]));
 
                 // Column(
                 //   children: [
