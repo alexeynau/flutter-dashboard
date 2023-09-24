@@ -67,16 +67,15 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return data;
   }
 
-  int indexData = -1;
-
   @override
   Widget build(BuildContext context) {
+    int indexData = -1;
     return Stack(
       children: <Widget>[
         Container(
           child: Padding(
             padding: const EdgeInsets.only(
-              right: 20,
+              right: 40,
               left: 20,
               top: 20,
               bottom: 30,
@@ -91,7 +90,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             padding: const EdgeInsets.only(
               right: 20,
               left: 40,
-              top: 40,
+              top: 20,
               bottom: 30,
             ),
             child: Column(

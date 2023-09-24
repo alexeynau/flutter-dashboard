@@ -128,7 +128,20 @@ class _SalesPageState extends State<SalesPage> {
                   Expanded(
                     child: Container(
                       color: ThemeColors().background01,
-                      child: LineChartSample2(),
+                      child: LineChartSample2(
+                        data: const [
+                          "Alexey",
+                          "Dmitriy",
+                          "Georgy",
+                        ],
+                        value: const [
+                          [
+                            "12",
+                            "271",
+                            "220",
+                          ]
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
