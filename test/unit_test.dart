@@ -15,7 +15,7 @@ import 'package:flutter_dashboard/domain/usecases/get_table_by_name.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  EcxelLocalData localData = ExcelLocalDataImpl();
+  ExcelLocalData localData = ExcelLocalDataImpl();
   ExcelRepository repository = ExcelRepositoryImpl(localDataSource: localData);
   GetTableByName getTableByName = GetTableByName(repository);
   group('Excel', () {
