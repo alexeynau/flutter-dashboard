@@ -105,6 +105,30 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 style: TextStyle(fontSize: 20),
               )),
         ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 25,
+            right: 25,
+          ),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: SizedBox(
+              width: 60,
+              height: 24,
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    // showAvg = !showAvg;
+                  });
+                },
+                child: Icon(
+                  Icons.filter_alt_rounded,
+                  color: ThemeColors().primarytext,
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

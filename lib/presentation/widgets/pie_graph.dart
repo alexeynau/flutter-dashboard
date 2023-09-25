@@ -42,7 +42,7 @@ class _PieGraphState extends State<PieGraph> {
     return Row(
       children: [
         Expanded(
-          flex: 4,
+          flex: 3,
           child: Container(
             child: PieChart(
               PieChartData(
