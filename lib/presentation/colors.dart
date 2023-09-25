@@ -27,6 +27,36 @@ class ThemeColors {
   Color get firstgradSec => Color.fromARGB(239, 210, 78, 78);
   Color get secondgradSec => Color.fromARGB(255, 224, 21, 24);
 
+  //gradient for 3 graph
+  Color get firstgrad3 => Color.fromARGB(237, 48, 13, 39);
+  Color get secondgrad3 => Color.fromARGB(255, 53, 5, 42);
+
+  //gradient for 4 graph
+  Color get firstgrad4 => Color.fromARGB(238, 65, 57, 218);
+  Color get secondgrad4 => Color.fromARGB(255, 10, 85, 171);
+
+  //gradient for 5 graph
+  Color get firstgrad5 => Color.fromARGB(238, 210, 78, 197);
+  Color get secondgrad5 => Color.fromARGB(255, 224, 21, 193);
+
+  //gradient for 6 graph
+  Color get firstgrad6 => Color.fromARGB(239, 210, 78, 78);
+  Color get secondgrad6 => Color.fromARGB(255, 224, 21, 24);
+
+  //gradient for 7 graph
+  Color get firstgrad7 => Color.fromARGB(238, 78, 157, 210);
+  Color get secondgrad7 => Color.fromARGB(255, 21, 136, 224);
+
+  //gradient for 8 graph
+  Color get firstgrad8 => Color.fromARGB(238, 78, 210, 206);
+  Color get secondgrad8 => Color.fromARGB(255, 21, 210, 224);
+
+  //gradient for 9 graph
+  Color get firstgrad9 => Color.fromARGB(238, 22, 63, 32);
+  Color get secondgrad9 => Color.fromARGB(255, 5, 73, 24);
+  //gradient for 10 graph
+  Color get firstgrad10 => Color.fromARGB(238, 53, 55, 11);
+  Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
   Color get tooltipBg => Color.fromARGB(237, 253, 253, 253);
 
@@ -34,4 +64,6 @@ class ThemeColors {
   Color get export => Color.fromARGB(255, 54, 147, 101);
   Color get sng => Color.fromARGB(255, 10, 54, 7);
   Color get innerMarket => Color.fromARGB(255, 219, 250, 62);
+  Color get justAddSmth => Color.fromARGB(255, 41, 14, 158);
+  Color get outMarket => Color.fromARGB(255, 152, 3, 3);
 }
