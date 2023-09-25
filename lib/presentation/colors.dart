@@ -64,4 +64,6 @@ class ThemeColors {
   Color get export => Color.fromARGB(255, 54, 147, 101);
   Color get sng => Color.fromARGB(255, 10, 54, 7);
   Color get innerMarket => Color.fromARGB(255, 219, 250, 62);
+  Color get justAddSmth => Color.fromARGB(255, 41, 14, 158);
+  Color get outMarket => Color.fromARGB(255, 152, 3, 3);
 }
