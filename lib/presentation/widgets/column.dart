@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/data/models/data.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ColumnChart extends StatefulWidget {
   List<List<String>>? data;
-  ColumnChart({this.data, super.key});
+  List<String>? labelsOfCom;
+  ColumnChart({this.data, this.labelsOfCom, super.key});
 
   @override
   State<ColumnChart> createState() => _ColumnChartState();
@@ -20,6 +22,21 @@ class _ColumnChartState extends State<ColumnChart> {
     super.initState();
   }
 
+  Color getColorOfCol(String e) {
+    switch (e) {
+      case "СНГ":
+        return ThemeColors().sng;
+      case "Внутренний рынок":
+        return ThemeColors().innerMarket;
+      case "Что-то":
+        return ThemeColors().justAddSmth;
+      case "Внешний рынок":
+        return ThemeColors().outMarket;
+    }
+
+    return ThemeColors().export;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
@@ -27,44 +44,33 @@ class _ColumnChartState extends State<ColumnChart> {
       legend: Legend(isVisible: true),
       tooltipBehavior: _tooltipBehavior,
       series: <ChartSeries>[
-        StackedColumn100Series<ExpenseData, String>(
-          dataSource: _chartData,
-          width: 0.3,
-          spacing: 0,
-          xValueMapper: (ExpenseData exp, _) => exp.year,
-          yValueMapper: (ExpenseData exp, _) => exp.export,
-          color: ThemeColors().export,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
-            labelAlignment: ChartDataLabelAlignment.middle,
+        ...widget.labelsOfCom!.map(
+          (e) => StackedColumn100Series<ExpenseData, String>(
+            dataSource: _chartData,
+            width: 0.3,
+            spacing: 0,
+            xValueMapper: (ExpenseData exp, _) => exp.year,
+            yValueMapper: (ExpenseData exp, _) {
+              switch (e) {
+                case "Экспорт":
+                  return exp.export;
+                case "СНГ":
+                  return exp.sng;
+                case "Внутренний рынок":
+                  return exp.innerMarket;
+                case "Что-то":
+                  return exp.smth;
+                case "Внешний рынок":
+                  return exp.out;
+              }
+            },
+            color: getColorOfCol(e),
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+              labelAlignment: ChartDataLabelAlignment.middle,
+            ),
+            name: e,
           ),
-          name: "Экспорт",
-        ),
-        StackedColumn100Series<ExpenseData, String>(
-          dataSource: _chartData,
-          width: 0.3,
-          spacing: 0,
-          xValueMapper: (ExpenseData exp, _) => exp.year,
-          yValueMapper: (ExpenseData exp, _) => exp.sng,
-          color: ThemeColors().sng,
-          // dataLabelSettings: const DataLabelSettings(
-          //   isVisible: true,
-          //   labelAlignment: ChartDataLabelAlignment.middle,
-          // ),
-          name: "СНГ",
-        ),
-        StackedColumn100Series<ExpenseData, String>(
-          dataSource: _chartData,
-          width: 0.3,
-          spacing: 0,
-          xValueMapper: (ExpenseData exp, _) => exp.year,
-          yValueMapper: (ExpenseData exp, _) => exp.innerMarket,
-          dataLabelSettings: const DataLabelSettings(
-            isVisible: true,
-            labelAlignment: ChartDataLabelAlignment.middle,
-          ),
-          color: ThemeColors().innerMarket,
-          name: "Внутренный рынок",
         ),
       ],
       primaryXAxis: CategoryAxis(),
@@ -74,8 +80,8 @@ class _ColumnChartState extends State<ColumnChart> {
   List<ExpenseData> getChartData() {
     final List<ExpenseData> chartData = [
       ...widget.data!.map(
-        (e) => ExpenseData(
-            e[0], double.parse(e[1]), double.parse(e[2]), double.parse(e[3])),
+        (e) => ExpenseData(e[0], double.parse(e[1]), double.parse(e[2]),
+            double.parse(e[3]), double.parse(e[4]), double.parse(e[5])),
       )
 
       // ExpenseData("Tr3ansport", 34, 5, 21),
@@ -93,15 +99,18 @@ class _ColumnChartState extends State<ColumnChart> {
 }
 
 class ExpenseData {
-  final String year;
-  final num export;
-  final num sng;
-  final num innerMarket;
-  final num test = 0;
+  String year;
+  num export = 0;
+  num sng = 0;
+  num innerMarket = 0;
+  num smth = 0;
+  num out = 0;
   ExpenseData(
     this.year,
     this.export,
     this.sng,
     this.innerMarket,
+    this.smth,
+    this.out,
   );
 }

@@ -28,6 +28,7 @@ class _SalesPageState extends State<SalesPage> {
                     child: Container(
                       color: ThemeColors().background01,
                       child: LineChartSample2(
+                        name: "Numbers",
                         data: const [
                           "First",
                           "Second",
@@ -53,6 +54,7 @@ class _SalesPageState extends State<SalesPage> {
                     child: Container(
                       color: ThemeColors().background01,
                       child: LineChartSample2(
+                        name: "Months",
                         data: const [
                           "Jan",
                           "Feb",
@@ -129,6 +131,7 @@ class _SalesPageState extends State<SalesPage> {
                     child: Container(
                       color: ThemeColors().background01,
                       child: LineChartSample2(
+                        name: "Names",
                         data: const [
                           "Alexey",
                           "Dmitriy",
@@ -139,6 +142,16 @@ class _SalesPageState extends State<SalesPage> {
                             "12",
                             "271",
                             "220",
+                          ],
+                          [
+                            "120",
+                            "22",
+                            "229",
+                          ],
+                          [
+                            "1",
+                            "145",
+                            "300",
                           ]
                         ],
                       ),
@@ -164,13 +177,19 @@ class _SalesPageState extends State<SalesPage> {
               child: Container(
                 color: ThemeColors().background01,
                 child: ColumnChart(
+                  labelsOfCom: const [
+                    "Экспорт",
+                    "СНГ",
+                    "Что-то",
+                    "Внутренний рынок"
+                  ],
                   data: const [
-                    ["First", "12", "3", "56"],
-                    ["Second", "52", "15", "65"],
-                    ["Third", "13", "2", "43"],
-                    ["Fourth", "45", "2", "33"],
-                    ["Fifth", "83", "7", "38"],
-                    ["Sixth", "12", "5", "44"],
+                    ["First", "12", "3", "56", "32", "0"],
+                    ["Second", "52", "15", "65", "12", "0"],
+                    ["Third", "13", "2", "43", "33", "0"],
+                    ["Fourth", "45", "2", "33", "0", "0"],
+                    ["Fifth", "83", "7", "38", "56", "0"],
+                    ["Sixth", "12", "5", "44", "11", "0"],
                   ],
                 ),
               ),
