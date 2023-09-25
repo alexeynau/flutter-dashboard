@@ -38,27 +38,72 @@ class _PieGraphState extends State<PieGraph> {
   @override
   Widget build(BuildContext context) {
     int ind = -1;
-    return Container(
-      child: PieChart(
-        PieChartData(
-          centerSpaceRadius: 1,
-          sectionsSpace: 2,
-          borderData: FlBorderData(show: false),
-          sections: [
-            // ind = -1;
-            ...widget.data.map((e) {
-              ind += 1;
-              double h = MediaQuery.of(context).size.height;
-              double w = MediaQuery.of(context).size.width;
-              return PieChartSectionData(
-                radius: h >= w ? (w / 2) * 0.35 : (h / 2) * 0.35,
-                value: double.parse(e[1]),
-                color: getColor(ind),
-              );
-            })
-          ],
+    int ind2 = -1;
+    return Row(
+      children: [
+        Expanded(
+          flex: 4,
+          child: Container(
+            child: PieChart(
+              PieChartData(
+                pieTouchData: PieTouchData(
+                  touchCallback: (p0, p1) {},
+                ),
+                centerSpaceRadius: 1,
+                sectionsSpace: 2,
+                borderData: FlBorderData(show: false),
+                sections: [
+                  ...widget.data.map((e) {
+                    ind += 1;
+                    double h = MediaQuery.of(context).size.height;
+                    double w = MediaQuery.of(context).size.width;
+                    return PieChartSectionData(
+                      titleStyle: TextStyle(
+                        color: ThemeColors().pieTextColor,
+                      ),
+                      radius: h >= w ? (w / 2) * 0.35 : (h / 2) * 0.35,
+                      value: double.parse(e[1]),
+                      color: getColor(ind),
+                    );
+                  })
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 45),
+            child: Container(
+              child: Column(
+                children: [
+                  ...widget.data.map((e) {
+                    ind2 += 1;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10, right: 20),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                                color: getColor(ind2), shape: BoxShape.circle),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(e[0]),
+                        ],
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

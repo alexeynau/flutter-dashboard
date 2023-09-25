@@ -17,12 +17,13 @@ class JsonRepositoryImpl implements JsonRepository {
     throw UnimplementedError();
   }
 
-  StreamController<StreamEvent> get eventStream => remoteDataSource.eventStream;
+  StreamController<DataAndPlots> get eventStream =>
+      remoteDataSource.eventStream;
 
   @override
   Future<DataAndPlots> getDataAndPlots() async {
     dataAndPlots = await remoteDataSource.loadJson();
-    return dataAndPlots;
+    return await remoteDataSource.loadJson();
   }
 
   @override

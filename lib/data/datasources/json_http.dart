@@ -7,7 +7,7 @@ import 'package:flutter_dashboard/data/models/event_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class JsonRemoteData {
-  StreamController<StreamEvent> get eventStream;
+  StreamController<DataAndPlots> get eventStream;
   Future<DataAndPlots> loadJson();
   Future<void> serverWatcher(int seconds);
   List<Datum> getData();
@@ -15,7 +15,7 @@ abstract class JsonRemoteData {
 }
 
 class JsonRemoteDataImpl implements JsonRemoteData {
-  late StreamController<StreamEvent> _eventStream;
+  late StreamController<DataAndPlots> _eventStream;
   late DataAndPlots _dataAndPlots;
 
   @override
@@ -42,9 +42,9 @@ class JsonRemoteDataImpl implements JsonRemoteData {
           var startDataAndPlots = _dataAndPlots;
           _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
 
-          for (var data in compareData(startDataAndPlots, _dataAndPlots)) {
-            eventStream.add(StreamEvent(data: data, name: data.name));
-          }
+          eventStream.add(_dataAndPlots);
+          // for (var data in compareData(startDataAndPlots, _dataAndPlots)) {
+          //   eventStream.add(StreamEvent(data: data, name: data.name));
         } else {
           print("nothing changed");
         }
@@ -66,7 +66,7 @@ class JsonRemoteDataImpl implements JsonRemoteData {
   }
 
   @override
-  StreamController<StreamEvent> get eventStream => _eventStream;
+  StreamController<DataAndPlots> get eventStream => _eventStream;
 
   @override
   Future<DataAndPlots> loadJson() async {

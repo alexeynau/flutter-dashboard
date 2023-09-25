@@ -43,6 +43,6 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     //   return;
     // }
 
-    emit(ChartLoaded(name: plot.name, xs: plot.x, ys: plot.y));
+    emit(ChartLoaded(name: plot.plotName, xs: plot.x, ys: plot.y));
   }
 }

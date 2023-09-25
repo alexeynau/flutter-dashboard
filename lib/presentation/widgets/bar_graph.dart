@@ -118,10 +118,11 @@ class _BarGraphState extends State<BarGraph> {
                 )),
               ),
               barGroups: barData.barData
-                  .map((e) =>
-                      BarChartGroupData(x: e.x, showingTooltipIndicators: [
-                        0
-                      ], barRods: [
+                  .map(
+                    (e) => BarChartGroupData(
+                      x: e.x,
+                      showingTooltipIndicators: [0],
+                      barRods: [
                         BarChartRodData(
                           toY: e.y,
                           color: ThemeColors().barColor,
@@ -129,7 +130,9 @@ class _BarGraphState extends State<BarGraph> {
                               MediaQuery.of(context).size.width < 400 ? 15 : 25,
                           borderRadius: BorderRadius.circular(2),
                         ),
-                      ]))
+                      ],
+                    ),
+                  )
                   .toList(),
             ),
           ),
