@@ -54,7 +54,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
           },
         );
       },
-      child: ListenWidget(x: widget.x, y: chosenData),
+      child: ListenWidget(name: "TODO", x: widget.x, y: chosenData),
     );
   }
 }
