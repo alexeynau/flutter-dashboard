@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
 
 class LineChartSample2 extends StatefulWidget {
+  List<String>? names;
   List<String>? data;
   String? name;
   List<List<String>>? value;
-  LineChartSample2({this.name, this.data, this.value, super.key});
+  LineChartSample2({this.name, this.data, this.value, this.names, super.key});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
@@ -26,6 +27,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       _indexForElem = -1;
       data.add(
         LineChartBarData(
+          showingIndicators: [0],
           gradient: LinearGradient(
             colors: getGradColor(_currentIndex),
           ),
@@ -86,9 +88,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
               children: [
                 ...widget.value!.map((e) {
                   indexData += 1;
-                  return Text(getSum(e).toString(),
+                  return Text(
+                      widget.names![indexData] + " " + getSum(e).toString(),
                       style:
-                          TextStyle(fontSize: 20, color: getColor(indexData)));
+                          TextStyle(fontSize: 14, color: getColor(indexData)));
                 }),
               ],
             ),

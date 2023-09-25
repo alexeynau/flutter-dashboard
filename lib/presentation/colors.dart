@@ -29,8 +29,8 @@ class ThemeColors {
   Color get secondgradSec => Color.fromARGB(255, 224, 21, 24);
 
   //gradient for 3 graph
-  Color get firstgrad3 => Color.fromARGB(237, 48, 13, 39);
-  Color get secondgrad3 => Color.fromARGB(255, 53, 5, 42);
+  Color get firstgrad3 => Color.fromARGB(236, 114, 30, 93);
+  Color get secondgrad3 => Color.fromARGB(255, 99, 11, 79);
 
   //gradient for 4 graph
   Color get firstgrad4 => Color.fromARGB(238, 65, 57, 218);
@@ -71,4 +71,7 @@ class ThemeColors {
 
   // for bar
   Color get barColor => Color.fromARGB(255, 202, 32, 182);
+
+  // for pie
+  Color get pieTextColor => Color.fromARGB(255, 255, 255, 255);
 }
