@@ -65,7 +65,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           child: Padding(
             padding: const EdgeInsets.only(
               right: 40,
-              left: 20,
+              left: 38,
               top: 25,
               bottom: 30,
             ),

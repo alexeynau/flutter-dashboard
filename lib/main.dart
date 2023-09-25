@@ -18,9 +18,14 @@ Future<void> main() async {
   runApp(App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   App({super.key});
 
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   int _currentIndex = 1;
 
   final List<Widget> _tabs = [
@@ -46,36 +51,52 @@ class App extends StatelessWidget {
                   DefaultTabController.of(context);
               tabController.addListener(() {
                 if (tabController.indexIsChanging) {
-                  _currentIndex = tabController.index;
+                  setState(() {
+                    _currentIndex = tabController.index;
+                  });
                 }
               });
 
               return Scaffold(
                 appBar: AppBar(
-                  // leading: Icon(
-                  //   Icons.access_time_filled,
-                  //   color: ThemeColors().primary,
-                  // ),
                   backgroundColor: ThemeColors().secondary,
                   title: TabBar(
+                    overlayColor:
+                        MaterialStatePropertyAll(ThemeColors().secondary),
+                    automaticIndicatorColorAdjustment: false,
                     indicatorColor: ThemeColors().secondary,
-                    labelColor: ThemeColors().background02,
                     unselectedLabelStyle: TextStyle(fontSize: 14),
                     labelStyle: TextStyle(fontSize: 20),
                     tabs: [
-                      Tab(
-                        child: Text(
-                          "Главная",
-                          style: TextStyle(
-                            color: ThemeColors().primarytext,
+                      Container(
+                        color: _currentIndex == 0
+                            ? ThemeColors().selected
+                            : ThemeColors().secondary,
+                        width: MediaQuery.of(context).size.width,
+                        child: Tab(
+                          height: MediaQuery.of(context).size.height,
+                          child: Text(
+                            "Главная",
+                            style: TextStyle(
+                              color: ThemeColors().primarytext,
+                            ),
                           ),
                         ),
                       ),
-                      Tab(
-                        child: Text(
-                          "Продажи",
-                          style: TextStyle(
-                            color: ThemeColors().primarytext,
+                      Container(
+                        padding: EdgeInsets.all(0),
+                        margin: EdgeInsets.all(0),
+                        color: _currentIndex == 1
+                            ? ThemeColors().selected
+                            : ThemeColors().secondary,
+                        width: double.infinity,
+                        child: Tab(
+                          height: MediaQuery.of(context).size.height,
+                          child: Text(
+                            "Продажи",
+                            style: TextStyle(
+                              color: ThemeColors().primarytext,
+                            ),
                           ),
                         ),
                       ),
