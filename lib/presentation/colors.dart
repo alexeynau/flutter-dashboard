@@ -59,7 +59,7 @@ class ThemeColors {
   Color get firstgrad10 => Color.fromARGB(238, 53, 55, 11);
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
-  Color get tooltipBg => Color.fromARGB(237, 253, 253, 253);
+  Color get tooltipBg => Color.fromARGB(255, 120, 95, 95);
 
   //for markets
   Color get export => Color.fromARGB(255, 54, 147, 101);
@@ -67,4 +67,7 @@ class ThemeColors {
   Color get innerMarket => Color.fromARGB(255, 219, 250, 62);
   Color get justAddSmth => Color.fromARGB(255, 41, 14, 158);
   Color get outMarket => Color.fromARGB(255, 152, 3, 3);
+
+  // for bar
+  Color get barColor => Color.fromARGB(255, 202, 32, 182);
 }
