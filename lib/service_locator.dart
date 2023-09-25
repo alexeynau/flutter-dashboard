@@ -9,6 +9,7 @@ import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'data/datasources/json_http.dart';
+import 'presentation/bloc/bloc/selector_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -22,6 +23,7 @@ Future<void> setup() async {
   //   ),
   // );
   getIt.registerFactory(() => ChartBloc(repository: getIt()));
+  getIt.registerFactory(() => SelectorBloc());
   // getIt.registerLazySingleton<ExcelLocalData>(() => ExcelLocalDataImpl());
   getIt.registerLazySingleton<JsonLocalData>(() => JsonLocalDataImpl());
   getIt.registerLazySingleton<JsonRemoteData>(() => JsonRemoteDataImpl());

@@ -15,15 +15,21 @@ final class ChartLoaded extends ChartState {
   final String name;
   final String xs;
   final List<String> ys;
+  List<String>? chosenY;
 
   ChartLoaded({
+    this.chosenY,
     required this.name,
     required this.xs,
     required this.ys,
   });
 
   @override
-  List<Object> get props => [name, xs, ys];
+  List<Object> get props => [
+        name,
+        xs,
+        ys,
+      ];
 }
 
 final class ChartError extends ChartState {}
