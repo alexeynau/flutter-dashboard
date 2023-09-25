@@ -17,7 +17,7 @@ import 'service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency_injection.setup();
-  dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(3);
+  dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
   runApp(App());
 }
 

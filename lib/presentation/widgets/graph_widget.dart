@@ -9,49 +9,61 @@ class LineChartSample2 extends StatefulWidget {
   List<String>? data;
   String? name;
   List<List<String>>? value;
-  LineChartSample2({this.name, this.data, this.value, this.names, super.key});
+  List<bool>? isChosen;
+  LineChartSample2(
+      {this.name, this.data, this.value, this.names, this.isChosen, super.key});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
 }
 
-@override
-void initState() {}
-
 class _LineChartSample2State extends State<LineChartSample2> {
+  List<List<String>>? chosenSeries;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<bool> getChosen() {
+    return List.filled(widget.value!.length, true);
+  }
+
   List<LineChartBarData> getLineBarsData() {
     List<LineChartBarData> data = [];
     int _currentIndex = 1;
     int _indexForElem = 0;
     widget.value!.forEach((element) {
       _indexForElem = -1;
-      data.add(
-        LineChartBarData(
-          showingIndicators: [0],
-          gradient: LinearGradient(
-            colors: getGradColor(_currentIndex),
-          ),
-          barWidth: 3,
-          dotData: FlDotData(show: false),
-          belowBarData: BarAreaData(
-            show: true,
+      if (widget.isChosen![_currentIndex - 1]) {
+        data.add(
+          LineChartBarData(
+            showingIndicators: [0],
             gradient: LinearGradient(
-              colors: getGradColor(_currentIndex)
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: getGradColor(_currentIndex),
             ),
+            barWidth: 3,
+            dotData: FlDotData(show: false),
+            belowBarData: BarAreaData(
+              show: true,
+              gradient: LinearGradient(
+                colors: getGradColor(_currentIndex)
+                    .map((color) => color.withOpacity(0.3))
+                    .toList(),
+              ),
+            ),
+            spots: [
+              ...element.map((e) {
+                _indexForElem += 1;
+                return FlSpot(
+                  _indexForElem.toDouble(),
+                  double.parse(element[_indexForElem]),
+                );
+              }).toList(),
+            ],
           ),
-          spots: [
-            ...element.map((e) {
-              _indexForElem += 1;
-              return FlSpot(
-                _indexForElem.toDouble(),
-                double.parse(element[_indexForElem]),
-              );
-            }).toList(),
-          ],
-        ),
-      );
+        );
+      }
       _currentIndex += 1;
     });
 
@@ -88,10 +100,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
               children: [
                 ...widget.value!.map((e) {
                   indexData += 1;
-                  return Text(
-                      widget.names![indexData] + " " + getSum(e).toString(),
-                      style:
-                          TextStyle(fontSize: 14, color: getColor(indexData)));
+                  if (widget.isChosen![indexData]) {
+                    return Text(
+                      "${widget.names?[indexData] ?? ""} ${getSum(e)}",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: getColor(indexData),
+                      ),
+                    );
+                  } else
+                    return Container(
+                      height: 0,
+                      width: 0,
+                    );
                 }),
               ],
             ),
@@ -118,7 +139,51 @@ class _LineChartSample2State extends State<LineChartSample2> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
-                    // showAvg = !showAvg;
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          child: SizedBox(
+                              width: 400,
+                              child: Stack(
+                                children: [
+                                  ListView.builder(
+                                    itemCount: widget.names!.length,
+                                    itemBuilder: (context, index) {
+                                      bool isSelected = widget.isChosen![index];
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return CheckboxListTile(
+                                          value: isSelected,
+                                          title: Text(widget.names![index]),
+                                          onChanged: (newBool) {
+                                            setState(() {
+                                              widget.isChosen?[index] =
+                                                  newBool!;
+                                              isSelected = newBool!;
+                                            });
+                                          },
+                                        );
+                                      });
+                                    },
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: TextButton(
+                                      child: Text("OK"),
+                                      onPressed: () {
+                                        setState(() {});
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              )),
+                        );
+                      },
+                    );
+
+                    // widget.isChosen = widget.isChosen;
                   });
                 },
                 child: Icon(

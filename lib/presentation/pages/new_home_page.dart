@@ -60,6 +60,9 @@ class _NewHomePageState extends State<NewHomePage> {
                                           child: Container(
                                             color: ThemeColors().background01,
                                             child: LineChartSample2(
+                                              isChosen:
+                                                  List.filled(e.y.length, true),
+                                              names: e.y,
                                               name: e.plotName,
                                               data: repository
                                                   .getSeriesByName(e.x)
@@ -93,6 +96,9 @@ class _NewHomePageState extends State<NewHomePage> {
                                           child: Container(
                                             color: ThemeColors().background01,
                                             child: LineChartSample2(
+                                              isChosen:
+                                                  List.filled(e.y.length, true),
+                                              names: e.y,
                                               name: e.plotName,
                                               data: repository
                                                   .getSeriesByName(e.x)
@@ -136,6 +142,7 @@ class _NewHomePageState extends State<NewHomePage> {
                                   ),
                                   Expanded(
                                     child: Container(
+                                      padding: EdgeInsets.only(right: 30),
                                       color: ThemeColors().background01,
                                       child: Builder(builder: (context) {
                                         var labels = repository
