@@ -59,7 +59,8 @@ class ThemeColors {
   Color get firstgrad10 => Color.fromARGB(238, 53, 55, 11);
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
-  Color get tooltipBg => Color.fromARGB(255, 120, 95, 95);
+  Color get tooltipBg => Color.fromARGB(0, 255, 255, 255);
+  Color get tooltipBgBar => Color.fromARGB(0, 255, 255, 255);
 
   //for markets
   Color get export => Color.fromARGB(255, 54, 147, 101);

@@ -78,8 +78,19 @@ class _BarGraphState extends State<BarGraph> {
           BarChart(
             BarChartData(
               barTouchData: BarTouchData(
-                  touchTooltipData: BarTouchTooltipData(
-                      tooltipBgColor: ThemeColors().tooltipBg)),
+                enabled: false,
+                touchTooltipData: BarTouchTooltipData(
+                  tooltipBgColor: ThemeColors().tooltipBg,
+                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                    return BarTooltipItem(
+                      rod.toY.round().toString(),
+                      TextStyle(
+                        color: ThemeColors().primarytext,
+                      ),
+                    );
+                  },
+                ),
+              ),
               rangeAnnotations: RangeAnnotations(),
               maxY: getMax(monthlyValue) * 1.4,
               minY: 0,
@@ -107,11 +118,15 @@ class _BarGraphState extends State<BarGraph> {
                 )),
               ),
               barGroups: barData.barData
-                  .map((e) => BarChartGroupData(x: e.x, barRods: [
+                  .map((e) =>
+                      BarChartGroupData(x: e.x, showingTooltipIndicators: [
+                        0
+                      ], barRods: [
                         BarChartRodData(
                           toY: e.y,
                           color: ThemeColors().barColor,
-                          width: 25,
+                          width:
+                              MediaQuery.of(context).size.width < 400 ? 15 : 25,
                           borderRadius: BorderRadius.circular(2),
                         ),
                       ]))
@@ -258,7 +273,7 @@ Widget getBottomTitles(double value, TitleMeta meta) {
       break;
     default:
       text = Text(
-        "",
+        "-",
         style: style,
       );
       break;
