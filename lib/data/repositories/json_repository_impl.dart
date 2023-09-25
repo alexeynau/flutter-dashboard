@@ -8,9 +8,9 @@ import '../models/event_model.dart';
 
 class JsonRepositoryImpl implements JsonRepository {
   final JsonRemoteData remoteDataSource;
-
   JsonRepositoryImpl(this.remoteDataSource);
 
+  late DataAndPlots dataAndPlots;
   @override
   Future<Datum> getDatum() {
     // TODO: implement getDatum
@@ -20,8 +20,9 @@ class JsonRepositoryImpl implements JsonRepository {
   StreamController<StreamEvent> get eventStream => remoteDataSource.eventStream;
 
   @override
-  Future<DataAndPlots> getDataAndPlots() {
-    return remoteDataSource.loadJson();
+  Future<DataAndPlots> getDataAndPlots() async {
+    dataAndPlots = await remoteDataSource.loadJson();
+    return dataAndPlots;
   }
 
   @override
@@ -33,7 +34,7 @@ class JsonRepositoryImpl implements JsonRepository {
   }
 
   @override
-  List<Plot> getPlots() {
-    return remoteDataSource.getCharts().plots;
+  Future<List<Plot>> getPlots() async {
+    return (await remoteDataSource.getCharts()).plots;
   }
 }

@@ -13,18 +13,35 @@ class ChartBloc extends Bloc<ChartEvent, ChartState> {
     on<LoadChart>((event, emit) {
       _loadChart(event, emit);
     });
+    on<ChangeSelector>((event, emit) {
+      _changeSelector(event, emit);
+    });
+  }
+
+  void _changeSelector(ChangeSelector event, Emitter<ChartState> emit) async {
+    emit(ChartLoading());
+
+    // final data = await repository.getDataAndPlots();
+    // final plot = event.plot;
+
+    // if (data.data.isEmpty) {
+    //   emit(ChartError());
+    //   return;
+    // }
+
+    // emit(ChartLoaded(name: plot.name, xs: plot.x, ys: plot.y));
   }
 
   void _loadChart(LoadChart event, Emitter<ChartState> emit) async {
     emit(ChartLoading());
 
-    final data = await repository.getDataAndPlots();
+    // final data = await repository.getDataAndPlots();
     final plot = event.plot;
 
-    if (data == null) {
-      emit(ChartError());
-      return;
-    }
+    // if (data.data.isEmpty) {
+    //   emit(ChartError());
+    //   return;
+    // }
 
     emit(ChartLoaded(name: plot.name, xs: plot.x, ys: plot.y));
   }

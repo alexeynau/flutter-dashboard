@@ -53,23 +53,34 @@ class _ListenWidgetState extends State<ListenWidget> {
                     name: widget.name,
                     x: widget.x,
                     y: widget.y,
-                    stats: " ",
+                    stats: "123",
                   ),
                 ),
               );
         } else if (state is ChartLoaded) {
-          return LineChartSample2(
-            data: repository
-                .getSeriesByName(widget.x)
-                .map((e) => e.toString())
-                .toList(),
-            value: widget.y
-                .map((y) => repository
-                    .getSeriesByName(y)
-                    .map((e) => e.toString())
-                    .toList())
-                .toList(),
-          );
+          return FutureBuilder(
+              future: repository.getDataAndPlots(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.done:
+                    return LineChartSample2(
+                      name: widget.name,
+                      data: repository
+                          .getSeriesByName(widget.x)
+                          .map((e) => e.toString())
+                          .toList(),
+                      value: widget.y
+                          .map((y) => repository
+                              .getSeriesByName(y)
+                              .map((e) => e.toString())
+                              .toList())
+                          .toList(),
+                    );
+
+                  default:
+                    return CircularProgressIndicator();
+                }
+              });
         } else if (state is ChartLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -80,74 +91,5 @@ class _ListenWidgetState extends State<ListenWidget> {
         return Container();
       },
     );
-    // FutureBuilder(
-    //   future: repository.getDataAndPlots(),
-    //   builder: (context, snapshot) {
-    //     switch (snapshot.connectionState) {
-    //       case ConnectionState.done:
-    //         if (snapshot.hasData) {
-    //           if (snapshot.data!.data.isNotEmpty &&
-    //               snapshot.data!.charts.plots.isNotEmpty) {
-    //             return LineChartSample2(
-    //               data: repository
-    //                   .getSeriesByName(widget.x)
-    //                   .map((e) => e.toString())
-    //                   .toList(),
-    //               value: widget.y
-    //                   .map((y) => repository
-    //                       .getSeriesByName(y)
-    //                       .map((e) => e.toString())
-    //                       .toList())
-    //                   .toList(),
-    //             );
-
-    // LineChart(LineChartData(lineBarsData: [
-    //   ...widget.y.map(
-    //     (seriesName) {
-    //       var ys = repository.getSeriesByName(
-    //           seriesName, snapshot.data!.data);
-    //       return LineChartBarData(
-    //         spots: xs
-    //             .map((index) => FlSpot(index.toDouble(), ys[index]))
-    //             .toList(),
-    //         //  snapshot.data!.data.firstWhere((data) => seriesName == data.name).series.map((y) => FlSpot(snapshot.data!.data.firstWhere((x) => seriesName == data.name), y)).toList(),
-    //       );
-    //     },
-    //   ).toList()
-    // ]));
-
-    // Column(
-    //   children: [
-    //     Text("x - ${widget.x}, y - ${widget.y}"),
-    //     Text(
-    //         "x = ${snapshot.data!.data.firstWhere((element) => (element.name == widget.x)).series.toString()}"),
-    //     ...widget.y.map(
-    //       (e) {
-    //         return Text(
-    //             "${snapshot.data!.data.firstWhere((element) => (element.name == e)).series}");
-    //       },
-    //     ).toList(),
-    //     Text(snapshot.data!.charts.plots
-    //         .firstWhere((element) => (element.x == widget.x))
-    //         .stats),
-    //   ],
-    // );
-    //           }
-    //         } else
-    //           return CircularProgressIndicator();
-
-    //         break;
-    //       case ConnectionState.active:
-    //         if (snapshot.hasData) {
-    //           return Text(snapshot.data.toString());
-    //         }
-
-    //         break;
-    //       default:
-    //         return const CircularProgressIndicator();
-    //     }
-    //     return const CircularProgressIndicator();
-    //   },
-    // );
   }
 }

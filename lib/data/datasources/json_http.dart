@@ -11,20 +11,20 @@ abstract class JsonRemoteData {
   Future<DataAndPlots> loadJson();
   Future<void> serverWatcher(int seconds);
   List<Datum> getData();
-  Charts getCharts();
+  Future<Charts> getCharts();
 }
 
 class JsonRemoteDataImpl implements JsonRemoteData {
   late StreamController<StreamEvent> _eventStream;
-  DataAndPlots _dataAndPlots =
-      DataAndPlots(data: [], charts: Charts(plots: [], pieChart: []));
+  late DataAndPlots _dataAndPlots;
+
+  @override
   Future<void> serverWatcher(int seconds) async {
     _eventStream = StreamController.broadcast();
     print("start watching");
     String url = "http://localhost:8000/";
     var response = await http.get(Uri.parse(url));
     print("got response");
-    print(response.body);
 
     _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
     String finalText = "";
@@ -65,6 +65,7 @@ class JsonRemoteDataImpl implements JsonRemoteData {
     return set1.difference(set2).union(set2.difference(set1));
   }
 
+  @override
   StreamController<StreamEvent> get eventStream => _eventStream;
 
   @override
@@ -78,7 +79,7 @@ class JsonRemoteDataImpl implements JsonRemoteData {
   }
 
   @override
-  Charts getCharts() {
-    return _dataAndPlots.charts;
+  Future<Charts> getCharts() async {
+    return (await loadJson()).charts;
   }
 }

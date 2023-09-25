@@ -6,6 +6,7 @@ import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
 import 'package:flutter_dashboard/presentation/pages/home_page.dart';
 import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
+import 'presentation/bloc/bloc/selector_bloc.dart';
 import 'service_locator.dart' as dependency_injection;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +27,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
+
 
   final List<Widget> _tabs = [
     const HomePage(),
@@ -38,6 +40,7 @@ class _AppState extends State<App> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ChartBloc>(create: (context) => getIt<ChartBloc>()),
+        BlocProvider<SelectorBloc>(create: (context) => getIt<SelectorBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

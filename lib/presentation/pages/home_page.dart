@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/data/models/data.dart';
 import 'package:flutter_dashboard/presentation/widgets/listen_widget.dart';
+import 'package:flutter_dashboard/presentation/widgets/old_selector.dart';
 
 import '../../domain/repositories/json_repository.dart';
 import '../../service_locator.dart';
@@ -16,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   JsonRepository repository = getIt.get<JsonRepository>();
-  List<int> xs = [];
 
   @override
   void initState() {
@@ -37,20 +37,20 @@ class _HomePageState extends State<HomePage> {
               x: "Months",
               y: ["Guns"],
             ),
-            ListenWidget(
-              name: "Data",
+            OldSelectorWidget(
+              name: "Data4",
               x: "Months",
               y: ["Guns"],
             ),
-            ListenWidget(
-              name: "Data",
-              x: "Months",
-              y: ["Guns"],
+            SelectorWidget(
+              name: "Data3",
+              x: "Money",
+              y: ["Guns", "Company A"],
             ),
-            ListenWidget(
-              name: "Data",
+            SelectorWidget(
+              name: "Data2",
               x: "Months",
-              y: ["Guns"],
+              y: ["Guns", "Company A"],
             ),
           ],
         ));
