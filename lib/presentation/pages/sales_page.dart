@@ -105,13 +105,105 @@ class _SalesPageState extends State<SalesPage> {
                   Expanded(
                     child: Container(
                       color: ThemeColors().background01,
-                      child: LineChartSample2(),
+                      child: LineChartSample2(
+                        name: "Months",
+                        data: const [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec"
+                        ],
+                        value: const [
+                          [
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3"
+                          ],
+                          [
+                            "3",
+                            "1",
+                            "6",
+                            "7",
+                            "2",
+                            "9",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "8"
+                          ]
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
                     child: Container(
                       color: ThemeColors().background01,
-                      child: LineChartSample2(),
+                      child: LineChartSample2(
+                        name: "Months",
+                        data: const [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec"
+                        ],
+                        value: const [
+                          [
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3"
+                          ],
+                          [
+                            "3",
+                            "1",
+                            "6",
+                            "7",
+                            "2",
+                            "9",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "8"
+                          ]
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -124,7 +216,53 @@ class _SalesPageState extends State<SalesPage> {
                   Expanded(
                     child: Container(
                       color: ThemeColors().background01,
-                      child: LineChartSample2(),
+                      child: LineChartSample2(
+                        name: "Months",
+                        data: const [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec"
+                        ],
+                        value: const [
+                          [
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3"
+                          ],
+                          [
+                            "3",
+                            "1",
+                            "6",
+                            "7",
+                            "2",
+                            "9",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "8"
+                          ]
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
@@ -160,13 +298,105 @@ class _SalesPageState extends State<SalesPage> {
                   Expanded(
                     child: Container(
                       color: ThemeColors().background01,
-                      child: LineChartSample2(),
+                      child: LineChartSample2(
+                        name: "Months",
+                        data: const [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec"
+                        ],
+                        value: const [
+                          [
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3"
+                          ],
+                          [
+                            "3",
+                            "1",
+                            "6",
+                            "7",
+                            "2",
+                            "9",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "8"
+                          ]
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
                     child: Container(
                       color: ThemeColors().background01,
-                      child: LineChartSample2(),
+                      child: LineChartSample2(
+                        name: "Months",
+                        data: const [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec"
+                        ],
+                        value: const [
+                          [
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "1",
+                            "2",
+                            "3"
+                          ],
+                          [
+                            "3",
+                            "1",
+                            "6",
+                            "7",
+                            "2",
+                            "9",
+                            "3",
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "8"
+                          ]
+                        ],
+                      ),
                     ),
                   ),
                 ],
