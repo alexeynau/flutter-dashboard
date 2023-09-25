@@ -32,6 +32,9 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Numbers",
+                        names: const [
+                          "Nums",
+                        ],
                         data: const [
                           "First",
                           "Second",
@@ -58,6 +61,7 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Months",
+                        names: const ["Alex", "Artem"],
                         data: const [
                           "Jan",
                           "Feb",
@@ -110,6 +114,7 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Months",
+                        names: const ["Alex", "Artem"],
                         data: const [
                           "Jan",
                           "Feb",
@@ -162,6 +167,7 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Months",
+                        names: const ["Alex", "Artem"],
                         data: const [
                           "Jan",
                           "Feb",
@@ -244,6 +250,7 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Names",
+                        names: const ["Bob", "Rob", "Jorge"],
                         data: const [
                           "Alexey",
                           "Dmitriy",
@@ -274,6 +281,7 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Months",
+                        names: const ["Alex", "Artem"],
                         data: const [
                           "Jan",
                           "Feb",
@@ -326,6 +334,7 @@ class _SalesPageState extends State<SalesPage> {
                       color: ThemeColors().background01,
                       child: LineChartSample2(
                         name: "Months",
+                        names: const ["Bob", "Rob"],
                         data: const [
                           "Jan",
                           "Feb",
@@ -413,6 +422,7 @@ class _SalesPageState extends State<SalesPage> {
                           ["Fird", "67"],
                           ["Fourth", "54"],
                           ["Fifth", "63"],
+                          ["Sizth", "63"],
                         ],
                       ),
                     ),
@@ -428,16 +438,16 @@ class _SalesPageState extends State<SalesPage> {
             //       labelsOfCom: const [
             //         "Экспорт",
             //         "СНГ",
-            //         "Что-то",
+            //         "Внешний рынок",
             //         "Внутренний рынок"
             //       ],
             //       data: const [
-            //         ["First", "12", "3", "56", "32", "0"],
-            //         ["Second", "52", "15", "65", "12", "0"],
-            //         ["Third", "13", "2", "43", "33", "0"],
-            //         ["Fourth", "45", "2", "33", "0", "0"],
-            //         ["Fifth", "83", "7", "38", "56", "0"],
-            //         ["Sixth", "12", "5", "44", "11", "0"],
+            //         ["First", "12", "3", "56", "32", "12"],
+            //         ["Second", "52", "15", "65", "12", "3"],
+            //         ["Third", "13", "2", "43", "33", "6"],
+            //         ["Fourth", "45", "2", "33", "0", "7"],
+            //         ["Fifth", "83", "7", "38", "56", "54"],
+            //         ["Sixth", "12", "5", "44", "11", "77"],
             //       ],
             //     ),
             //   ),
