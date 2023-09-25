@@ -16,11 +16,12 @@ class SalesPage extends StatefulWidget {
 class _SalesPageState extends State<SalesPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: ThemeColors().background01,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+    return Container(
+      color: ThemeColors().background01,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15),
         child: Column(
           children: [
             Expanded(
