@@ -31,28 +31,51 @@ class DataAndPlots {
 
 class Charts {
   final List<Plot> plots;
-  final List<PieChart> pieChart;
+  final BarPlot barPlot;
+  final PieChart pieChart;
 
   Charts({
     required this.plots,
+    required this.barPlot,
     required this.pieChart,
   });
 
   factory Charts.fromJson(Map<String, dynamic> json) => Charts(
         plots: List<Plot>.from(json["plots"].map((x) => Plot.fromJson(x))),
-        pieChart: List<PieChart>.from(
-            json["pie_chart"].map((x) => PieChart.fromJson(x))),
+        barPlot: BarPlot.fromJson(json["bar_plot"]),
+        pieChart: PieChart.fromJson(json["pie_chart"]),
       );
 
   Map<String, dynamic> toJson() => {
         "plots": List<dynamic>.from(plots.map((x) => x.toJson())),
-        "pie_chart": List<dynamic>.from(pieChart.map((x) => x.toJson())),
+        "bar_plot": barPlot.toJson(),
+        "pie_chart": pieChart.toJson(),
+      };
+}
+
+class BarPlot {
+  final String plotName;
+  final String y;
+
+  BarPlot({
+    required this.plotName,
+    required this.y,
+  });
+
+  factory BarPlot.fromJson(Map<String, dynamic> json) => BarPlot(
+        plotName: json["plot_name"],
+        y: json["y"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "plot_name": plotName,
+        "y": y,
       };
 }
 
 class PieChart {
   final String x;
-  final List<Y> y;
+  final String y;
 
   PieChart({
     required this.x,
@@ -61,57 +84,37 @@ class PieChart {
 
   factory PieChart.fromJson(Map<String, dynamic> json) => PieChart(
         x: json["x"],
-        y: List<Y>.from(json["y"].map((x) => Y.fromJson(x))),
+        y: json["y"],
       );
 
   Map<String, dynamic> toJson() => {
         "x": x,
-        "y": List<dynamic>.from(y.map((x) => x.toJson())),
-      };
-}
-
-class Y {
-  final String name;
-  final double percent;
-
-  Y({
-    required this.name,
-    required this.percent,
-  });
-
-  factory Y.fromJson(Map<String, dynamic> json) => Y(
-        name: json["name"],
-        percent: json["percent"]?.toDouble(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "percent": percent,
+        "y": y,
       };
 }
 
 class Plot {
-  final String name;
+  final String plotName;
   final String x;
   final List<String> y;
   final String stats;
 
   Plot({
-    required this.name,
+    required this.plotName,
     required this.x,
     required this.y,
     required this.stats,
   });
 
   factory Plot.fromJson(Map<String, dynamic> json) => Plot(
-        name: json["name"],
+        plotName: json["plot_name"],
         x: json["x"],
         y: List<String>.from(json["y"].map((x) => x)),
         stats: json["stats"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
+        "plot_name": plotName,
         "x": x,
         "y": List<dynamic>.from(y.map((x) => x)),
         "stats": stats,

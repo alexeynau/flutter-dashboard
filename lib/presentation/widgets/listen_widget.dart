@@ -27,16 +27,16 @@ class _ListenWidgetState extends State<ListenWidget> {
     // JsonRepository repository = getIt.get<JsonRepository>();
     print("repaint");
     repository.eventStream.stream.listen((event) {
-      if (widget.x.contains(event.name) || widget.y.contains(event.name)) {
-        context.read<ChartBloc>().add(LoadChart(
-              Plot(
-                name: widget.name,
-                x: widget.x,
-                y: widget.y,
-                stats: " ",
-              ),
-            ));
-      }
+      // if (widget.x.contains(event.name) || widget.y.contains(event.name)) {
+      //   context.read<ChartBloc>().add(LoadChart(
+      //         Plot(
+      //           plotName: widget.name,
+      //           x: widget.x,
+      //           y: widget.y,
+      //           stats: " ",
+      //         ),
+      //       ));
+      // }
     });
     super.initState();
   }
@@ -50,7 +50,7 @@ class _ListenWidgetState extends State<ListenWidget> {
           context.read<ChartBloc>().add(
                 LoadChart(
                   Plot(
-                    name: widget.name,
+                    plotName: widget.name,
                     x: widget.x,
                     y: widget.y,
                     stats: "123",

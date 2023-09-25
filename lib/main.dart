@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/data/datasources/json_http.dart';
+import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart';
 import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
 import 'package:flutter_dashboard/presentation/pages/home_page.dart';
+import 'package:flutter_dashboard/presentation/pages/new_home_page.dart';
 import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
 import 'presentation/bloc/bloc/selector_bloc.dart';
 import 'service_locator.dart' as dependency_injection;
@@ -29,9 +31,8 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _currentIndex = 0;
 
-
   final List<Widget> _tabs = [
-    const HomePage(),
+    const NewHomePage(),
     const SalesPage(),
   ];
 
@@ -41,6 +42,7 @@ class _AppState extends State<App> {
       providers: [
         BlocProvider<ChartBloc>(create: (context) => getIt<ChartBloc>()),
         BlocProvider<SelectorBloc>(create: (context) => getIt<SelectorBloc>()),
+        BlocProvider<CanvasBloc>(create: (context) => getIt<CanvasBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

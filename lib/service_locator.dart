@@ -10,6 +10,7 @@ import 'package:get_it/get_it.dart';
 
 import 'data/datasources/json_http.dart';
 import 'presentation/bloc/bloc/selector_bloc.dart';
+import 'presentation/bloc/canvas_bloc/canvas_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -24,6 +25,7 @@ Future<void> setup() async {
   // );
   getIt.registerFactory(() => ChartBloc(repository: getIt()));
   getIt.registerFactory(() => SelectorBloc());
+  getIt.registerFactory(() => CanvasBloc());
   // getIt.registerLazySingleton<ExcelLocalData>(() => ExcelLocalDataImpl());
   getIt.registerLazySingleton<JsonLocalData>(() => JsonLocalDataImpl());
   getIt.registerLazySingleton<JsonRemoteData>(() => JsonRemoteDataImpl());
