@@ -91,23 +91,27 @@ class Y {
 }
 
 class Plot {
+  final String name;
   final String x;
   final List<String> y;
   final String stats;
 
   Plot({
+    required this.name,
     required this.x,
     required this.y,
     required this.stats,
   });
 
   factory Plot.fromJson(Map<String, dynamic> json) => Plot(
+        name: json["name"],
         x: json["x"],
         y: List<String>.from(json["y"].map((x) => x)),
         stats: json["stats"],
       );
 
   Map<String, dynamic> toJson() => {
+        "name": name,
         "x": x,
         "y": List<dynamic>.from(y.map((x) => x)),
         "stats": stats,

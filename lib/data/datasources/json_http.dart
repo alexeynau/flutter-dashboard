@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_dashboard/data/models/data.dart';
@@ -23,8 +24,9 @@ class JsonRemoteDataImpl implements JsonRemoteData {
     String url = "http://localhost:8000/";
     var response = await http.get(Uri.parse(url));
     print("got response");
-    _dataAndPlots = dataAndPlotsFromJson(response.body);
     print(response.body);
+
+    _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
     String finalText = "";
 
     while (true) {
@@ -38,7 +40,7 @@ class JsonRemoteDataImpl implements JsonRemoteData {
         if (startText != finalText) {
           print("new event");
           var startDataAndPlots = _dataAndPlots;
-          _dataAndPlots = dataAndPlotsFromJson(response.body);
+          _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
 
           for (var data in compareData(startDataAndPlots, _dataAndPlots)) {
             eventStream.add(StreamEvent(data: data, name: data.name));
