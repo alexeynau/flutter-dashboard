@@ -7,11 +7,12 @@ class ThemeColors {
   // Primary actions, emphasizing navigation elements,
   // backgrounds, text, etc.
   Color get primary => Color.fromARGB(242, 29, 104, 29);
+  Color get selected => Color.fromARGB(255, 112, 186, 107);
   Color get primarytext => Color.fromARGB(241, 37, 40, 37);
   Color get secondary => Color.fromARGB(255, 255, 255, 255);
 
   // Backgrounds
-  Color get background01 => Color.fromARGB(255, 193, 193, 195);
+  Color get background01 => Color.fromARGB(255, 250, 245, 245);
   Color get background02 => Color.fromARGB(255, 112, 186, 107);
   Color get background03 => const Color(0xFF1F222A);
 
@@ -58,7 +59,8 @@ class ThemeColors {
   Color get firstgrad10 => Color.fromARGB(238, 53, 55, 11);
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
-  Color get tooltipBg => Color.fromARGB(237, 253, 253, 253);
+  Color get tooltipBg => Color.fromARGB(0, 255, 255, 255);
+  Color get tooltipBgBar => Color.fromARGB(0, 255, 255, 255);
 
   //for markets
   Color get export => Color.fromARGB(255, 54, 147, 101);
@@ -66,4 +68,7 @@ class ThemeColors {
   Color get innerMarket => Color.fromARGB(255, 219, 250, 62);
   Color get justAddSmth => Color.fromARGB(255, 41, 14, 158);
   Color get outMarket => Color.fromARGB(255, 152, 3, 3);
+
+  // for bar
+  Color get barColor => Color.fromARGB(255, 202, 32, 182);
 }
