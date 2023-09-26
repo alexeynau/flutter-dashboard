@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../colors.dart';
+
 class SimpleBar extends StatefulWidget {
   const SimpleBar({
     super.key,
@@ -33,16 +35,32 @@ class _SimpleBarState extends State<SimpleBar> {
           child: Text(widget.name),
         ),
         Container(
-          padding: EdgeInsets.only(top: 50),
+          padding: const EdgeInsets.only(top: 50),
           child: BarChart(
             BarChartData(
+              barTouchData: BarTouchData(
+                touchTooltipData: BarTouchTooltipData(
+                  tooltipBgColor: ThemeColors().tooltipBg,
+                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                    return BarTooltipItem(
+                      rod.toY.round().toString(),
+                      TextStyle(
+                        color: ThemeColors().primarytext,
+                      ),
+                    );
+                  },
+                ),
+              ),
               maxY: getMax() * 1.2,
+              gridData: const FlGridData(
+                drawVerticalLine: false,
+              ),
               titlesData: FlTitlesData(
-                topTitles: AxisTitles(
+                topTitles: const AxisTitles(
                     sideTitles: SideTitles(
                   showTitles: false,
                 )),
-                rightTitles: AxisTitles(
+                rightTitles: const AxisTitles(
                     sideTitles: SideTitles(
                   showTitles: false,
                 )),
@@ -58,6 +76,7 @@ class _SimpleBarState extends State<SimpleBar> {
               barGroups: [
                 ...widget.data.map((e) {
                   return BarChartGroupData(
+                    showingTooltipIndicators: [0],
                     x: _index++,
                     barRods: [
                       BarChartRodData(

@@ -5,7 +5,7 @@
 import 'package:flutter_dashboard/data/datasources/json_local.dart';
 import 'package:flutter_dashboard/data/repositories/json_repository_impl.dart';
 import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
-import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
+// import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'data/datasources/json_http.dart';

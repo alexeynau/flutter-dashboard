@@ -1,30 +1,26 @@
-# dashboard
+# Dashboard for nestro-challenge, 3 track
 
-A new Flutter project.
 
-## Getting Started
+Возможности изменений:
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+Строки: содержание, кол-во, порядок - да 
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Столбцы: названия, порядок - нет
 
-## Assets
+[Постановка задачи для дэшбордов и требования к автоматизации в приложениях](https://autumn-athlete-fea.notion.site/b0f7889d5f774bfea0f683e0ef71b654?pvs=4)
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+## Запуск дэшбордов
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+Запустить [робота](https://github.com/alexeynau/flutter-dashboard)
 
-## Localization
+Запустить сервер-наблюдатель watcher.py в одном каталоге с папкой `./output` 
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+```console
+python watcher.py
+```
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+Запустить приложение на Flutter
+```console
+flutter pub get
+flutter run
+```

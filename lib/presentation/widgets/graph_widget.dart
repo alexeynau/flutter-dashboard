@@ -93,7 +93,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
               right: 40,
               left: 38,
               top: 75,
-              bottom: 30,
+              bottom: 50,
             ),
             child: LineChart(
               mainData(),
@@ -114,7 +114,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                   indexData += 1;
                   if (widget.isChosen![indexData]) {
                     return Text(
-                      "${widget.names?[indexData] ?? ""} ${getSum(e)}",
+                      "${widget.names?[indexData] ?? ""}, сумма = ${getSum(e)}",
                       style: TextStyle(
                         fontSize: 14,
                         color: getColor(indexData),
@@ -157,6 +157,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                         return Dialog(
                           child: SizedBox(
                               width: 400,
+                              height: 500,
                               child: Stack(
                                 children: [
                                   ListView.builder(
@@ -264,7 +265,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       double a = double.parse(e);
       sum += a;
     });
-    return sum;
+    return sum.toInt().toDouble();
   }
 
   double getMax() {
@@ -429,7 +430,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       ),
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
-      minY: getMin() * 1.2,
+      minY: getMin() * 1.3,
       maxY: getMax() * 1.2,
       lineBarsData: getLineBarsData(),
     );
