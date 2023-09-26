@@ -1,0 +1,20 @@
+workflows:
+  web-workflow:
+    name: Web Workflow
+    max_build_duration: 120
+    environment:
+      flutter: stable
+    scripts:
+      - name: Get Flutter packages
+        script: | 
+          flutter packages pub get
+      - name: Flutter analyze
+        script: | 
+          flutter analyze
+      - name: Build Web with Flutter
+        script: |      
+          flutter build web
+      - name: Zip files  
+          zip -r web build/web
+    artifacts:
+      - build/web.zip
