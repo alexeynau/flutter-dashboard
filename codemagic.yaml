@@ -15,6 +15,7 @@ workflows:
         script: |      
           flutter build web
       - name: Zip files  
+        script: |      
           zip -r web build/web
     artifacts:
       - build/web.zip
