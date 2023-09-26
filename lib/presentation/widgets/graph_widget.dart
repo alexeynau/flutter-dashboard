@@ -1,17 +1,29 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:js_interop';
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
+import 'package:flutter_dashboard/service_locator.dart';
 
 class LineChartSample2 extends StatefulWidget {
   List<String>? names;
   List<String>? data;
+  List<List<String>>? hidden;
   String? name;
   List<List<String>>? value;
   List<bool>? isChosen;
   LineChartSample2(
-      {this.name, this.data, this.value, this.names, this.isChosen, super.key});
+      {this.name,
+      this.data,
+      this.value,
+      this.names,
+      this.isChosen,
+      super.key,
+      this.hidden});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
@@ -45,7 +57,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             barWidth: 3,
             dotData: FlDotData(show: false),
             belowBarData: BarAreaData(
-              show: true,
+              show: false,
               gradient: LinearGradient(
                 colors: getGradColor(_currentIndex)
                     .map((color) => color.withOpacity(0.3))
@@ -80,7 +92,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             padding: const EdgeInsets.only(
               right: 40,
               left: 38,
-              top: 25,
+              top: 75,
               bottom: 30,
             ),
             child: LineChart(
@@ -257,13 +269,32 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   double getMax() {
     double max = 0;
+    int index = 0;
     widget.value!.forEach((element) {
-      element.forEach((e) {
-        double a = double.parse(e);
-        a > max ? max = a : max = max;
-      });
+      if (widget.isChosen![index++]) {
+        element.forEach((e) {
+          double a = double.parse(e);
+          a > max ? max = a : max = max;
+        });
+      }
     });
+
     return max;
+  }
+
+  double getMin() {
+    double min = double.maxFinite;
+    int index = 0;
+    widget.value!.forEach((element) {
+      if (widget.isChosen![index++]) {
+        element.forEach((e) {
+          double a = double.parse(e);
+          a < min ? min = a : min = min;
+        });
+      }
+    });
+
+    return min < 0 ? min : 0;
   }
 
   // Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -288,23 +319,50 @@ class _LineChartSample2State extends State<LineChartSample2> {
   LineChartData mainData() {
     return LineChartData(
       lineTouchData: LineTouchData(
+        touchSpotThreshold: 20,
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: ThemeColors().tooltipBg,
           getTooltipItems: (touchedSpots) {
             {
-              return touchedSpots.map((LineBarSpot touchedSpot) {
-                final textStyle = TextStyle(
-                  color: touchedSpot.bar.gradient?.colors.first ??
-                      touchedSpot.bar.color ??
-                      ThemeColors().tooltipBg,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                );
-                return LineTooltipItem(
-                  getMonth(touchedSpot.x) + " " + touchedSpot.y.toString(),
-                  textStyle,
-                );
-              }).toList();
+              if (widget.hidden == null || widget.hidden!.isEmpty) {
+                return touchedSpots.map((LineBarSpot touchedSpot) {
+                  final textStyle = TextStyle(
+                    color: touchedSpot.bar.gradient?.colors.first ??
+                        touchedSpot.bar.color ??
+                        ThemeColors().tooltipBg,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  );
+                  return LineTooltipItem(
+                    "${getMonth(touchedSpot.x)} = ${touchedSpot.y}",
+                    textStyle,
+                  );
+                }).toList();
+              } else {
+                List<LineTooltipItem> items = [];
+                var repository = getIt<JsonRepository>();
+                touchedSpots.forEach((touchedSpot) {
+                  String params = "";
+                  final textStyle = TextStyle(
+                    color: touchedSpot.bar.gradient?.colors.first ??
+                        touchedSpot.bar.color ??
+                        ThemeColors().tooltipBg,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  );
+                  (widget.hidden?[touchedSpot.barIndex] ?? [])
+                      .forEach((hiddenParam) {
+                    params +=
+                        "$hiddenParam: ${repository.getSeriesByName(hiddenParam)[touchedSpot.spotIndex]}\n";
+                  });
+                  items.add(LineTooltipItem(params, textStyle));
+                });
+                //  return LineTooltipItem(
+                //   "${getMonth(touchedSpot.x)} = ${touchedSpot.y}",
+                //   textStyle,
+                // );
+                return items;
+              }
             }
           },
         ),
@@ -313,10 +371,15 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: ThemeColors().maingridcolor,
-            strokeWidth: 1,
-          );
+          return (value == 0)
+              ? FlLine(
+                  color: Colors.black,
+                  strokeWidth: 3,
+                )
+              : FlLine(
+                  color: ThemeColors().maingridcolor,
+                  strokeWidth: 1,
+                );
         },
         getDrawingVerticalLine: (value) {
           return FlLine(
@@ -335,18 +398,28 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: false,
-            reservedSize: 30,
-            interval: 1,
-            // getTitlesWidget: bottomTitleWidgets,
-          ),
+              showTitles: true,
+              reservedSize: 30,
+              interval: 1,
+              getTitlesWidget: (value, meta) {
+                return Transform.rotate(
+                  angle: pi / 12.0,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data![value.ceil()]),
+                  ),
+                );
+              }
+
+              // getTitlesWidget: bottomTitleWidgets,
+              ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: false,
-            interval: 1,
+            showTitles: true,
+            interval: (getMax() - getMin()) / 10,
             // getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
+            reservedSize: 52,
           ),
         ),
       ),
@@ -356,8 +429,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
       ),
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
-      minY: 0,
-      maxY: getMax() + getMax(),
+      minY: getMin() * 1.2,
+      maxY: getMax() * 1.2,
       lineBarsData: getLineBarsData(),
     );
   }

@@ -26,6 +26,7 @@ class JsonRemoteDataImpl implements JsonRemoteData {
     var response = await http.get(Uri.parse(url));
     print("got response");
 
+    print(DataAndPlots.fromJson(json.decode(utf8.decode(response.bodyBytes))));
     _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
     String finalText = "";
 

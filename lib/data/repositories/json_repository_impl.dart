@@ -34,8 +34,8 @@ class JsonRepositoryImpl implements JsonRepository {
         .series;
   }
 
-  @override
-  Future<List<Plot>> getPlots() async {
-    return (await remoteDataSource.getCharts()).plots;
-  }
+  // @override
+  // Future<List<Plot>> getPlots() async {
+  //   return (await remoteDataSource.getCharts()).plots;
+  // }
 }

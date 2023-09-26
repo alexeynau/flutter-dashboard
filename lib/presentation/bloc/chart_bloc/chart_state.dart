@@ -1,35 +1,35 @@
-part of 'chart_bloc.dart';
+// part of 'chart_bloc.dart';
 
-sealed class ChartState extends Equatable {
-  ChartState();
+// sealed class ChartState extends Equatable {
+//   ChartState();
 
-  @override
-  List<Object> get props => [];
-}
+//   @override
+//   List<Object> get props => [];
+// }
 
-final class ChartInitial extends ChartState {}
+// final class ChartInitial extends ChartState {}
 
-final class ChartLoading extends ChartState {}
+// final class ChartLoading extends ChartState {}
 
-final class ChartLoaded extends ChartState {
-  final String name;
-  final String xs;
-  final List<String> ys;
-  List<String>? chosenY;
+// final class ChartLoaded extends ChartState {
+//   final String name;
+//   final String xs;
+//   final List<String> ys;
+//   List<String>? chosenY;
 
-  ChartLoaded({
-    this.chosenY,
-    required this.name,
-    required this.xs,
-    required this.ys,
-  });
+//   ChartLoaded({
+//     this.chosenY,
+//     required this.name,
+//     required this.xs,
+//     required this.ys,
+//   });
 
-  @override
-  List<Object> get props => [
-        name,
-        xs,
-        ys,
-      ];
-}
+//   @override
+//   List<Object> get props => [
+//         name,
+//         xs,
+//         ys,
+//       ];
+// }
 
-final class ChartError extends ChartState {}
+// final class ChartError extends ChartState {}

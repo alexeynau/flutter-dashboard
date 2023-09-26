@@ -21,7 +21,7 @@ class ThemeColors {
   Color get secondgrad => Color.fromARGB(255, 112, 186, 107);
 
   //grid lines colors
-  Color get maingridcolor => Color.fromARGB(26, 255, 255, 255);
+  Color get maingridcolor => Color.fromARGB(104, 88, 86, 86);
   Color get maingridbordercolor => Color.fromARGB(91, 0, 0, 0);
 
   //gradient for second graph
@@ -59,7 +59,7 @@ class ThemeColors {
   Color get firstgrad10 => Color.fromARGB(238, 53, 55, 11);
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
-  Color get tooltipBg => Color.fromARGB(0, 255, 255, 255);
+  Color get tooltipBg => Color.fromARGB(255, 255, 255, 255);
   Color get tooltipBgBar => Color.fromARGB(0, 255, 255, 255);
 
   //for markets

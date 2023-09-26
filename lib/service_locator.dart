@@ -23,7 +23,7 @@ Future<void> setup() async {
   //     localDataSource: getIt(),
   //   ),
   // );
-  getIt.registerFactory(() => ChartBloc(repository: getIt()));
+  // getIt.registerFactory(() => ChartBloc(repository: getIt()));
   getIt.registerFactory(() => SelectorBloc());
   getIt.registerFactory(() => CanvasBloc());
   // getIt.registerLazySingleton<ExcelLocalData>(() => ExcelLocalDataImpl());
