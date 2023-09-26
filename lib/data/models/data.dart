@@ -42,12 +42,12 @@ class Charts {
         plots:
             List<BarChart>.from(json["plots"].map((x) => BarChart.fromJson(x))),
         barChart: List<BarChart>.from(
-            json["bar_chart"].map((x) => BarChart.fromJson(x))),
+            json["bar chart"].map((x) => BarChart.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "plots": List<dynamic>.from(plots.map((x) => x.toJson())),
-        "bar_chart": List<dynamic>.from(barChart.map((x) => x.toJson())),
+        "bar chart": List<dynamic>.from(barChart.map((x) => x.toJson())),
       };
 }
 

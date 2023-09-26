@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:js_interop';
+// import 'dart:js_interop';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -10,13 +10,13 @@ import 'package:flutter_dashboard/presentation/colors.dart';
 import 'package:flutter_dashboard/service_locator.dart';
 
 class LineChartSample2 extends StatefulWidget {
-  List<String>? names;
-  List<String>? data;
-  List<List<String>>? hidden;
-  String? name;
-  List<List<String>>? value;
-  List<bool>? isChosen;
-  LineChartSample2(
+  final List<String>? names;
+  final List<String>? data;
+  final List<List<String>>? hidden;
+  final String? name;
+  final List<List<String>>? value;
+  final List<bool>? isChosen;
+  const LineChartSample2(
       {this.name,
       this.data,
       this.value,

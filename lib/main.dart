@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/data/datasources/json_http.dart';
 import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart';
-import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
+// import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
-import 'package:flutter_dashboard/presentation/pages/home_page.dart';
+// import 'package:flutter_dashboard/presentation/pages/home_page.dart';
 import 'package:flutter_dashboard/presentation/pages/new_home_page.dart';
-import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
+// import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
 import 'presentation/bloc/bloc/selector_bloc.dart';
+import 'presentation/pages/new_sales_page.dart';
 import 'service_locator.dart' as dependency_injection;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,7 @@ class _AppState extends State<App> {
 
   final List<Widget> _tabs = [
     const NewHomePage(),
-    const SalesPage(),
+    const NewSalesPage(),
   ];
 
   @override
