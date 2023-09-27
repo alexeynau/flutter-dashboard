@@ -86,6 +86,7 @@ class _SimpleBarState extends State<SimpleBar> {
                     x: _index++,
                     barRods: [
                       BarChartRodData(
+                        color: ThemeColors().barColor,
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(5),
                             topRight: Radius.circular(5)),

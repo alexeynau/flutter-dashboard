@@ -7,7 +7,8 @@ class ThemeColors {
   // Primary actions, emphasizing navigation elements,
   // backgrounds, text, etc.
   Color get primary => Color.fromARGB(242, 29, 104, 29);
-  Color get selected => Color.fromARGB(255, 112, 186, 107);
+  // Color get selected => Color.fromARGB(255, 112, 186, 107);
+  Color get selected => Color.fromARGB(255, 7, 144, 101);
   Color get primarytext => Color.fromARGB(241, 37, 40, 37);
   Color get secondary => Color.fromARGB(255, 255, 255, 255);
 
@@ -70,10 +71,20 @@ class ThemeColors {
   Color get outMarket => Color.fromARGB(255, 152, 3, 3);
 
   // for bar
-  Color get barColor => Color.fromARGB(255, 202, 32, 182);
+  Color get barColor => Color.fromARGB(255, 7, 144, 101);
 
   // for pie
   Color get pieTextColor => Color.fromARGB(255, 255, 255, 255);
+  Color get pieBg1 => const Color.fromARGB(255, 180, 23, 23);
+  Color get pieBg3 => Color.fromARGB(255, 197, 155, 38);
+  Color get pieBg2 => Color.fromARGB(255, 225, 93, 40);
+  Color get pieBg4 => Color.fromARGB(255, 149, 182, 43);
+  Color get pieBg5 => Color.fromARGB(255, 50, 166, 41);
+  Color get pieBg6 => Color.fromARGB(255, 41, 178, 133);
+  Color get pieBg7 => Color.fromARGB(255, 43, 156, 168);
+  Color get pieBg8 => Color.fromARGB(255, 43, 46, 157);
+  Color get pieBg9 => Color.fromARGB(255, 120, 47, 169);
+  Color get pieBg10 => Color.fromARGB(255, 160, 39, 164);
 
   // for waterflow
   Color get add => Color.fromARGB(255, 58, 207, 13);

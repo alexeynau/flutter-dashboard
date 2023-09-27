@@ -238,6 +238,7 @@ class _TestPageState extends State<TestPage> {
                       color: ThemeColors().secondary,
                     ),
                     child: PieGraph(
+                      name: "Pie Plot",
                       data: const [
                         ["First", "12"],
                         ["Second", "24"],
