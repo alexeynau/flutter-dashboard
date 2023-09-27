@@ -12,7 +12,7 @@ class ThemeColors {
   Color get secondary => Color.fromARGB(255, 255, 255, 255);
 
   // Backgrounds
-  Color get background01 => Color.fromARGB(255, 250, 245, 245);
+  Color get background01 => Color.fromARGB(255, 210, 202, 202);
   Color get background02 => Color.fromARGB(255, 112, 186, 107);
   Color get background03 => const Color(0xFF1F222A);
 
@@ -41,8 +41,8 @@ class ThemeColors {
   Color get secondgrad5 => Color.fromARGB(255, 224, 21, 193);
 
   //gradient for 6 graph
-  Color get firstgrad6 => Color.fromARGB(239, 210, 78, 78);
-  Color get secondgrad6 => Color.fromARGB(255, 224, 21, 24);
+  Color get firstgrad6 => Color.fromARGB(238, 234, 165, 165);
+  Color get secondgrad6 => Color.fromARGB(255, 235, 159, 161);
 
   //gradient for 7 graph
   Color get firstgrad7 => Color.fromARGB(238, 78, 157, 210);
@@ -59,7 +59,7 @@ class ThemeColors {
   Color get firstgrad10 => Color.fromARGB(238, 53, 55, 11);
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
-  Color get tooltipBg => Color.fromARGB(255, 255, 255, 255);
+  Color get tooltipBg => Color.fromARGB(255, 233, 230, 230);
   Color get tooltipBgBar => Color.fromARGB(0, 255, 255, 255);
 
   //for markets
@@ -74,4 +74,9 @@ class ThemeColors {
 
   // for pie
   Color get pieTextColor => Color.fromARGB(255, 255, 255, 255);
+
+  // for waterflow
+  Color get add => Color.fromARGB(255, 58, 207, 13);
+  Color get delete => Color.fromARGB(255, 233, 2, 2);
+  Color get summary => Color.fromARGB(255, 116, 118, 120);
 }

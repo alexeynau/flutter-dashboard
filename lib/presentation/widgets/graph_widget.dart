@@ -87,66 +87,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
     int indexData = -1;
     return Stack(
       children: <Widget>[
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 40,
-              left: 38,
-              top: 75,
-              bottom: 50,
-            ),
-            child: LineChart(
-              mainData(),
-            ),
-          ),
-        ),
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              right: 20,
-              left: 40,
-              top: 23,
-              bottom: 30,
-            ),
-            child: Column(
-              children: [
-                ...widget.value!.map((e) {
-                  indexData += 1;
-                  if (widget.isChosen![indexData]) {
-                    return Text(
-                      "${widget.names?[indexData] ?? ""}, сумма = ${getSum(e)}",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: getColor(indexData),
-                      ),
-                    );
-                  } else
-                    return Container(
-                      height: 0,
-                      width: 0,
-                    );
-                }),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          child: Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                widget.name!,
-                style: TextStyle(fontSize: 20),
-              )),
-        ),
         Padding(
           padding: const EdgeInsets.only(
-            top: 25,
-            right: 25,
+            top: 40,
           ),
           child: Align(
             alignment: Alignment.topRight,
             child: SizedBox(
-              width: 60,
+              width: 30,
               height: 24,
               child: TextButton(
                 onPressed: () {
@@ -207,6 +155,64 @@ class _LineChartSample2State extends State<LineChartSample2> {
             ),
           ),
         ),
+        Container(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              padding: EdgeInsets.only(top: 10, left: 30),
+              child: Text(
+                widget.name!,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: ThemeColors().primarytext,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(
+              right: 0,
+              left: 0,
+              top: 40,
+              bottom: 20,
+            ),
+            child: LineChart(
+              mainData(),
+            ),
+          ),
+        ),
+        // Container(
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(
+        //       right: 20,
+        //       left: 40,
+        //       top: 23,
+        //       bottom: 30,
+        //     ),
+        //     child: Column(
+        //       children: [
+        //         ...widget.value!.map((e) {
+        //           indexData += 1;
+        //           if (widget.isChosen![indexData]) {
+        //             return Text(
+        //               "${widget.names?[indexData] ?? ""}, сумма = ${getSum(e)}",
+        //               style: TextStyle(
+        //                 fontSize: 14,
+        //                 color: getColor(indexData),
+        //               ),
+        //             );
+        //           } else
+        //             return Container(
+        //               height: 0,
+        //               width: 0,
+        //             );
+        //         }),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -269,7 +275,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
   }
 
   double getMax() {
-    double max = 0;
+    double max = 2;
     int index = 0;
     widget.value!.forEach((element) {
       if (widget.isChosen![index++]) {
@@ -281,6 +287,21 @@ class _LineChartSample2State extends State<LineChartSample2> {
     });
 
     return max;
+  }
+
+  double getRealMin() {
+    double min = double.maxFinite;
+    int index = 0;
+    widget.value!.forEach((element) {
+      if (widget.isChosen![index++]) {
+        element.forEach((e) {
+          double a = double.parse(e);
+          a < min ? min = a : min = min;
+        });
+      }
+    });
+
+    return min;
   }
 
   double getMin() {
@@ -295,7 +316,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       }
     });
 
-    return min < 0 ? min : 0;
+    return min < 0 ? min : -2;
   }
 
   // Widget leftTitleWidgets(double value, TitleMeta meta) {
@@ -332,7 +353,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                         touchedSpot.bar.color ??
                         ThemeColors().tooltipBg,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 10,
                   );
                   return LineTooltipItem(
                     "${getMonth(touchedSpot.x)} = ${touchedSpot.y}",
@@ -375,7 +396,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           return (value == 0)
               ? FlLine(
                   color: Colors.black,
-                  strokeWidth: 3,
+                  strokeWidth: 2,
                 )
               : FlLine(
                   color: ThemeColors().maingridcolor,
@@ -401,13 +422,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
           sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 30,
-              interval: 1,
+              interval: widget.data!.length / 3,
               getTitlesWidget: (value, meta) {
                 return Transform.rotate(
-                  angle: pi / 12.0,
+                  angle: pi / 10,
                   child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data![value.ceil()]),
+                    padding: const EdgeInsets.only(top: 12.0),
+                    child: Text(
+                      value != widget.data!.length.toDouble() - 1
+                          ? widget.data![value.ceil()]
+                          : "",
+                      // widget.data![value.ceil()],
+                      style: TextStyle(fontSize: 10),
+                    ),
                   ),
                 );
               }
@@ -417,11 +444,21 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            showTitles: true,
-            interval: (getMax() - getMin()) / 10,
-            // getTitlesWidget: leftTitleWidgets,
-            reservedSize: 52,
-          ),
+              showTitles: true,
+              // interval: (getMax() - getMin()) * 1.6 / 3,
+              // interval: MediaQuery.of(context).size.height / 10,
+              // getTitlesWidget: leftTitleWidgets,
+              reservedSize: 52,
+              getTitlesWidget: (value, meta) {
+                return Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 10),
+                  child: Text(
+                    (value == 0) ? meta.formattedValue : "",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                );
+              }),
         ),
       ),
       borderData: FlBorderData(
@@ -431,171 +468,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
       minY: getMin() * 1.3,
-      maxY: getMax() * 1.2,
+      maxY: getMax() < 40 ? 40 : getMax() * 1.6,
       lineBarsData: getLineBarsData(),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-// LineChartBarData(
-//           spots: const [
-//             FlSpot(1, 3),
-//             FlSpot(2, 4),
-//             FlSpot(3, 2),
-//             FlSpot(4, 6),
-//             FlSpot(5, 8),
-//             FlSpot(6, 1),
-//             FlSpot(7, 3.1),
-//             FlSpot(8, 7),
-//             FlSpot(9, 4),
-//             FlSpot(10, 3),
-//             FlSpot(11, 3),
-//             FlSpot(12, 4),
-//           ],
-//           gradient: LinearGradient(
-//             colors: gradientColors,
-//           ),
-//           barWidth: 3,
-//           isStrokeCapRound: true,
-//           dotData: const FlDotData(
-//             show: false,
-//           ),
-//           belowBarData: BarAreaData(
-//             show: true,
-//             gradient: LinearGradient(
-//               colors: gradientColors
-//                   .map((color) => color.withOpacity(0.3))
-//                   .toList(),
-//             ),
-//           ),
-//         ),
-
-
-
-
-
-  // LineChartBarData get lineChartBarData1 => LineChartBarData(
-  //       gradient: LinearGradient(
-  //         colors: gradientColors,
-  //       ),
-  //       barWidth: 3,
-  //       dotData: FlDotData(show: false),
-  //       belowBarData: BarAreaData(
-  //         show: true,
-  //         gradient: LinearGradient(
-  //           colors:
-  //               gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-  //         ),
-  //       ),
-  //       spots: const [
-  //         FlSpot(1, 3),
-  //         FlSpot(2, 4),
-  //         FlSpot(3, 2),
-  //         FlSpot(4, 6),
-  //         FlSpot(5, 8),
-  //         FlSpot(6, 1),
-  //         FlSpot(7, 3.1),
-  //         FlSpot(8, 7),
-  //         FlSpot(9, 4),
-  //         FlSpot(10, 3),
-  //         FlSpot(11, 3),
-  //         FlSpot(12, 4),
-  //       ],
-  //     );
-
-  // LineChartBarData get lineChartBarData2 => LineChartBarData(
-  //       gradient: LinearGradient(
-  //         colors: gradientColorsSec,
-  //       ),
-  //       barWidth: 3,
-  //       dotData: FlDotData(show: false),
-  //       belowBarData: BarAreaData(
-  //         show: true,
-  //         gradient: LinearGradient(
-  //           colors: gradientColorsSec
-  //               .map((color) => color.withOpacity(0.3))
-  //               .toList(),
-  //         ),
-  //       ),
-  //       spots: const [
-  //         FlSpot(1, 7),
-  //         FlSpot(2, 9),
-  //         FlSpot(3, 4),
-  //         FlSpot(4, 2),
-  //         FlSpot(5, 7),
-  //         FlSpot(6, 4),
-  //         FlSpot(7, 6.1),
-  //         FlSpot(8, 4.2),
-  //         FlSpot(9, 3),
-  //         FlSpot(10, 8),
-  //         FlSpot(11, 1),
-  //         FlSpot(12, 5),
-  //       ],
-  //     );
-
-
-  // Widget bottomTitleWidgets(double value, TitleMeta meta) {
-  //   const style = TextStyle(
-  //     fontWeight: FontWeight.bold,
-  //     fontSize: 10,
-  //   );
-  //   Widget text;
-  //   switch (value.toInt()) {
-  //     case 1:
-  //       text = const Text('JAN', style: style);
-  //       break;
-  //     case 2:
-  //       text = const Text('FEB', style: style);
-  //       break;
-  //     case 3:
-  //       text = const Text('MAR', style: style);
-  //       break;
-  //     case 4:
-  //       text = const Text('APR', style: style);
-  //       break;
-  //     case 5:
-  //       text = const Text('MAY', style: style);
-  //       break;
-  //     case 6:
-  //       text = const Text('JUN', style: style);
-  //       break;
-  //     case 7:
-  //       text = const Text('JUL', style: style);
-  //       break;
-  //     case 8:
-  //       text = const Text('AUG', style: style);
-  //       break;
-  //     case 9:
-  //       text = const Text('SEP', style: style);
-  //       break;
-  //     case 10:
-  //       text = const Text('OCT', style: style);
-  //       break;
-  //     case 11:
-  //       text = const Text('NOV', style: style);
-  //       break;
-  //     case 12:
-  //       text = const Text('DEC', style: style);
-  //       break;
-  //     default:
-  //       text = const Text('', style: style);
-  //       break;
-  //   }
-
-  //   return SideTitleWidget(
-  //     axisSide: meta.axisSide,
-  //     child: text,
-  //   );
-  // }

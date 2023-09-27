@@ -39,10 +39,9 @@ class _PieGraphState extends State<PieGraph> {
   Widget build(BuildContext context) {
     int ind = -1;
     int ind2 = -1;
-    return Row(
+    return Column(
       children: [
         Expanded(
-          flex: 3,
           child: Container(
             child: PieChart(
               PieChartData(
@@ -72,37 +71,38 @@ class _PieGraphState extends State<PieGraph> {
           ),
         ),
         Expanded(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 45),
-            child: Container(
-              child: Column(
-                children: [
-                  ...widget.data.map((e) {
-                    ind2 += 1;
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10, right: 10),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                                color: getColor(ind2), shape: BoxShape.circle),
+          child: Container(
+            child: Column(
+              children: [
+                ...widget.data.map((e) {
+                  ind2 += 1;
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 15,
+                      left: 15,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 25,
+                          height: 25,
+                          decoration: BoxDecoration(
+                              color: getColor(ind2), shape: BoxShape.circle),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          e[0],
+                          style: const TextStyle(
+                            fontSize: 15,
                           ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
-                            e[0],
-                            style: TextStyle(fontSize: 10),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                ],
-              ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
             ),
           ),
         ),

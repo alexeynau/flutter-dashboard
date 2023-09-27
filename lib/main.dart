@@ -7,6 +7,7 @@ import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart
 import 'package:flutter_dashboard/presentation/colors.dart';
 // import 'package:flutter_dashboard/presentation/pages/home_page.dart';
 import 'package:flutter_dashboard/presentation/pages/new_home_page.dart';
+import 'package:flutter_dashboard/presentation/pages/test_page.dart';
 // import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
 import 'presentation/bloc/bloc/selector_bloc.dart';
 import 'presentation/pages/new_sales_page.dart';
@@ -30,11 +31,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
 
   final List<Widget> _tabs = [
     const NewHomePage(),
     const NewSalesPage(),
+    const TestPage(),
   ];
 
   @override
@@ -100,6 +102,21 @@ class _AppState extends State<App> {
                           height: MediaQuery.of(context).size.height,
                           child: Text(
                             "Продажи",
+                            style: TextStyle(
+                              color: ThemeColors().primarytext,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        color: _currentIndex == 2
+                            ? ThemeColors().selected
+                            : ThemeColors().secondary,
+                        width: MediaQuery.of(context).size.width,
+                        child: Tab(
+                          height: MediaQuery.of(context).size.height,
+                          child: Text(
+                            "Тест",
                             style: TextStyle(
                               color: ThemeColors().primarytext,
                             ),
