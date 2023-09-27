@@ -85,7 +85,8 @@ class _TestPageState extends State<TestPage> {
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.all(10),
+                          margin:
+                              EdgeInsets.only(top: 10, bottom: 10, right: 10),
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
                             borderRadius:
