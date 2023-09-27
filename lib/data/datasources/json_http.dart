@@ -7,25 +7,26 @@ import 'package:flutter_dashboard/data/models/event_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class JsonRemoteData {
-  StreamController<StreamEvent> get eventStream;
+  StreamController<DataAndPlots> get eventStream;
   Future<DataAndPlots> loadJson();
   Future<void> serverWatcher(int seconds);
   List<Datum> getData();
-  Charts getCharts();
+  Future<Charts> getCharts();
 }
 
 class JsonRemoteDataImpl implements JsonRemoteData {
-  late StreamController<StreamEvent> _eventStream;
-  DataAndPlots _dataAndPlots =
-      DataAndPlots(data: [], charts: Charts(plots: [], pieChart: []));
+  late StreamController<DataAndPlots> _eventStream;
+  late DataAndPlots _dataAndPlots;
+
+  @override
   Future<void> serverWatcher(int seconds) async {
     _eventStream = StreamController.broadcast();
     print("start watching");
     String url = "http://localhost:8000/";
     var response = await http.get(Uri.parse(url));
     print("got response");
-    print(response.body);
 
+    print(DataAndPlots.fromJson(json.decode(utf8.decode(response.bodyBytes))));
     _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
     String finalText = "";
 
@@ -42,9 +43,9 @@ class JsonRemoteDataImpl implements JsonRemoteData {
           var startDataAndPlots = _dataAndPlots;
           _dataAndPlots = dataAndPlotsFromJson(utf8.decode(response.bodyBytes));
 
-          for (var data in compareData(startDataAndPlots, _dataAndPlots)) {
-            eventStream.add(StreamEvent(data: data, name: data.name));
-          }
+          eventStream.add(_dataAndPlots);
+          // for (var data in compareData(startDataAndPlots, _dataAndPlots)) {
+          //   eventStream.add(StreamEvent(data: data, name: data.name));
         } else {
           print("nothing changed");
         }
@@ -65,7 +66,8 @@ class JsonRemoteDataImpl implements JsonRemoteData {
     return set1.difference(set2).union(set2.difference(set1));
   }
 
-  StreamController<StreamEvent> get eventStream => _eventStream;
+  @override
+  StreamController<DataAndPlots> get eventStream => _eventStream;
 
   @override
   Future<DataAndPlots> loadJson() async {
@@ -78,7 +80,7 @@ class JsonRemoteDataImpl implements JsonRemoteData {
   }
 
   @override
-  Charts getCharts() {
-    return _dataAndPlots.charts;
+  Future<Charts> getCharts() async {
+    return (await loadJson()).charts;
   }
 }

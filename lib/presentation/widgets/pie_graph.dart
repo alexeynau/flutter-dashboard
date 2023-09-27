@@ -81,7 +81,7 @@ class _PieGraphState extends State<PieGraph> {
                   ...widget.data.map((e) {
                     ind2 += 1;
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 10, right: 20),
+                      padding: const EdgeInsets.only(bottom: 10, right: 10),
                       child: Row(
                         children: [
                           Container(
@@ -93,7 +93,10 @@ class _PieGraphState extends State<PieGraph> {
                           const SizedBox(
                             width: 8,
                           ),
-                          Text(e[0]),
+                          Text(
+                            e[0],
+                            style: TextStyle(fontSize: 10),
+                          ),
                         ],
                       ),
                     );

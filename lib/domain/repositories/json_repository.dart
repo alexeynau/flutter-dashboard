@@ -7,7 +7,7 @@ import '../../data/models/event_model.dart';
 abstract class JsonRepository {
   Future<DataAndPlots> getDataAndPlots();
   Future<Datum> getDatum();
-  StreamController<StreamEvent> get eventStream;
-  List<dynamic> getSeriesByName(String name);
-  List<Plot> getPlots();
+  StreamController<DataAndPlots> get eventStream;
+  List getSeriesByName(String name);
+  // Future<List<Plot>> getPlots();
 }

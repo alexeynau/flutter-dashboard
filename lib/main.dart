@@ -2,10 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/data/datasources/json_http.dart';
-import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
+import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart';
+// import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
-import 'package:flutter_dashboard/presentation/pages/home_page.dart';
-import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
+// import 'package:flutter_dashboard/presentation/pages/home_page.dart';
+import 'package:flutter_dashboard/presentation/pages/new_home_page.dart';
+// import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
+import 'presentation/bloc/bloc/selector_bloc.dart';
+import 'presentation/pages/new_sales_page.dart';
 import 'service_locator.dart' as dependency_injection;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +18,7 @@ import 'service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency_injection.setup();
-  dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(3);
+  dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
   runApp(App());
 }
 
@@ -26,18 +30,20 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
 
   final List<Widget> _tabs = [
-    const HomePage(),
-    const SalesPage(),
+    const NewHomePage(),
+    const NewSalesPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ChartBloc>(create: (context) => getIt<ChartBloc>()),
+        // BlocProvider<ChartBloc>(create: (context) => getIt<ChartBloc>()),
+        BlocProvider<SelectorBloc>(create: (context) => getIt<SelectorBloc>()),
+        BlocProvider<CanvasBloc>(create: (context) => getIt<CanvasBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
