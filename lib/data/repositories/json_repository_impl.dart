@@ -4,7 +4,7 @@ import 'package:flutter_dashboard/data/models/data.dart';
 import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
 
 import '../datasources/json_http.dart';
-import '../models/event_model.dart';
+// import '../models/event_model.dart';
 
 class JsonRepositoryImpl implements JsonRepository {
   final JsonRemoteData remoteDataSource;

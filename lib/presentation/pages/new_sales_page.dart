@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/presentation/widgets/simple_bar.dart';
 
+import '../../data/repositories/windows_repository.dart';
 import '../../domain/repositories/json_repository.dart';
 import '../../service_locator.dart';
 
@@ -15,7 +16,7 @@ class NewSalesPage extends StatefulWidget {
 }
 
 class _NewSalesPageState extends State<NewSalesPage> {
-  JsonRepository repository = getIt.get<JsonRepository>();
+  WindowsRepository repository = getIt.get<WindowsRepository>();
 
   @override
   void initState() {

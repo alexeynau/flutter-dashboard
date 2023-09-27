@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
 
 import '../../domain/repositories/json_repository.dart';
 import '../../service_locator.dart';
+
+
+import 'package:flutter_dashboard/data/models/data.dart';
+import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
+
+
 import '../colors.dart';
 
 class NewHomePage extends StatefulWidget {
@@ -13,7 +20,7 @@ class NewHomePage extends StatefulWidget {
 }
 
 class _NewHomePageState extends State<NewHomePage> {
-  JsonRepository repository = getIt.get<JsonRepository>();
+  WindowsRepository repository = getIt.get<WindowsRepository>();
 
   @override
   void initState() {
