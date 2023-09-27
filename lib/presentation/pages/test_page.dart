@@ -78,6 +78,82 @@ class _TestPageState extends State<TestPage> {
       child: FutureBuilder(
           future: repository.getDataAndPlots(),
           builder: (context, snapshot) {
+// <<<<<<< Artem
+//             return Row(
+//               children: [
+//                 Expanded(
+//                   flex: 3,
+//                   child: Column(
+//                     children: [
+//                       Expanded(
+//                         child: Container(
+//                           margin:
+//                               EdgeInsets.only(top: 10, bottom: 10, right: 10),
+//                           decoration: BoxDecoration(
+//                             shape: BoxShape.rectangle,
+//                             borderRadius:
+//                                 const BorderRadius.all(Radius.circular(15)),
+//                             color: ThemeColors().secondary,
+//                           ),
+//                           child: Column(
+//                             children: [
+//                               Expanded(
+//                                 child: Container(
+//                                   padding: EdgeInsets.only(right: 30),
+//                                   child: Row(
+//                                     children: [
+//                                       ...snapshot.data!.charts.plots
+//                                           .getRange(0, 3)
+//                                           .map((e) => Expanded(
+//                                                 child: LineChartSample2(
+//                                                   hidden: e.hidden,
+//                                                   isChosen: List.filled(
+//                                                       e.y.length, true),
+//                                                   names: e.y,
+//                                                   name: e.plotName,
+//                                                   data: repository
+//                                                       .getSeriesByName(e.x)
+//                                                       .map((e) => e.toString())
+//                                                       .toList(),
+//                                                   value: e.y
+//                                                       .map((seriesName) =>
+//                                                           repository
+//                                                               .getSeriesByName(
+//                                                                   seriesName)
+//                                                               .map((e) =>
+//                                                                   e.toString())
+//                                                               .toList())
+//                                                       .toList(),
+//                                                 ),
+//                                               ))
+//                                           .toList(),
+//                                     ],
+//                                   ),
+//                                 ),
+//                               )
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                       Expanded(
+//                         child: Container(
+//                           margin: EdgeInsets.all(10),
+//                           child: Row(
+//                             children: [
+//                               Expanded(
+//                                 child: Container(
+//                                   margin: EdgeInsets.only(right: 10),
+//                                   decoration: BoxDecoration(
+//                                     shape: BoxShape.rectangle,
+//                                     borderRadius: const BorderRadius.all(
+//                                         Radius.circular(15)),
+//                                     color: ThemeColors().secondary,
+//                                   ),
+//                                   child: Padding(
+//                                     padding: const EdgeInsets.only(
+//                                       right: 20,
+//                                       left: 20,
+// =======
             switch (snapshot.connectionState) {
               case ConnectionState.done:
                 return snapshot.data != null
@@ -89,12 +165,13 @@ class _TestPageState extends State<TestPage> {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    margin: EdgeInsets.all(10),
+                                    margin: EdgeInsets.only(top: 10, bottom: 10, right: 10),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(15)),
                                       color: ThemeColors().secondary,
+// >>>>>>> new_architecture
                                     ),
                                     child: Column(
                                       children: [

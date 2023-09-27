@@ -87,85 +87,83 @@ class _LineChartSample2State extends State<LineChartSample2> {
     int indexData = -1;
     return Stack(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(
-            top: 40,
-          ),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: SizedBox(
-              width: 30,
-              height: 24,
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: SizedBox(
-                              width: 400,
-                              height: 500,
-                              child: Stack(
-                                children: [
-                                  ListView.builder(
-                                    itemCount: widget.names!.length,
-                                    itemBuilder: (context, index) {
-                                      bool isSelected = widget.isChosen![index];
-                                      return StatefulBuilder(
-                                          builder: (context, setState) {
-                                        return CheckboxListTile(
-                                          value: isSelected,
-                                          title: Text(widget.names![index]),
-                                          onChanged: (newBool) {
-                                            setState(() {
-                                              widget.isChosen?[index] =
-                                                  newBool!;
-                                              isSelected = newBool!;
-                                            });
-                                          },
-                                        );
-                                      });
-                                    },
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: TextButton(
-                                      child: Text("OK"),
-                                      onPressed: () {
-                                        setState(() {});
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  )
-                                ],
-                              )),
-                        );
-                      },
-                    );
-
-                    // widget.isChosen = widget.isChosen;
-                  });
-                },
-                child: Icon(
-                  Icons.filter_alt_rounded,
-                  color: ThemeColors().primarytext,
-                ),
-              ),
-            ),
-          ),
-        ),
         Container(
           child: Align(
             alignment: Alignment.topCenter,
             child: Container(
-              padding: EdgeInsets.only(top: 10, left: 30),
-              child: Text(
-                widget.name!,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: ThemeColors().primarytext,
-                ),
+              padding: EdgeInsets.only(top: 10, left: 60),
+              child: Row(
+                children: [
+                  Text(
+                    widget.name!,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: ThemeColors().primarytext,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                    height: 15,
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: SizedBox(
+                                    width: 400,
+                                    height: 500,
+                                    child: Stack(
+                                      children: [
+                                        ListView.builder(
+                                          itemCount: widget.names!.length,
+                                          itemBuilder: (context, index) {
+                                            bool isSelected =
+                                                widget.isChosen![index];
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return CheckboxListTile(
+                                                value: isSelected,
+                                                title:
+                                                    Text(widget.names![index]),
+                                                onChanged: (newBool) {
+                                                  setState(() {
+                                                    widget.isChosen?[index] =
+                                                        newBool!;
+                                                    isSelected = newBool!;
+                                                  });
+                                                },
+                                              );
+                                            });
+                                          },
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: TextButton(
+                                            child: Text("OK"),
+                                            onPressed: () {
+                                              setState(() {});
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                              );
+                            },
+                          );
+
+                          // widget.isChosen = widget.isChosen;
+                        });
+                      },
+                      child: Icon(
+                        Icons.filter_alt_rounded,
+                        color: ThemeColors().primarytext,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -183,6 +181,18 @@ class _LineChartSample2State extends State<LineChartSample2> {
             ),
           ),
         ),
+        // Padding(
+        //   padding: const EdgeInsets.only(
+        //     top: 40,
+        //   ),
+        //   child: Align(
+        //     alignment: Alignment.topRight,
+        //     child: SizedBox(
+        //       width: 30,
+        //       height: 24,
+        //     ),
+        //   ),
+        // ),
         // Container(
         //   child: Padding(
         //     padding: const EdgeInsets.only(
