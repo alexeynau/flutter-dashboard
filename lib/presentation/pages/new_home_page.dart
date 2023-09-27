@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dashboard/data/models/data.dart';
-import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart';
+import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
+// import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart';
 import 'package:flutter_dashboard/presentation/widgets/listen_widget.dart';
 import 'package:flutter_dashboard/presentation/widgets/old_selector.dart';
 
 import '../../domain/repositories/json_repository.dart';
 import '../../service_locator.dart';
-import '../bloc/chart_bloc/chart_bloc.dart';
+// import '../bloc/chart_bloc/chart_bloc.dart';
 import '../colors.dart';
 import '../widgets/bar_graph.dart';
 import '../widgets/column.dart';
@@ -23,7 +24,7 @@ class NewHomePage extends StatefulWidget {
 }
 
 class _NewHomePageState extends State<NewHomePage> {
-  JsonRepository repository = getIt.get<JsonRepository>();
+  WindowsRepository repository = getIt.get<WindowsRepository>();
 
   @override
   void initState() {
