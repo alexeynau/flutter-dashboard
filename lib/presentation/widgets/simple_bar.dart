@@ -54,13 +54,19 @@ class _SimpleBarState extends State<SimpleBar> {
               maxY: getMax() * 1.2,
               gridData: const FlGridData(
                 drawVerticalLine: false,
+                show: false,
               ),
+              borderData: FlBorderData(show: false),
               titlesData: FlTitlesData(
                 topTitles: const AxisTitles(
                     sideTitles: SideTitles(
                   showTitles: false,
                 )),
                 rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(
+                  showTitles: false,
+                )),
+                leftTitles: const AxisTitles(
                     sideTitles: SideTitles(
                   showTitles: false,
                 )),
@@ -80,7 +86,9 @@ class _SimpleBarState extends State<SimpleBar> {
                     x: _index++,
                     barRods: [
                       BarChartRodData(
-                        borderRadius: BorderRadius.zero,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5)),
                         width: 40,
                         toY: double.parse(
                           widget.value[widget.isChosen.indexOf(true)]

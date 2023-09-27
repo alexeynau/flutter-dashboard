@@ -68,8 +68,9 @@ class _NewSalesPageState extends State<NewSalesPage> {
                               )
                               .toList(),
                           Container(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 40,
+                              left: 30,
                             ),
                             width: 400,
                             height: 600,
