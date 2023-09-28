@@ -28,48 +28,6 @@ class _TestPageState extends State<TestPage> {
 
   @override
   Widget build(BuildContext context) {
-    // List<String> labels = [
-    //   "янв",
-    //   "фев",
-    //   "мар",
-    //   "Итог 1",
-    //   "апр",
-    //   "май",
-    //   "июн",
-    //   "Итог 2",
-    //   "июл",
-    //   "авг",
-    //   "сен",
-    //   "Итог 3",
-    //   "окт",
-    //   "ноя",
-    //   "дек",
-    //   "Итог 4"
-    // ];
-    // List<String> value = [
-    //   "52",
-    //   "23",
-    //   "-11",
-    //   "None",
-    //   "-15",
-    //   "28",
-    //   "30",
-    //   "None",
-    //   "-50",
-    //   "22",
-    //   "28",
-    //   "None",
-    //   "17",
-    //   "-39",
-    //   "-17",
-    //   "None"
-    // ];
-    // List<List<String>> chartData = [];
-    // for (int i = 0; i < value.length; i++) {
-    //   value[i] != "None"
-    //       ? chartData.add([labels[i], value[i]])
-    //       : chartData.add([labels[i]]);
-    // }
     return Container(
       padding: const EdgeInsets.all(20),
       color: ThemeColors().background01,
