@@ -43,195 +43,6 @@ class _NewSalesPageState extends State<NewSalesPage> {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        top: 10, bottom: 10, right: 10),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(15)),
-                                      color: ThemeColors().secondary,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(right: 30),
-                                            child: Row(
-                                              children: [
-                                                ...snapshot.data!.charts.plots
-                                                    .getRange(0, 3)
-                                                    .map((e) => Expanded(
-                                                          child:
-                                                              LineChartSample2(
-                                                            hidden: e.hidden,
-                                                            isChosen:
-                                                                List.filled(
-                                                                    e.y.length,
-                                                                    true),
-                                                            names: e.y,
-                                                            name: e.plotName,
-                                                            data: repository
-                                                                .getSeriesByName(
-                                                                    e.x)
-                                                                .map((e) => e
-                                                                    .toString())
-                                                                .toList(),
-                                                            value: e.y
-                                                                .map((seriesName) => repository
-                                                                    .getSeriesByName(
-                                                                        seriesName)
-                                                                    .map((e) =>
-                                                                        e.toString())
-                                                                    .toList())
-                                                                .toList(),
-                                                          ),
-                                                        ))
-                                                    .toList(),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.all(10),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(15)),
-                                              color: ThemeColors().secondary,
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 20,
-                                                left: 20,
-                                              ),
-                                              child: SimpleBar(
-                                                name: snapshot.data!.charts
-                                                    .barChart[0].plotName,
-                                                isChosen: const [true],
-                                                data: repository
-                                                    .getSeriesByName(snapshot
-                                                        .data!
-                                                        .charts
-                                                        .barChart[0]
-                                                        .x)
-                                                    .map((e) => e.toString())
-                                                    .toList(),
-                                                value: snapshot
-                                                    .data!.charts.barChart[0].y
-                                                    .map((seriesName) =>
-                                                        repository
-                                                            .getSeriesByName(
-                                                                seriesName)
-                                                            .map((e) =>
-                                                                e.toString())
-                                                            .toList())
-                                                    .toList(),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            margin: EdgeInsets.only(left: 10),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(15)),
-                                              color: ThemeColors().secondary,
-                                            ),
-                                            child: WaterFall(
-                                              name:
-                                                  "Динамика изменения прибыли",
-                                              names: const [
-                                                "Company A",
-                                                "Company B"
-                                              ],
-                                              labels: const [
-                                                "янв",
-                                                "фев",
-                                                "мар",
-                                                "Итог 1",
-                                                "апр",
-                                                "май",
-                                                "июн",
-                                                "Итог 2",
-                                                "июл",
-                                                "авг",
-                                                "сен",
-                                                "Итог 3",
-                                                "окт",
-                                                "ноя",
-                                                "дек",
-                                                "Итог 4"
-                                              ],
-                                              value: const [
-                                                [
-                                                  "52",
-                                                  "23",
-                                                  "-11",
-                                                  "None",
-                                                  "-15",
-                                                  "28",
-                                                  "30",
-                                                  "None",
-                                                  "-50",
-                                                  "22",
-                                                  "28",
-                                                  "None",
-                                                  "17",
-                                                  "-39",
-                                                  "-17",
-                                                  "None",
-                                                ],
-                                                [
-                                                  "152",
-                                                  "203",
-                                                  "-12",
-                                                  "None",
-                                                  "-115",
-                                                  "78",
-                                                  "300",
-                                                  "None",
-                                                  "-50",
-                                                  "22",
-                                                  "28",
-                                                  "None",
-                                                  "17",
-                                                  "-39",
-                                                  "-170",
-                                                  "None",
-                                                ],
-                                              ],
-                                            ),
-                                            // child: WaterFall(
-                                            //     data: chartData,
-                                            //     name: "Test plot"),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
                             child: Container(
                               margin: EdgeInsets.all(10),
                               decoration: BoxDecoration(
@@ -240,18 +51,76 @@ class _NewSalesPageState extends State<NewSalesPage> {
                                     const BorderRadius.all(Radius.circular(15)),
                                 color: ThemeColors().secondary,
                               ),
-                              child: PieGraph(
-                                data: const [
-                                  ["First", "12"],
-                                  ["Second", "24"],
-                                  ["Fird", "67"],
-                                  ["Fourth", "54"],
-                                  ["Fifth", "63"],
-                                  ["Sizth", "63"],
+                              child: WaterFall(
+                                name: "Динамика изменения прибыли",
+                                names: const ["Company A", "Company B"],
+                                labels: const [
+                                  "Прибыль \n на начало\n года",
+                                  "янв",
+                                  "фев",
+                                  "мар",
+                                  "апр",
+                                  "май",
+                                  "июн",
+                                  "июл",
+                                  "авг",
+                                  "сен",
+                                  "окт",
+                                  "ноя",
+                                  "дек",
+                                  "Прибыль\n на конец\n года"
+                                ],
+                                value: const [
+                                  [
+                                    "None",
+                                    "52",
+                                    "23",
+                                    "-11",
+                                    "-15",
+                                    "28",
+                                    "30",
+                                    "-50",
+                                    "22",
+                                    "28",
+                                    "17",
+                                    "-39",
+                                    "-17",
+                                    "None",
+                                  ],
+                                  [
+                                    "152",
+                                    "203",
+                                    "-12",
+                                    "None",
+                                    "-115",
+                                    "78",
+                                    "300",
+                                    "None",
+                                    "-50",
+                                    "22",
+                                    "28",
+                                    "None",
+                                    "17",
+                                    "-39",
+                                    "-170",
+                                    "None",
+                                  ],
                                 ],
                               ),
                             ),
-                          )
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(15)),
+                                color: ThemeColors().secondary,
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     : CircularProgressIndicator();
