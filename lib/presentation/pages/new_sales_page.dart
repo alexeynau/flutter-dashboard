@@ -47,7 +47,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                         top: 10, bottom: 10, right: 10),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
