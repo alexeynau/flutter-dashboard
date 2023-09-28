@@ -200,7 +200,10 @@ class _TestPageState extends State<TestPage> {
                                             child: WaterFall(
                                               name:
                                                   "Динамика изменения прибыли",
-                                              names: ["Company A", "Cpmpany B"],
+                                              names: const [
+                                                "Company A",
+                                                "Company B"
+                                              ],
                                               labels: const [
                                                 "янв",
                                                 "фев",

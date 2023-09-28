@@ -11,6 +11,8 @@ class WaterFall extends StatefulWidget {
   List<List<String>> data = [];
   List<String> labels;
   List<String> names;
+
+  String selectedValue = "";
   List<List<String>> value;
   int chosenIndex = 0;
   String name;
@@ -42,6 +44,7 @@ class _WaterFallState extends State<WaterFall> {
 
   @override
   void initState() {
+    widget.selectedValue = widget.names[0];
     _tooltipBehavior = TooltipBehavior(
       enable: true,
       header: '',
@@ -51,74 +54,91 @@ class _WaterFallState extends State<WaterFall> {
   @override
   Widget build(BuildContext context) {
     widget.data = getData();
-    List<bool> isChosen = List.filled(widget.names.length, false);
     return Stack(children: [
       _buildDefaultWaterfallChart(),
-      // Container(
-      //   alignment: Alignment.topRight,
-      //   width: 40,
-      //   height: 15,
-      //   child: TextButton(
-      //     onPressed: () {
-      //       setState(
-      //         () {
-      //           showDialog(
-      //             context: context,
-      //             builder: (context) {
-      //               return Dialog(
-      //                 child: SizedBox(
-      //                   width: 400,
-      //                   height: 500,
-      //                   child: Stack(
-      //                     children: [
-      //                       StatefulBuilder(
-      //                         builder: (context, setState) {
-      //                           return ListView.builder(
-      //                             itemCount: widget.names!.length,
-      //                             itemBuilder: (context, index) {
-      //                               bool a = index == widget.chosenIndex;
-      //                               return StatefulBuilder(
-      //                                   builder: (context, setState) {
-      //                                 return CheckboxListTile(
-      //                                   value: a,
-      //                                   title: Text(widget.names![index]),
-      //                                   onChanged: (newBool) {
-      //                                     setState(() {
-      //                                       widget.chosenIndex = index;
-      //                                       a = newBool!;
-      //                                     });
-      //                                   },
-      //                                 );
-      //                               });
-      //                             },
-      //                           );
-      //                         },
-      //                       ),
-      //                       Align(
-      //                         alignment: Alignment.bottomRight,
-      //                         child: TextButton(
-      //                           child: Text("OK"),
-      //                           onPressed: () {
-      //                             setState(() {});
-      //                             Navigator.pop(context);
-      //                           },
-      //                         ),
-      //                       )
-      //                     ],
-      //                   ),
-      //                 ),
-      //               );
-      //             },
-      //           );
-      //         },
-      //       );
-      //     },
-      //     child: Icon(
-      //       Icons.filter_alt_rounded,
-      //       color: ThemeColors().primarytext,
-      //     ),
-      //   ),
-      // ),
+      Align(
+        alignment: Alignment.topRight,
+        child: Container(
+          margin: const EdgeInsets.only(
+            right: 15,
+            top: 5,
+          ),
+          width: 30,
+          height: 20,
+          child: TextButton(
+            style: ButtonStyle(
+                overlayColor:
+                    MaterialStatePropertyAll(ThemeColors().secondary)),
+            onPressed: () {
+              setState(
+                () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        child: SizedBox(
+                          width: 400,
+                          height: 500,
+                          child: Stack(
+                            children: [
+                              StatefulBuilder(
+                                builder: (context, setState1) {
+                                  return Column(
+                                    children: [
+                                      ...widget.names.map(
+                                        (e) => RadioListTile(
+                                          title: Text(e),
+                                          value: e,
+                                          groupValue: widget.selectedValue,
+                                          onChanged: (value) {
+                                            setState1(() {
+                                              widget.selectedValue = value!;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                              Container(
+                                alignment: Alignment.bottomRight,
+                                padding: const EdgeInsets.only(
+                                    bottom: 15, right: 15),
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        ThemeColors().barColor),
+                                  ),
+                                  child: const Text(
+                                    "OK",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.chosenIndex = widget.names
+                                          .indexOf(widget.selectedValue);
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+            child: Icon(
+              Icons.filter_alt_rounded,
+              color: ThemeColors().primarytext,
+            ),
+          ),
+        ),
+      ),
     ]);
   }
 
@@ -229,3 +249,41 @@ class _ChartSampleData {
   final bool? intermediateSumPredicate;
   final bool? totalSumPredicate;
 }
+
+// child: Stack(
+//   children: [
+//     StatefulBuilder(
+//       builder: (context, setState) {
+//         return ListView.builder(
+//           itemCount: widget.names!.length,
+//           itemBuilder: (context, index) {
+//             bool a = index == widget.chosenIndex;
+//             return StatefulBuilder(
+//                 builder: (context, setState) {
+//               return CheckboxListTile(
+//                 value: a,
+//                 title: Text(widget.names![index]),
+//                 onChanged: (newBool) {
+//                   setState(() {
+//                     widget.chosenIndex = index;
+//                     a = newBool!;
+//                   });
+//                 },
+//               );
+//             });
+//           },
+//         );
+//       },
+//     ),
+//     Align(
+//       alignment: Alignment.bottomRight,
+//       child: TextButton(
+//         child: Text("OK"),
+//         onPressed: () {
+//           setState(() {});
+//           Navigator.pop(context);
+//         },
+//       ),
+//     )
+//   ],
+// ),
