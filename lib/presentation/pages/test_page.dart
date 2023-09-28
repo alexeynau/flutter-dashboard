@@ -156,68 +156,30 @@ class _TestPageState extends State<TestPage> {
                                               color: ThemeColors().secondary,
                                             ),
                                             child: WaterFall(
-                                              name:
-                                                  "Динамика изменения прибыли",
-                                              names: const [
-                                                "Company A",
-                                                "Company B"
-                                              ],
-                                              labels: const [
-                                                "янв",
-                                                "фев",
-                                                "мар",
-                                                "Итог 1",
-                                                "апр",
-                                                "май",
-                                                "июн",
-                                                "Итог 2",
-                                                "июл",
-                                                "авг",
-                                                "сен",
-                                                "Итог 3",
-                                                "окт",
-                                                "ноя",
-                                                "дек",
-                                                "Итог 4"
-                                              ],
-                                              value: const [
-                                                [
-                                                  "52",
-                                                  "23",
-                                                  "-11",
-                                                  "None",
-                                                  "-15",
-                                                  "28",
-                                                  "30",
-                                                  "None",
-                                                  "-50",
-                                                  "22",
-                                                  "28",
-                                                  "None",
-                                                  "17",
-                                                  "-39",
-                                                  "-17",
-                                                  "None",
-                                                ],
-                                                [
-                                                  "152",
-                                                  "203",
-                                                  "-12",
-                                                  "None",
-                                                  "-115",
-                                                  "78",
-                                                  "300",
-                                                  "None",
-                                                  "-50",
-                                                  "22",
-                                                  "28",
-                                                  "None",
-                                                  "17",
-                                                  "-39",
-                                                  "-170",
-                                                  "None",
-                                                ],
-                                              ],
+                                              name: snapshot.data!.charts
+                                                  .waterfall[0].plotName,
+                                              names: snapshot
+                                                  .data!.charts.waterfall[0].y,
+                                              labels: repository
+                                                  .getSeriesByName(snapshot
+                                                      .data!
+                                                      .charts
+                                                      .waterfall[0]
+                                                      .x)
+                                                  .map((e) => e.toString())
+                                                  .toList(),
+                                              value: snapshot
+                                                  .data!.charts.waterfall[0].y
+                                                  .map((seriesName) =>
+                                                      repository
+                                                          .getSeriesByName(
+                                                              seriesName)
+                                                          .map((e) {
+                                                        if (e == null)
+                                                          return "None";
+                                                        return e.toString();
+                                                      }).toList())
+                                                  .toList(),
                                             ),
                                             // child: WaterFall(
                                             //     data: chartData,
