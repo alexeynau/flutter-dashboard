@@ -31,23 +31,28 @@ class DataAndPlots {
 
 class Charts {
   final List<BarChart> plots;
+  final List<BarChart> waterfall;
   final List<BarChart> barChart;
 
   Charts({
     required this.plots,
+    required this.waterfall,
     required this.barChart,
   });
 
   factory Charts.fromJson(Map<String, dynamic> json) => Charts(
         plots:
             List<BarChart>.from(json["plots"].map((x) => BarChart.fromJson(x))),
+        waterfall: List<BarChart>.from(
+            json["waterfall"].map((x) => BarChart.fromJson(x))),
         barChart: List<BarChart>.from(
-            json["bar chart"].map((x) => BarChart.fromJson(x))),
+            json["bar_chart"].map((x) => BarChart.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "plots": List<dynamic>.from(plots.map((x) => x.toJson())),
-        "bar chart": List<dynamic>.from(barChart.map((x) => x.toJson())),
+        "waterfall": List<dynamic>.from(waterfall.map((x) => x.toJson())),
+        "bar_chart": List<dynamic>.from(barChart.map((x) => x.toJson())),
       };
 }
 
