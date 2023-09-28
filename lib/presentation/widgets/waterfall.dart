@@ -9,13 +9,15 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class WaterFall extends StatefulWidget {
   List<List<String>> data = [];
-  // List<String> labels;
-  // List<String> value;
+  List<String> labels;
+  List<String> names;
+  List<List<String>> value;
+  int chosenIndex = 0;
   String name;
   WaterFall({
-    required this.data,
-    // required this.value,
-    // required this.labels,
+    required this.names,
+    required this.value,
+    required this.labels,
     required this.name,
     super.key,
   });
@@ -28,19 +30,18 @@ class _WaterFallState extends State<WaterFall> {
   List<_ChartSampleData>? chartData;
   TooltipBehavior? _tooltipBehavior;
 
-  // List<List<String>> getData() {
-  //   List<List<String>> res = [];
-  //   for (int i = 0; i < widget.value.length; i++) {
-  //     widget.value[i] != "None"
-  //         ? res.add([widget.labels[i], widget.value[i]])
-  //         : res.add([widget.labels[i]]);
-  //   }
-  //   return res;
-  // }
+  List<List<String>> getData() {
+    List<List<String>> res = [];
+    for (int i = 0; i < widget.value[widget.chosenIndex].length; i++) {
+      widget.value[widget.chosenIndex][i] != "None"
+          ? res.add([widget.labels[i], widget.value[widget.chosenIndex][i]])
+          : res.add([widget.labels[i]]);
+    }
+    return res;
+  }
 
   @override
   void initState() {
-    // widget.data = getData();
     _tooltipBehavior = TooltipBehavior(
       enable: true,
       header: '',
@@ -49,7 +50,76 @@ class _WaterFallState extends State<WaterFall> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildDefaultWaterfallChart();
+    widget.data = getData();
+    List<bool> isChosen = List.filled(widget.names.length, false);
+    return Stack(children: [
+      _buildDefaultWaterfallChart(),
+      // Container(
+      //   alignment: Alignment.topRight,
+      //   width: 40,
+      //   height: 15,
+      //   child: TextButton(
+      //     onPressed: () {
+      //       setState(
+      //         () {
+      //           showDialog(
+      //             context: context,
+      //             builder: (context) {
+      //               return Dialog(
+      //                 child: SizedBox(
+      //                   width: 400,
+      //                   height: 500,
+      //                   child: Stack(
+      //                     children: [
+      //                       StatefulBuilder(
+      //                         builder: (context, setState) {
+      //                           return ListView.builder(
+      //                             itemCount: widget.names!.length,
+      //                             itemBuilder: (context, index) {
+      //                               bool a = index == widget.chosenIndex;
+      //                               return StatefulBuilder(
+      //                                   builder: (context, setState) {
+      //                                 return CheckboxListTile(
+      //                                   value: a,
+      //                                   title: Text(widget.names![index]),
+      //                                   onChanged: (newBool) {
+      //                                     setState(() {
+      //                                       widget.chosenIndex = index;
+      //                                       a = newBool!;
+      //                                     });
+      //                                   },
+      //                                 );
+      //                               });
+      //                             },
+      //                           );
+      //                         },
+      //                       ),
+      //                       Align(
+      //                         alignment: Alignment.bottomRight,
+      //                         child: TextButton(
+      //                           child: Text("OK"),
+      //                           onPressed: () {
+      //                             setState(() {});
+      //                             Navigator.pop(context);
+      //                           },
+      //                         ),
+      //                       )
+      //                     ],
+      //                   ),
+      //                 ),
+      //               );
+      //             },
+      //           );
+      //         },
+      //       );
+      //     },
+      //     child: Icon(
+      //       Icons.filter_alt_rounded,
+      //       color: ThemeColors().primarytext,
+      //     ),
+      //   ),
+      // ),
+    ]);
   }
 
   double getMin(List<List<String>> data) {
@@ -88,7 +158,7 @@ class _WaterFallState extends State<WaterFall> {
       primaryYAxis: NumericAxis(
         minimum: getMin(widget.data),
         maximum: (getMax(widget.data) * 1.2).ceil().toDouble(),
-        interval: 10,
+        interval: (getMax(widget.data) * 1.2).ceil().toDouble() / 5,
         // ((getMax(widget.data) * 1.2).ceil().toDouble() -
         //         getMin(widget.data)) /
         //     5,

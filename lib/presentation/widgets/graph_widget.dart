@@ -91,7 +91,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
           child: Align(
             alignment: Alignment.topCenter,
             child: Container(
-              padding: EdgeInsets.only(top: 10, left: 60),
+              padding: EdgeInsets.only(top: 10, left: 45),
               child: Row(
                 children: [
                   Text(
@@ -102,7 +102,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                     ),
                   ),
                   SizedBox(
-                    width: 15,
+                    width: 40,
                     height: 15,
                     child: TextButton(
                       onPressed: () {
@@ -478,7 +478,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
       minY: getMin() * 1.3,
-      maxY: getMax() < 40 ? 40 : getMax() * 1.6,
+      maxY: getMax() < 5 ? 5 : getMax() * 1.6,
       lineBarsData: getLineBarsData(),
     );
   }
