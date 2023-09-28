@@ -189,24 +189,32 @@ class _WaterFallState extends State<WaterFall> {
       ),
       series: _getWaterFallSeries(),
       tooltipBehavior: _tooltipBehavior,
-      onDataLabelRender: (DataLabelRenderArgs dataLabelArgs) {
-        dataLabelArgs.textStyle = const TextStyle(
-          fontSize: 10,
-        );
-        widget.data[dataLabelArgs.pointIndex!].length == 2
-            ? sum += double.parse(widget.data[dataLabelArgs.pointIndex!][1])
-            : sum += 0;
-        widget.data[dataLabelArgs.pointIndex!].length == 2
-            ? (widget.data[dataLabelArgs.pointIndex!][1].contains("-") ||
-                    widget.data[dataLabelArgs.pointIndex!][1] == "0" ||
-                    widget.data
-                            .indexOf(widget.data[dataLabelArgs.pointIndex!]) ==
-                        0)
-                ? dataLabelArgs.text = widget.data[dataLabelArgs.pointIndex!][1]
-                : dataLabelArgs.text =
-                    "${widget.data[dataLabelArgs.pointIndex!][1]}"
-            : dataLabelArgs.text = sum.toString();
-      },
+      // onDataLabelRender: (DataLabelRenderArgs dataLabelArgs) {
+      //   dataLabelArgs.textStyle = TextStyle(
+      //     fontSize: 13,
+      //     color: dataLabelArgs.pointIndex == 0
+      //         ? ThemeColors().zeroText
+      //         : widget.data[dataLabelArgs.pointIndex!].length == 1
+      //             ? ThemeColors().summaryText
+      //             : widget.data[dataLabelArgs.pointIndex!][1].contains("-")
+      //                 ? ThemeColors().deleteText
+      //                 : ThemeColors().addText,
+      //   );
+
+      //   widget.data[dataLabelArgs.pointIndex!].length == 2
+      //       ? sum += double.parse(widget.data[dataLabelArgs.pointIndex!][1])
+      //       : sum += 0;
+      //   widget.data[dataLabelArgs.pointIndex!].length == 2
+      //       ? (widget.data[dataLabelArgs.pointIndex!][1].contains("-") ||
+      //               widget.data[dataLabelArgs.pointIndex!][1] == "0" ||
+      //               widget.data
+      //                       .indexOf(widget.data[dataLabelArgs.pointIndex!]) ==
+      //                   0)
+      //           ? dataLabelArgs.text = widget.data[dataLabelArgs.pointIndex!][1]
+      //           : dataLabelArgs.text =
+      //               "+${widget.data[dataLabelArgs.pointIndex!][1]}"
+      //       : dataLabelArgs.text = sum.toString();
+      // },
     );
   }
 

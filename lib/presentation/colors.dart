@@ -88,6 +88,10 @@ class ThemeColors {
 
   // for waterflow
   Color get add => Color.fromARGB(255, 58, 207, 13);
-  Color get delete => Color.fromARGB(255, 233, 2, 2);
-  Color get summary => Color.fromARGB(255, 116, 118, 120);
+  Color get delete => Color.fromARGB(255, 197, 3, 3);
+  Color get summary => Color.fromARGB(255, 37, 80, 172);
+  Color get addText => Color.fromARGB(255, 8, 19, 5);
+  Color get deleteText => Color.fromARGB(255, 255, 254, 254);
+  Color get summaryText => Color.fromARGB(255, 255, 255, 255);
+  Color get zeroText => Color.fromARGB(255, 15, 16, 14);
 }
