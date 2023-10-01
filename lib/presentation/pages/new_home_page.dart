@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
-
-import '../../domain/repositories/json_repository.dart';
-import '../../service_locator.dart';
-
-
-import 'package:flutter_dashboard/data/models/data.dart';
 import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
-
-
-import '../colors.dart';
+import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
+import 'package:flutter_dashboard/presentation/colors.dart';
+import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
+import 'package:flutter_dashboard/presentation/widgets/pie_graph.dart';
+import 'package:flutter_dashboard/presentation/widgets/simple_bar.dart';
+import 'package:flutter_dashboard/presentation/widgets/waterfall.dart';
+import 'package:flutter_dashboard/service_locator.dart';
 
 class NewHomePage extends StatefulWidget {
   const NewHomePage({super.key});
@@ -24,7 +20,6 @@ class _NewHomePageState extends State<NewHomePage> {
 
   @override
   void initState() {
-    print("repaint");
     repository.eventStream.stream.listen((event) {
       setState(() {});
     });
@@ -34,6 +29,7 @@ class _NewHomePageState extends State<NewHomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(20),
       color: ThemeColors().background01,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -43,198 +39,75 @@ class _NewHomePageState extends State<NewHomePage> {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
                 return snapshot.data != null
-                    ? Column(
+                    ? Row(
                         children: [
                           Expanded(
-                            flex: 4,
-                            child: Row(
+                            flex: 3,
+                            child: Column(
                               children: [
-                                ...snapshot.data!.charts.plots
-                                    .getRange(0, 2)
-                                    .map(
-                                      (e) => Expanded(
-                                        child: Container(
-                                          color: ThemeColors().background01,
-                                          child: LineChartSample2(
-                                            hidden: e.hidden,
-                                            isChosen:
-                                                List.filled(e.y.length, true),
-                                            names: e.y,
-                                            name: e.plotName,
-                                            data: repository
-                                                .getSeriesByName(e.x)
-                                                .map((e) => e.toString())
-                                                .toList(),
-                                            value: e.y
-                                                .map((seriesName) => repository
-                                                    .getSeriesByName(seriesName)
-                                                    .map((e) => e.toString())
-                                                    .toList())
-                                                .toList(),
+                                Expanded(
+                                  flex: 3,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 10, bottom: 10, right: 10),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(15)),
+                                      color: ThemeColors().secondary,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.only(right: 30),
+                                            child: Row(
+                                              children: [
+                                                ...snapshot.data!.charts.plots
+                                                    .getRange(0, 1)
+                                                    .map((e) => Expanded(
+                                                          child:
+                                                              LineChartSample2(
+                                                            hidden: e.hidden,
+                                                            isChosen:
+                                                                List.filled(
+                                                                    e.y.length,
+                                                                    true),
+                                                            names: e.y,
+                                                            name: e.plotName,
+                                                            data: repository
+                                                                .getSeriesByName(
+                                                                    e.x)
+                                                                .map((e) => e
+                                                                    .toString())
+                                                                .toList(),
+                                                            value: e.y
+                                                                .map((seriesName) => repository
+                                                                    .getSeriesByName(
+                                                                        seriesName)
+                                                                    .map((e) =>
+                                                                        e.toString())
+                                                                    .toList())
+                                                                .toList(),
+                                                          ),
+                                                        ))
+                                                    .toList(),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Row(
-                              children: [
-                                ...snapshot.data!.charts.plots
-                                    .getRange(2, 4)
-                                    .map(
-                                      (e) => Expanded(
-                                        child: Container(
-                                          color: ThemeColors().background01,
-                                          child: LineChartSample2(
-                                            hidden: e.hidden,
-                                            isChosen:
-                                                List.filled(e.y.length, true),
-                                            names: e.y,
-                                            name: e.plotName,
-                                            data: repository
-                                                .getSeriesByName(e.x)
-                                                .map((e) => e.toString())
-                                                .toList(),
-                                            value: e.y
-                                                .map((seriesName) => repository
-                                                    .getSeriesByName(seriesName)
-                                                    .map((e) => e.toString())
-                                                    .toList())
-                                                .toList(),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ],
-                            ),
-                          ),
-                          // Expanded(
-                          //   flex: 4,
-                          //   child: Row(
-                          //     children: [
-                          //       ...snapshot.data!.charts.plots
-                          //           .getRange(3, 7)
-                          //           .map(
-                          //             (e) => Expanded(
-                          //               child: Container(
-                          //                 color: ThemeColors().background01,
-                          //                 child: LineChartSample2(
-                          //                   isChosen:
-                          //                       List.filled(e.y.length, true),
-                          //                   names: e.y,
-                          //                   name: e.plotName,
-                          //                   data: repository
-                          //                       .getSeriesByName(e.x)
-                          //                       .map((e) => e.toString())
-                          //                       .toList(),
-                          //                   value: e.y
-                          //                       .map((seriesName) =>
-                          //                           repository
-                          //                               .getSeriesByName(
-                          //                                   seriesName)
-                          //                               .map((e) =>
-                          //                                   e.toString())
-                          //                               .toList())
-                          //                       .toList(),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           )
-                          //           .toList(),
-                          //     ],
-                          //   ),
-                          // ),
-                          // Expanded(
-                          //   flex: 6,
-                          //   child: Row(
-                          //     children: [
-                          //       Expanded(
-                          //         flex: 2,
-                          //         child: Container(
-                          //           color: ThemeColors().background01,
-                          //           child: BarGraph(
-                          //             name: snapshot
-                          //                 .data!.charts.barPlot.plotName,
-                          //             month: repository
-                          //                 .getSeriesByName(
-                          //                     snapshot.data!.charts.barPlot.y)
-                          //                 .map((e) => e.toString())
-                          //                 .toList(),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       Expanded(
-                          //         child: Container(
-                          //           padding: EdgeInsets.only(right: 30),
-                          //           color: ThemeColors().background01,
-                          //           child: Builder(builder: (context) {
-                          //             var labels = repository
-                          //                 .getSeriesByName(snapshot
-                          //                     .data!.charts.pieChart.x)
-                          //                 .map(
-                          //                   (e) => e.toString(),
-                          //                 )
-                          //                 .toList();
-
-                          //             var values = repository
-                          //                 .getSeriesByName(snapshot
-                          //                     .data!.charts.pieChart.y)
-                          //                 .map(
-                          //                   (e) => e.toString(),
-                          //                 )
-                          //                 .toList();
-                          //             return PieGraph(
-                          //               data: List.generate(labels.length,
-                          //                       (index) => index)
-                          //                   .map((index) => [
-                          //                         labels[index],
-                          //                         values[index]
-                          //                       ])
-                          //                   .toList(),
-                          //             );
-                          //           }),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          // // Expanded(
-                          // //   flex: 6,
-                          // //   child: Container(
-                          // //     color: ThemeColors().background01,
-                          // //     child: ColumnChart(
-                          // //       labelsOfCom: const [
-                          // //         "Экспорт",
-                          // //         "СНГ",
-                          // //         "Что-то",
-                          // //         "Внутренний рынок"
-                          // //       ],
-                          // //       data: const [
-                          // //         ["First", "12", "3", "56", "32", "0"],
-                          // //         ["Second", "52", "15", "65", "12", "0"],
-                          // //         ["Third", "13", "2", "43", "33", "0"],
-                          // //         ["Fourth", "45", "2", "33", "0", "0"],
-                          // //         ["Fifth", "83", "7", "38", "56", "0"],
-                          // //         ["Sixth", "12", "5", "44", "11", "0"],
-                          // //       ],
-                          // //     ),
-                          // //   ),
-                          // // ),
+                          )
                         ],
                       )
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      );
-
+                    : CircularProgressIndicator();
               default:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return CircularProgressIndicator();
             }
           }),
     );

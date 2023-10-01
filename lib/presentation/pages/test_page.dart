@@ -29,7 +29,7 @@ class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(right: 20, left: 20, bottom: 10, top: 10),
       color: ThemeColors().background01,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -47,7 +47,7 @@ class _TestPageState extends State<TestPage> {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                         top: 10, bottom: 10, right: 10),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
@@ -59,11 +59,11 @@ class _TestPageState extends State<TestPage> {
                                       children: [
                                         Expanded(
                                           child: Container(
-                                            padding: EdgeInsets.only(right: 30),
+                                            margin: EdgeInsets.only(right: 30),
                                             child: Row(
                                               children: [
                                                 ...snapshot.data!.charts.plots
-                                                    .getRange(0, 3)
+                                                    .getRange(3, 5)
                                                     .map((e) => Expanded(
                                                           child:
                                                               LineChartSample2(
@@ -101,12 +101,16 @@ class _TestPageState extends State<TestPage> {
                                 ),
                                 Expanded(
                                   child: Container(
-                                    margin: EdgeInsets.all(10),
+                                    // margin: EdgeInsets.all(10),
                                     child: Row(
                                       children: [
                                         Expanded(
                                           child: Container(
-                                            margin: EdgeInsets.only(right: 10),
+                                            margin: EdgeInsets.only(
+                                              right: 10,
+                                            ),
+                                            padding: EdgeInsets.only(
+                                                top: 10, left: 10, right: 10),
                                             decoration: BoxDecoration(
                                               shape: BoxShape.rectangle,
                                               borderRadius:
@@ -117,7 +121,6 @@ class _TestPageState extends State<TestPage> {
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                 right: 20,
-                                                left: 20,
                                               ),
                                               child: SimpleBar(
                                                 name: snapshot.data!.charts
@@ -181,9 +184,6 @@ class _TestPageState extends State<TestPage> {
                                                       }).toList())
                                                   .toList(),
                                             ),
-                                            // child: WaterFall(
-                                            //     data: chartData,
-                                            //     name: "Test plot"),
                                           ),
                                         ),
                                       ],

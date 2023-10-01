@@ -31,13 +31,42 @@ class WaterFall extends StatefulWidget {
 class _WaterFallState extends State<WaterFall> {
   List<_ChartSampleData>? chartData;
   TooltipBehavior? _tooltipBehavior;
+  String getNormString(String s) {
+    String res = "", sub = "";
+    int len = 0;
+    for (int i = 0; i < s.length; i++) {
+      while (i < s.length && s[i] != " ") {
+        sub += s[i];
+        i++;
+        len++;
+      }
+
+      if (sub.length > 7) {
+        res += sub;
+        res += "\n";
+        len = 0;
+        sub = "";
+      } else {
+        if (i == s.length) {
+          res += sub;
+        } else {
+          sub += " ";
+          len++;
+        }
+      }
+    }
+    return res;
+  }
 
   List<List<String>> getData() {
     List<List<String>> res = [];
     for (int i = 0; i < widget.value[widget.chosenIndex].length; i++) {
-      widget.value[widget.chosenIndex][i] != "None"
-          ? res.add([widget.labels[i], widget.value[widget.chosenIndex][i]])
-          : res.add([widget.labels[i]]);
+      widget.value[widget.chosenIndex][i] == "None"
+          ? res.add([getNormString(widget.labels[i])])
+          : res.add([
+              getNormString(widget.labels[i]),
+              widget.value[widget.chosenIndex][i]
+            ]);
     }
     return res;
   }
@@ -68,7 +97,7 @@ class _WaterFallState extends State<WaterFall> {
           child: TextButton(
             style: ButtonStyle(
                 overlayColor:
-                    MaterialStatePropertyAll(ThemeColors().secondary)),
+                    MaterialStatePropertyAll(ThemeColors().opacityColor)),
             onPressed: () {
               setState(
                 () {
@@ -76,30 +105,34 @@ class _WaterFallState extends State<WaterFall> {
                     context: context,
                     builder: (context) {
                       return Dialog(
-                        child: SizedBox(
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                              top: 10, bottom: 10, left: 5, right: 5),
                           width: 400,
                           height: 500,
                           child: Stack(
                             children: [
-                              StatefulBuilder(
-                                builder: (context, setState1) {
-                                  return Column(
-                                    children: [
-                                      ...widget.names.map(
-                                        (e) => RadioListTile(
-                                          title: Text(e),
-                                          value: e,
-                                          groupValue: widget.selectedValue,
-                                          onChanged: (value) {
-                                            setState1(() {
-                                              widget.selectedValue = value!;
-                                            });
-                                          },
+                              SingleChildScrollView(
+                                child: StatefulBuilder(
+                                  builder: (context, setState1) {
+                                    return Column(
+                                      children: [
+                                        ...widget.names.map(
+                                          (e) => RadioListTile(
+                                            title: Text(e),
+                                            value: e,
+                                            groupValue: widget.selectedValue,
+                                            onChanged: (value) {
+                                              setState1(() {
+                                                widget.selectedValue = value!;
+                                              });
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                },
+                                      ],
+                                    );
+                                  },
+                                ),
                               ),
                               Container(
                                 alignment: Alignment.bottomRight,
@@ -154,6 +187,16 @@ class _WaterFallState extends State<WaterFall> {
     return min > 0 ? 0 : min;
   }
 
+  double getSum(List<List<String>> data) {
+    double sum = 0;
+    data.forEach(
+      (element) {
+        element.length == 2 ? sum += double.parse(element[1]) : sum += 0;
+      },
+    );
+    return sum.ceil().toDouble();
+  }
+
   double getMax(List<List<String>> data) {
     double max = 0;
     double sum = 0;
@@ -173,15 +216,16 @@ class _WaterFallState extends State<WaterFall> {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: widget.name),
       primaryXAxis: CategoryAxis(
+        labelStyle: const TextStyle(fontSize: 10),
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        minimum: getMin(widget.data),
+        minimum: getMin(widget.data) * 1.2,
         maximum: (getMax(widget.data) * 1.2).ceil().toDouble(),
-        interval: (getMax(widget.data) * 1.2).ceil().toDouble() / 5,
-        // ((getMax(widget.data) * 1.2).ceil().toDouble() -
-        //         getMin(widget.data)) /
-        //     5,
+        interval: (getMax(widget.data) * 1.2 - getMin(widget.data) * 1.2)
+                .ceil()
+                .toDouble() /
+            5,
         axisLine: const AxisLine(
           width: 0,
         ),
@@ -189,6 +233,13 @@ class _WaterFallState extends State<WaterFall> {
       ),
       series: _getWaterFallSeries(),
       tooltipBehavior: _tooltipBehavior,
+      onDataLabelRender: (dataLabelArgs) {
+        dataLabelArgs.pointIndex == widget.data.length - 1
+            ? dataLabelArgs.text = getSum(widget.data) < 1000
+                ? "≈" + getSum(widget.data).toString()
+                : "≈" + (getSum(widget.data) / 1000).toString() + "K"
+            : dataLabelArgs.text = "";
+      },
       // onDataLabelRender: (DataLabelRenderArgs dataLabelArgs) {
       //   dataLabelArgs.textStyle = TextStyle(
       //     fontSize: 13,

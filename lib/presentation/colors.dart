@@ -94,4 +94,7 @@ class ThemeColors {
   Color get deleteText => Color.fromARGB(255, 255, 254, 254);
   Color get summaryText => Color.fromARGB(255, 255, 255, 255);
   Color get zeroText => Color.fromARGB(255, 15, 16, 14);
+  //
+  Color get opacityColor => Color.fromARGB(0, 15, 16, 14);
+  Color get greyText => Color.fromARGB(255, 143, 144, 142);
 }
