@@ -20,19 +20,20 @@ class _DashboardPageState extends State<DashboardPage> {
   WindowsRepository repository = getIt.get<WindowsRepository>();
 
   int _currentIndex = 2;
-
   final List<Widget> _tabs = [
     const NewHomePage(),
     const NewSalesPage(),
-    const TestPage(),
+    const TestPage()
   ];
-
+  final List<String> _tabsNames = ["Главная", "Продажи", "Налоги"];
+  final List<IconData> _tabsIcons = [
+    Icons.home,
+    Icons.monetization_on,
+    Icons.edit_document
+  ];
   @override
   void initState() {
     print("repaint");
-    // repository.eventStream.stream.listen((event) {
-    //   setState(() {});
-    // });
     super.initState();
   }
 
@@ -61,70 +62,150 @@ class _DashboardPageState extends State<DashboardPage> {
                       });
 
                       return Scaffold(
-                        appBar: AppBar(
-                          backgroundColor: ThemeColors().secondary,
-                          title: TabBar(
-                            overlayColor: MaterialStatePropertyAll(
-                                ThemeColors().secondary),
-                            automaticIndicatorColorAdjustment: false,
-                            indicatorColor: ThemeColors().secondary,
-                            unselectedLabelStyle: TextStyle(fontSize: 14),
-                            labelStyle: TextStyle(fontSize: 20),
-                            tabs: [
-                              Container(
-                                color: _currentIndex == 0
-                                    ? ThemeColors().selected
-                                    : ThemeColors().secondary,
+                        // appBar: AppBar(
+                        //   backgroundColor: ThemeColors().secondary,
+                        //   title: TabBar(
+                        //     overlayColor: MaterialStatePropertyAll(
+                        //         ThemeColors().secondary),
+                        //     automaticIndicatorColorAdjustment: false,
+                        //     indicatorColor: ThemeColors().secondary,
+                        //     unselectedLabelStyle: TextStyle(fontSize: 14),
+                        //     labelStyle: TextStyle(fontSize: 20),
+                        //     tabs: [
+                        //       Container(
+                        //         color: _currentIndex == 0
+                        //             ? ThemeColors().selected
+                        //             : ThemeColors().secondary,
+                        //         width: MediaQuery.of(context).size.width,
+                        //         child: Tab(
+                        //           height: MediaQuery.of(context).size.height,
+                        //           child: Text(
+                        //             "Главная",
+                        //             style: TextStyle(
+                        //               color: ThemeColors().primarytext,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Container(
+                        //         padding: EdgeInsets.all(0),
+                        //         margin: EdgeInsets.all(0),
+                        //         color: _currentIndex == 1
+                        //             ? ThemeColors().selected
+                        //             : ThemeColors().secondary,
+                        //         width: double.infinity,
+                        //         child: Tab(
+                        //           height: MediaQuery.of(context).size.height,
+                        //           child: Text(
+                        //             "Продажи",
+                        //             style: TextStyle(
+                        //               color: ThemeColors().primarytext,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       Container(
+                        //         color: _currentIndex == 2
+                        //             ? ThemeColors().selected
+                        //             : ThemeColors().secondary,
+                        //         width: MediaQuery.of(context).size.width,
+                        //         child: Tab(
+                        //           height: MediaQuery.of(context).size.height,
+                        //           child: Text(
+                        //             "Тест",
+                        //             style: TextStyle(
+                        //               color: ThemeColors().primarytext,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        body: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    top: 20, bottom: 20, left: 20),
+                                color: ThemeColors().background01,
                                 width: MediaQuery.of(context).size.width,
-                                child: Tab(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Text(
-                                    "Главная",
-                                    style: TextStyle(
-                                      color: ThemeColors().primarytext,
+                                height: MediaQuery.of(context).size.height,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 35.0,
+                                      right: 3,
+                                      left: 3,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        ..._tabs.map(
+                                          (e) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10, bottom: 20),
+                                              child: GestureDetector(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      _tabsIcons[
+                                                          _tabs.indexOf(e)],
+                                                      size: 18,
+                                                      color: _currentIndex ==
+                                                              _tabs.indexOf(e)
+                                                          ? ThemeColors()
+                                                              .primarytext
+                                                          : ThemeColors()
+                                                              .greyText,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Text(
+                                                      _tabsNames[
+                                                          _tabs.indexOf(e)],
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: _currentIndex ==
+                                                                  _tabs.indexOf(
+                                                                      e)
+                                                              ? ThemeColors()
+                                                                  .primarytext
+                                                              : ThemeColors()
+                                                                  .greyText,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+                                                onTap: () {
+                                                  setState(() {
+                                                    _currentIndex =
+                                                        _tabs.indexOf(e);
+                                                  });
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.all(0),
-                                margin: EdgeInsets.all(0),
-                                color: _currentIndex == 1
-                                    ? ThemeColors().selected
-                                    : ThemeColors().secondary,
-                                width: double.infinity,
-                                child: Tab(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Text(
-                                    "Продажи",
-                                    style: TextStyle(
-                                      color: ThemeColors().primarytext,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                color: _currentIndex == 2
-                                    ? ThemeColors().selected
-                                    : ThemeColors().secondary,
-                                width: MediaQuery.of(context).size.width,
-                                child: Tab(
-                                  height: MediaQuery.of(context).size.height,
-                                  child: Text(
-                                    "Тест",
-                                    style: TextStyle(
-                                      color: ThemeColors().primarytext,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        body: TabBarView(
-                          children: _tabs.map((e) {
-                            return e;
-                          }).toList(),
+                            ),
+                            Expanded(
+                              flex: 7,
+                              child: _tabs[_currentIndex],
+                            ),
+                          ],
                         ),
                       );
                     },
