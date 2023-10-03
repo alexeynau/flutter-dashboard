@@ -148,52 +148,102 @@ class _DashboardPageState extends State<DashboardPage> {
                                       children: [
                                         ..._tabs.map(
                                           (e) {
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, bottom: 20),
-                                              child: GestureDetector(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      _tabsIcons[
-                                                          _tabs.indexOf(e)],
-                                                      size: 18,
-                                                      color: _currentIndex ==
-                                                              _tabs.indexOf(e)
-                                                          ? ThemeColors()
-                                                              .primarytext
-                                                          : ThemeColors()
-                                                              .greyText,
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      _tabsNames[
-                                                          _tabs.indexOf(e)],
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: _currentIndex ==
-                                                                  _tabs.indexOf(
-                                                                      e)
-                                                              ? ThemeColors()
-                                                                  .primarytext
-                                                              : ThemeColors()
-                                                                  .greyText,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
+                                            return Expanded(
+                                              child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10, left: 10),
+                                                child: GestureDetector(
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        _tabsIcons[
+                                                            _tabs.indexOf(e)],
+                                                        size: 18,
+                                                        color: _currentIndex ==
+                                                                _tabs.indexOf(e)
+                                                            ? ThemeColors()
+                                                                .navigationButtonColor
+                                                            : ThemeColors()
+                                                                .greyText,
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        _tabsNames[
+                                                            _tabs.indexOf(e)],
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            color: _currentIndex ==
+                                                                    _tabs
+                                                                        .indexOf(
+                                                                            e)
+                                                                ? ThemeColors()
+                                                                    .navigationButtonColor
+                                                                : ThemeColors()
+                                                                    .greyText,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _currentIndex =
+                                                          _tabs.indexOf(e);
+                                                    });
+                                                  },
                                                 ),
-                                                onTap: () {
-                                                  setState(() {
-                                                    _currentIndex =
-                                                        _tabs.indexOf(e);
-                                                  });
-                                                },
                                               ),
                                             );
                                           },
+                                        ),
+                                        Expanded(
+                                          flex: 11,
+                                          child: Container(
+                                            alignment: Alignment.bottomCenter,
+                                            padding: const EdgeInsets.only(
+                                                right: 5, left: 5, bottom: 30),
+                                            child: TextButton(
+                                              onPressed: () {
+                                                //Леха сюда пиши что делает кнопка
+                                              },
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStatePropertyAll(
+                                                  ThemeColors()
+                                                      .navigationButtonColor,
+                                                ),
+                                              ),
+                                              child: SizedBox(
+                                                height: 40,
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 4,
+                                                        child: Text(
+                                                          "Выбрать другой файл",
+                                                          style: TextStyle(
+                                                              color: ThemeColors()
+                                                                  .navigationButtonText,
+                                                              fontSize: 12),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                          child: Icon(
+                                                        Icons.add,
+                                                        color: ThemeColors()
+                                                            .navigationButtonText,
+                                                      ))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         )
                                       ],
                                     ),
