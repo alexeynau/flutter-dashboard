@@ -36,6 +36,7 @@ class _NewHomePageState extends State<NewHomePage> {
       child: FutureBuilder(
           future: repository.getDataAndPlots(),
           builder: (context, snapshot) {
+            print("repaint future builder home");
             switch (snapshot.connectionState) {
               case ConnectionState.done:
                 return snapshot.data != null

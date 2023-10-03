@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/repositories/windows_repository.dart';
 import 'presentation/pages/dashboard_page.dart';
@@ -14,6 +15,9 @@ import 'service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency_injection.setup();
+
+  // var prefs = await getIt.get<SharedPreferences>();
+  // await prefs.clear();
   // dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
   runApp(App());
 }

@@ -1,23 +1,20 @@
-from collections import defaultdict
 from bs4 import BeautifulSoup
 from RPA.Browser.Selenium import Selenium
 from RPA.Excel.Files import Files as Excel
+import openpyxl
 from robocorp.tasks import task
-from robocorp import workitems
+from RPA.Desktop.OperatingSystem import OperatingSystem
+from collections import defaultdict
 from selenium.webdriver.common.keys import Keys
 from openpyxl import Workbook
 import pandas as pd
+import numpy as np
 import logging
 import os
-import time
-import re
 import json
-import openpyxl
+from dotenv import load_dotenv
 
-
-output_directory = os.environ.get("ROBOT_ARTIFACTS")
-shared_directory = os.path.join(output_directory, "shared")
-
+load_dotenv()
 
 try:
     os.remove('parse_log.log')
@@ -26,6 +23,45 @@ except OSError:
 
 logging.basicConfig(filename='parse_log.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',
                     encoding='utf-8')
+
+output_directory = os.environ.get("ROBOT_ARTIFACTS")
+shared_directory = os.path.join(output_directory, "shared")
+app1_file_path = os.environ.get("APP1_FILE_PATH")
+app2_file_path = os.environ.get("APP2_FILE_PATH")
+print("APP1_FILE_PATH", app1_file_path, "APP2_FILE_PATH", app2_file_path)
+
+
+@task
+def web_preprocessor():
+    from first_table import pars_usd, customs_duties_parser, parcing_first_table, parsing_brent_cost, urals_parser, second_table
+    print("Start parser")
+    logging.info("Start parser")
+    pars_usd.usd_kurs()
+    customs_duties_parser.start(app1_file_path)
+    parcing_first_table.start(app1_file_path)
+    parsing_brent_cost.start(app1_file_path)
+    urals_parser.start(app1_file_path)
+    second_table.to_application_1(app1_file_path, app2_file_path)
+
+# TODO: implement in postprocessor
+
+
+def after_usd_kurs():
+    #  Загрузите данные из quarterly_exchange_rate.xlsx
+    quarterly_data = pd.read_excel('quarterly_exchange_rate.xlsx')
+
+    # Загрузите данные из Приложение_1.xlsx
+    app1_data = pd.read_excel(app1_file_path)
+
+    # Задайте столбцы кварталов, с которыми нужно сопоставить данные
+    quarters_to_match = ["1 кв", "2 кв", "3 кв", "4 кв"]
+
+    # Обновите данные в Приложение_1.xlsx
+    for quarter in quarters_to_match:
+        app1_data[quarter] = quarterly_data["Средний курс"]
+
+    # Сохраните обновленные данные в Приложение_1.xlsx
+    app1_data.to_excel(app1_file_path, index=False)
 
 
 def add_to_json(df, title, plot_type, chats_data):
@@ -58,19 +94,6 @@ def is_numeric(val):
 
 
 @task
-def web_preprocessor():
-    from first_table import pars_usd, customs_duties_parser, parcing_first_table, parsing_brent_cost, urals_parser, second_table
-    print("Start parser")
-    logging.info("Start parser")
-    pars_usd.usd_kurs()
-    customs_duties_parser.test()
-    parcing_first_table.test()
-    parsing_brent_cost.test()
-    urals_parser.test()
-    second_table.to_application_1()
-
-
-@task
 def after_update_postprocessor():
     chats_data = {"data": [], "charts": defaultdict(list)}
     exchange_rate_df = pd.read_excel('monthly_exchange_rate.xlsx')
@@ -92,7 +115,7 @@ def after_update_postprocessor():
         exchange_rate_df, "Курс доллара по месяцам", "plots", chats_data=chats_data)
 
     excel = Excel()
-    excel.open_workbook('./first_table/Приложение 1.xlsx', data_only=True)
+    excel.open_workbook(app1_file_path, data_only=True)
     excel.set_active_worksheet('Анализ_БК+ББ')
 
     freight_usd = []
@@ -103,7 +126,9 @@ def after_update_postprocessor():
     freight_column_usd = rows.get_column('AD')
     freight_column_rub = rows.get_column('AV')
     date_column = rows.get_column('M')
-    for item_usd, item_rub, item_date in zip(list(freight_column_usd.values())[3:], list(freight_column_rub.values())[3:], list(date_column.values())[3:]):
+
+    for item_usd, item_rub, item_date in zip(list(freight_column_usd.values())[3:],
+                                             list(freight_column_rub.values())[3:], list(date_column.values())[3:]):
         if (item_usd is None) or (item_rub is None) or (item_date is None):
             break
         freight_usd.append(float(item_usd))
@@ -130,7 +155,8 @@ def after_update_postprocessor():
     spread_usd = []
     spread_rub = []
     date = []
-    for item_usd, item_rub, item_date in zip(list(spread_usd_col.values())[3:], list(spread_rub_col.values())[3:], list(date_column.values())[3:]):
+    for item_usd, item_rub, item_date in zip(list(spread_usd_col.values())[3:], list(spread_rub_col.values())[3:],
+                                             list(date_column.values())[3:]):
         if (item_usd is None) or (item_rub is None) or (item_date is None):
             break
         spread_usd.append(item_usd)
@@ -143,7 +169,8 @@ def after_update_postprocessor():
     spread_df['Дата spread'] = pd.to_datetime(
         spread_df['Дата spread']).dt.strftime('%Y-%m-%d')
     spread_df[['Spread $/барр.', 'Spread руб./т.']] = spread_df[['Spread $/барр.',
-                                                                 'Spread руб./т.']].map(lambda x: x if is_numeric(x) else 0)
+                                                                 'Spread руб./т.']].map(
+        lambda x: x if is_numeric(x) else 0)
     spread_df = spread_df.groupby('Дата spread', as_index=False)[
         ['Spread $/барр.', 'Spread руб./т.']].mean()
     spread_df[['Spread $/барр.', 'Spread руб./т.']
@@ -158,7 +185,8 @@ def after_update_postprocessor():
     brent_rub = []
     date = []
 
-    for item_usd, item_rub, item_date in zip(list(brent_usd_col.values())[3:], list(brent_rub_col.values())[3:], list(date_column.values())[3:]):
+    for item_usd, item_rub, item_date in zip(list(brent_usd_col.values())[3:], list(brent_rub_col.values())[3:],
+                                             list(date_column.values())[3:]):
         if (item_usd is None) or (item_rub is None) or (item_date is None):
             break
         brent_usd.append(item_usd)
@@ -195,11 +223,15 @@ def after_update_postprocessor():
     date = []
     usd_before = []
     usd_after = []
-    for item_before, item_after, item_diff, item_date_after, item_date, item_profit_usd, item_usd_before, item_usd_after in zip(list(profit_before_col.values())[3:], list(profit_after_col.values())[3:], list(diff_col.values())[3:],
-                                                                                                                                list(date_after_col.values())[3:], list(
-                                                                                                                                    date_column.values())[3:],
-                                                                                                                                list(profit_usd_col.values())[3:], list(usd_before_col.values())[3:], list(usd_after_col.values())[3:]):
-        if (item_before is None) or (item_after is None) or (item_diff is None) or (item_date_after is None) or (item_date is None):
+
+    for item_before, item_after, item_diff, item_date_after, item_date, item_profit_usd, item_usd_before, item_usd_after in zip(
+            list(profit_before_col.values())[3:], list(
+                profit_after_col.values())[3:], list(diff_col.values())[3:],
+            list(date_after_col.values())[3:], list(
+                date_column.values())[3:],
+            list(profit_usd_col.values())[3:], list(usd_before_col.values())[3:], list(usd_after_col.values())[3:]):
+        if (item_before is None) or (item_after is None) or (item_diff is None) or (item_date_after is None) or (
+                item_date is None):
             break
         profit_before.append(item_before)
         profit_after.append(item_after)
@@ -224,8 +256,9 @@ def after_update_postprocessor():
     profit_df['Дата поступления выручки'] = pd.to_datetime(
         profit_df['Дата поступления выручки']).dt.strftime('%Y-%m-%d')
     profit_df[['Сумма реализация руб.', 'Сумма поступления руб.', 'Курсовая разница руб.', 'Сумма реализации usd',
-               'Курс на дату реализации', 'Курс на дату поступления']] = profit_df[['Сумма реализация руб.', 'Сумма поступления руб.', 'Курсовая разница руб.', 'Сумма реализации usd',
-                                                                                    'Курс на дату реализации', 'Курс на дату поступления']].map(lambda x: x if is_numeric(x) else 0)
+               'Курс на дату реализации', 'Курс на дату поступления']] = profit_df[
+        ['Сумма реализация руб.', 'Сумма поступления руб.', 'Курсовая разница руб.', 'Сумма реализации usd',
+         'Курс на дату реализации', 'Курс на дату поступления']].map(lambda x: x if is_numeric(x) else 0)
 
     data = [
         {"name": "Сумма реализации usd", "series": list(
@@ -264,20 +297,18 @@ def after_update_postprocessor():
     chats_data["charts"]['plots'].append(plot)
 
     excel = Excel()
-    excel.open_workbook('./first_table/Приложение 1.xlsx', data_only=True)
+    excel.open_workbook(app1_file_path, data_only=True)
     excel.set_active_worksheet('Анализ_БК+ББ')
     rows = excel.read_worksheet_as_table()
 
     app1_data = pd.read_excel(
-        './first_table/Приложение 1.xlsx', sheet_name='Анализ_БК+ББ')
+        app1_file_path, sheet_name='Анализ_БК+ББ')
     # company_head = app1_data[]
-    logging.info(app1_data.info())
-    logging.info(app1_data.head())
 
     # Компании по которым мы анализизируем клиентов
     companys_names = ['Компания 1', 'Company ABC',
                       'A-Нефтегаз', 'Компания ААА', 'Компания АВА']
-    logging.info((app1_data.columns[9], app1_data.columns[12]))
+
     companys_clients = app1_data[app1_data.columns[9]]  # 'Покупатель']
     sub_columns = app1_data.iloc[0]
 
@@ -288,19 +319,15 @@ def after_update_postprocessor():
     # for i in range(len(companys_names)):
     for i in range(1):
         company_client = companys_clients[companys_index[i]
-            : companys_index[i+1]]
-        logging.info([companys_index[i], companys_index[i+1]])
+            : companys_index[i + 1]]
 
         date_clients = app1_data[app1_data.columns[12]
-                                 ].iloc[companys_index[i]: companys_index[i+1]]
+                                 ].iloc[companys_index[i]: companys_index[i + 1]]
 
-        company_rows = rows.get_slice(companys_index[i], companys_index[i+1])
+        company_rows = rows.get_slice(companys_index[i], companys_index[i + 1])
         fob = company_rows.get_column('BR').values()
         revenue = company_rows.get_column('CS').values()
         conditions = company_rows.get_column('K').values()
-        logging.info(fob)
-        logging.info(revenue)
-        logging.info(conditions)
 
         # Creating Dictionary
         frame = {
@@ -318,9 +345,140 @@ def after_update_postprocessor():
             'revenue'].mean()
         # logging.info(company_client)
     chats_data = add_to_json(
-        conditions_revenue, "Средняя выручка по условиям договора", "bar chart", chats_data=chats_data)
+        conditions_revenue, "Средняя выручка по условиям договора", "bar_chart", chats_data=chats_data)
 
-    # data = json.dumps(chats_data)
+    # Селектор по компаниям
+    counter = 1
+    row = rows.get_row(counter)
+    black_list = ['Переоценка остатков ДС', 'Продажа валюты',
+                  'Переоценка ДЗ и КЗ на конец каждого периода']
+    companies_list = ['Компания 1', 'Company ABC',
+                      'A-Нефтегаз', 'Компания ААА']
+    companies = defaultdict(dict)
+
+    try:
+        while True:
+            if (row['A'] is None) and (row['Y'] is None) and (row['Z'] is None):
+                company_name = row['J']
+                if (company_name not in companies.keys()) and (company_name not in black_list) and (
+                        rows.get_row(counter + 1)['J'] is not None) and (company_name in companies_list):
+                    companies[company_name]['row_index'] = counter + 1
+            counter += 1
+            row = rows.get_row(counter)
+    except IndexError:
+        print(f'Компании закончились')
+
+    # Создание списка колонок для всех компаний
+    def add_colum_to_list(companies, rows, column_name, name, month=False):
+        for company_elem in companies.keys():
+            company_row_index = companies[company_elem]['row_index']
+            added_column = rows.get_column(column_name)
+            columns_list = []
+            for item in list(added_column.values())[company_row_index:]:
+                if month and (item is not None) and (item != '#DIV/0!'):
+                    if isinstance(item, str):
+                        columns_list.append(item)
+                    else:
+                        columns_list.append(item.strftime('%B'))
+                    continue
+                if (item is not None) and (item != '#DIV/0!'):
+                    columns_list.append(item)
+            companies[company_elem][name] = columns_list
+        return companies
+
+    # Достаем все нужные колонки
+    companies = add_colum_to_list(
+        companies, rows, 'L', 'Месяц отгрузки', month=True)
+    companies = add_colum_to_list(
+        companies, rows, 'O', 'Месяц поступления выручки', month=True)
+    companies = add_colum_to_list(
+        companies, rows, 'CZ', 'Коэффициент перевода барр./т.', month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DB', "Допдоход к рынку (к цене НДПИ Platts) млн руб", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DA', "Допдоход к рынку (к цене НДПИ Argus) млн руб", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DC', "Зачисление процентов,млн руб", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DD', "Макропараметры (brent/ discount/ escalation) млн руб.", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DE', "Макропараметры (spread) млн руб.", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DF', "Freight, млн руб.", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DG', "Коммерческие за искл. Freight, млн руб.", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DH', "Экспортная пошлина, млн руб.", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DI', "Курсовые разницы (отгрузка / оплата)млн руб", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DJ', "откл НДПИ (макропараметры)", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DK', "откл НДПИ уплач от расч НДПИ (курс оплаты)млн руб", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DL', "откл НДПИ (Argus) и НДПИ (Plats Urals Med), млн руб.", month=False)
+    companies = add_colum_to_list(
+        companies, rows, 'DM', "Эффект", month=False)
+
+    # Отклонение по макропараметрам
+    columns = ["Допдоход к рынку (к цене НДПИ Platts) млн руб",
+               "Допдоход к рынку (к цене НДПИ Argus) млн руб",
+               "Зачисление процентов,млн руб",
+               "Макропараметры (brent/ discount/ escalation) млн руб.",
+               "Макропараметры (spread) млн руб.",
+               "Freight, млн руб.",
+               "Коммерческие за искл. Freight, млн руб.",
+               "Экспортная пошлина, млн руб.",
+               "Курсовые разницы (отгрузка / оплата)млн руб",
+               "откл НДПИ (макропараметры)",
+               "откл НДПИ уплач от расч НДПИ (курс оплаты)млн руб",
+               "откл НДПИ (Argus) и НДПИ (Plats Urals Med), млн руб.",
+               "Эффект"]
+    for company in list(companies.keys())[:2]:
+        min_length = min([len(companies[company][item])
+                          for item in columns])
+        df = pd.DataFrame(data={item: companies[company][item][:min_length]
+                                for item in columns})
+        df["Эффект"] = df["Эффект"].apply(lambda x: None)
+        df = df.transpose().reset_index().rename(
+            columns={'index': 'Макропараметры'})
+        num_columns = len(df.columns) - 1
+        new_column_names = [f'сделка_{i}' for i in range(1, num_columns + 1)]
+        df = df.rename(columns={col: new_name for col, new_name in zip(
+            df.columns[1:], new_column_names)})
+        chats_data = add_to_json(
+            df, f"Отклонения в макропараметрах для компании для {company}", "waterfall", chats_data=chats_data)
+
+    # Коэффициент перевода
+    columns = ['Месяц отгрузки', 'Коэффициент перевода барр./т.']
+    for company in list(companies.keys())[:2]:
+        min_length = min([len(companies[company][item])
+                          for item in columns])
+        df = pd.DataFrame(data={item: companies[company][item][:min_length]
+                                for item in columns})
+        df = df.groupby('Месяц отгрузки', as_index=False).mean()
+        chats_data = add_to_json(
+            df, f"Коэффициент перевода барр./т. в месяц отгрузки {company}", "bar_chart", chats_data=chats_data)
+
+    columns = ['Месяц поступления выручки', 'Коэффициент перевода барр./т.']
+    for company in list(companies.keys())[:2]:
+        min_length = min([len(companies[company][item])
+                          for item in columns])
+        df = pd.DataFrame(data={item: companies[company][item][:min_length]
+                                for item in columns})
+        df = df.groupby('Месяц поступления выручки', as_index=False).mean()
+        chats_data = add_to_json(
+            df, f"Коэффициент перевода барр./т. в месяц поступления выручки {company}", "bar_chart",
+            chats_data=chats_data)
+
+    column = 'Месяц отгрузки'
+    for company in list(companies.keys())[:2]:
+        df = pd.DataFrame(data={column: companies[company][column]})
+        df = df.groupby('Месяц отгрузки', as_index=False).size()
+        df = df.rename(columns={"size": "Количество сделок"})
+        chats_data = add_to_json(
+            df, f"Количество сделок по месяцам {company}", "bar_chart", chats_data=chats_data)
+
+        # data = json.dumps(chats_data)
     with open(os.path.join(shared_directory, 'workitems.json'), "w", encoding='utf-8') as outfile:
         json.dump(chats_data, outfile, ensure_ascii=False)
-    logging.info(chats_data)

@@ -14,10 +14,16 @@ def generate_strings(letter, num_1, num_2):
     return s
 
 
-def fill_xlsx(cell, letter):
-    wb = openpyxl.load_workbook('./first_table/Приложение 1.xlsx')
+def fill_xlsx(file_path, cell, letter):
+    wb = openpyxl.load_workbook(file_path)
     sheet = wb['Анализ_БК+ББ']
-    d = sheet[cell].value.date()
+    cell_value = sheet[cell].value
+    if not cell_value:
+        print(f'Cell is empty {cell}')
+        logging.info(f'Cell is empty {cell}')
+        return
+    # TODO: get Brent_oil_cost and store it in dictionary
+    d = cell_value.date()
     d = str(d).split('-')[::-1]
     d = '.'.join(d)
     message = 0
@@ -46,16 +52,20 @@ def fill_xlsx(cell, letter):
     cell_vigruz = str(letter) + str(cell[1:])
     print(cell_vigruz)
     sheet[cell_vigruz] = value
-    wb.save("./first_table/Приложение 1.xlsx")
+    wb.save(file_path)
     wb.close()
 
 
-def test():
+def start(file_path: str):
+
     logging.info('parsing_brent_cost')
+    # TODO: get range of string according to count of clients
     cells = generate_strings('N', 4, 41)
     for cell in cells:
-        fill_xlsx(cell, 'B')
-    wb = openpyxl.load_workbook('./first_table/Приложение 1.xlsx')
+        print(f'Filling cell: {cell}')
+        logging.info(f'Filling cell: {cell}')
+        fill_xlsx(file_path, cell, 'B')
+    wb = openpyxl.load_workbook(file_path)
     sheet = wb['Анализ_БК+ББ']
     first_not_null = 4
     for i in range(first_not_null, 29):
@@ -67,5 +77,5 @@ def test():
     for i in range(4, 29):
         if sheet[f'B{i + 1}'].value == 0:
             sheet[f'B{i + 1}'].value = sheet[f'B{i}'].value
-    wb.save("./first_table/Приложение 1.xlsx")
+    wb.save(file_path)
     wb.close()
