@@ -12,6 +12,8 @@ import 'package:http/http.dart';
 
 class LineChartSample2 extends StatefulWidget {
   final List<String>? names;
+  String selectedValue = "";
+  int chosenIndex = 0;
   final List<String>? data;
   final List<List<String>>? hidden;
   final String? name;
@@ -36,6 +38,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
 
   @override
   void initState() {
+    widget.selectedValue = widget.names![0];
     super.initState();
     // widget.s = getS(widget.currentInd);
   }
@@ -50,7 +53,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
     int _indexForElem = 0;
     widget.value!.forEach((element) {
       _indexForElem = -1;
-      if (widget.isChosen![_currentIndex - 1]) {
+      // if (widget.isChosen![_currentIndex - 1]) {
+      if (widget.chosenIndex == _currentIndex - 1) {
         data.add(
           LineChartBarData(
             showingIndicators: [0],
@@ -159,55 +163,122 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      setState(() {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              child: SizedBox(
-                                  width: 400,
-                                  height: 500,
-                                  child: Stack(
-                                    children: [
-                                      ListView.builder(
-                                        itemCount: widget.names!.length,
-                                        itemBuilder: (context, index) {
-                                          bool isSelected =
-                                              widget.isChosen![index];
-                                          return StatefulBuilder(
-                                              builder: (context, setState) {
-                                            return CheckboxListTile(
-                                              value: isSelected,
-                                              title: Text(widget.names![index]),
-                                              onChanged: (newBool) {
-                                                setState(() {
-                                                  widget.isChosen?[index] =
-                                                      newBool!;
-                                                  isSelected = newBool!;
-                                                });
-                                              },
-                                            );
-                                          });
-                                        },
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: TextButton(
-                                          child: Text("OK"),
-                                          onPressed: () {
-                                            setState(() {});
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                            );
-                          },
-                        );
+                      // setState(
+                      //   () {
+                      //     showDialog(
+                      //       context: context,
+                      //       builder: (context) {
+                      //         return Dialog(
+                      //           child: SizedBox(
+                      //               width: 400,
+                      //               height: 500,
+                      //               child: Stack(
+                      //                 children: [
+                      //                   ListView.builder(
+                      //                     itemCount: widget.names!.length,
+                      //                     itemBuilder: (context, index) {
+                      //                       bool isSelected =
+                      //                           widget.isChosen![index];
+                      //                       return StatefulBuilder(
+                      //                           builder: (context, setState) {
+                      //                         return CheckboxListTile(
+                      //                           value: isSelected,
+                      //                           title:
+                      //                               Text(widget.names![index]),
+                      //                           onChanged: (newBool) {
+                      //                             setState(() {
+                      //                               widget.isChosen?[index] =
+                      //                                   newBool!;
+                      //                               isSelected = newBool!;
+                      //                             });
+                      //                           },
+                      //                         );
+                      //                       });
+                      //                     },
+                      //                   ),
+                      //                   Align(
+                      //                     alignment: Alignment.bottomRight,
+                      //                     child: TextButton(
+                      //                       child: Text("OK"),
+                      //                       onPressed: () {
+                      //                         setState(() {});
+                      //                         Navigator.pop(context);
+                      //                       },
+                      //                     ),
+                      //                   )
+                      //                 ],
+                      //               )),
+                      //         );
+                      //       },
+                      //     );
 
-                        // widget.isChosen = widget.isChosen;
-                      });
+                      //     // widget.isChosen = widget.isChosen;
+                      //   },
+                      // );
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  top: 10, bottom: 10, left: 5, right: 5),
+                              width: 400,
+                              height: 500,
+                              child: Stack(
+                                children: [
+                                  SingleChildScrollView(
+                                    child: StatefulBuilder(
+                                      builder: (context, setState1) {
+                                        return Column(
+                                          children: [
+                                            ...widget.names!.map(
+                                              (e) => RadioListTile(
+                                                title: Text(e),
+                                                value: e,
+                                                groupValue:
+                                                    widget.selectedValue,
+                                                onChanged: (value) {
+                                                  setState1(() {
+                                                    widget.selectedValue =
+                                                        value!;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.bottomRight,
+                                    padding: const EdgeInsets.only(
+                                        bottom: 15, right: 15),
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                ThemeColors().barColor),
+                                      ),
+                                      child: const Text(
+                                        "OK",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          widget.chosenIndex = widget.names!
+                                              .indexOf(widget.selectedValue);
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     },
                     child: Icon(
                       Icons.filter_alt_rounded,
@@ -343,7 +414,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
     double max = 2;
     int index = 0;
     widget.value!.forEach((element) {
-      if (widget.isChosen![index++]) {
+      // if (widget.isChosen![index++]) {
+      //   element.forEach((e) {
+      //     double a = double.parse(e);
+      //     a > max ? max = a : max = max;
+      //   });
+      // }
+      if (widget.chosenIndex == widget.value!.indexOf(element)) {
         element.forEach((e) {
           double a = double.parse(e);
           a > max ? max = a : max = max;
@@ -358,7 +435,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
     double min = double.maxFinite;
     int index = 0;
     widget.value!.forEach((element) {
-      if (widget.isChosen![index++]) {
+      // if (widget.isChosen![index++]) {
+      //   element.forEach((e) {
+      //     double a = double.parse(e);
+      //     a < min ? min = a : min = min;
+      //   });
+      // }
+      if (widget.chosenIndex == widget.value!.indexOf(element)) {
         element.forEach((e) {
           double a = double.parse(e);
           a < min ? min = a : min = min;
@@ -373,7 +456,13 @@ class _LineChartSample2State extends State<LineChartSample2> {
     double min = double.maxFinite;
     int index = 0;
     widget.value!.forEach((element) {
-      if (widget.isChosen![index++]) {
+      // if (widget.isChosen![index++]) {
+      //   element.forEach((e) {
+      //     double a = double.parse(e);
+      //     a < min ? min = a : min = min;
+      //   });
+      // }
+      if (widget.chosenIndex == widget.value!.indexOf(element)) {
         element.forEach((e) {
           double a = double.parse(e);
           a < min ? min = a : min = min;
@@ -381,7 +470,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       }
     });
 
-    return min < 0 ? min : -2;
+    return min;
   }
 
   String getMonth(double x) {
@@ -412,7 +501,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
               : FLHorizontalAlignment.right,
           tooltipBgColor: ThemeColors().tooltipBg,
           fitInsideVertically: true,
-          maxContentWidth: 240,
+          maxContentWidth: 200,
           fitInsideHorizontally: true,
           getTooltipItems: (touchedSpots) {
             {
@@ -503,15 +592,17 @@ class _LineChartSample2State extends State<LineChartSample2> {
         show: true,
         drawVerticalLine: true,
         getDrawingHorizontalLine: (value) {
-          return (value == 0)
-              ? FlLine(
-                  color: Colors.black,
-                  strokeWidth: 2,
-                )
-              : FlLine(
-                  color: ThemeColors().maingridcolor,
-                  strokeWidth: 1,
-                );
+          if (value > (getMax() - (getMax() - getMin())) &&
+              value < (getMax() - 0 * (getMax() - getMin()))) {
+            return FlLine(
+              color: Colors.black,
+              strokeWidth: 2,
+            );
+          }
+          return FlLine(
+            color: ThemeColors().maingridcolor,
+            strokeWidth: 1,
+          );
         },
         getDrawingVerticalLine: (value) {
           return FlLine(
@@ -560,7 +651,11 @@ class _LineChartSample2State extends State<LineChartSample2> {
                   alignment: Alignment.centerRight,
                   padding: EdgeInsets.only(right: 10),
                   child: Text(
-                    (value == 0) ? meta.formattedValue : "",
+                    // meta.formattedValue,
+                    (value > (getMax() - 4 / 5 * (getMax() - getMin())) &&
+                            value < (getMax() - 1 / 5 * (getMax() - getMin())))
+                        ? meta.formattedValue
+                        : "",
                     style: TextStyle(fontSize: 15),
                   ),
                 );
@@ -573,8 +668,12 @@ class _LineChartSample2State extends State<LineChartSample2> {
       ),
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
-      minY: getMin() * 1.3,
-      maxY: getMax() < 5 ? 5 : getMax() * 1.5,
+      minY: getMin() > 0
+          ? getMin() * 0.7
+          : getMin() == 0
+              ? -3
+              : getMin() * 1.3,
+      maxY: getMax() < 5 ? 5 : getMax() * 1.2,
       lineBarsData: getLineBarsData(),
     );
   }

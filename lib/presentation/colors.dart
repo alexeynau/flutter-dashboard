@@ -97,4 +97,8 @@ class ThemeColors {
   //
   Color get opacityColor => Color.fromARGB(0, 15, 16, 14);
   Color get greyText => Color.fromARGB(255, 143, 144, 142);
+  // Color get navigationButtonColor => Color.fromARGB(255, 50, 166, 41);
+
+  Color get navigationButtonColor => Color.fromARGB(255, 9, 137, 84);
+  Color get navigationButtonText => Color.fromARGB(255, 254, 255, 252);
 }
