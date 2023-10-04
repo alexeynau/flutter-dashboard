@@ -5,7 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watcher/watcher.dart';
-
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../service_locator.dart';
 import '../models/data.dart';
 
 class WindowsRepository {
@@ -15,9 +16,12 @@ class WindowsRepository {
   bool _hasData = false;
 
   Future<bool> hasData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var prefs = getIt.get<SharedPreferences>();
     _hasData = prefs.getBool("hasData") ?? false;
+    print("hasData = $_hasData");
     _currentPath = prefs.getString("excel");
+    // await getDataAndPlots();
+    // _hasData = _dataAndPlots.data.isNotEmpty ? _hasData : false;
     return _hasData;
   }
 
@@ -33,13 +37,39 @@ class WindowsRepository {
   void savePath(String path) async {
     print("setPath");
     _currentPath = path;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var prefs = getIt.get<SharedPreferences>();
+    // var dotEnv = DotEnv();
+    // await dotEnv.load(fileName: 'assets/python/.env');
+    // dotEnv.env['APP1_FILE_PATH'] = path;
+    const String debugEnvPath = "assets/python/.env";
+    const String releaseEnvPath =
+        "./data/flutter_assets/assets/python/robot.yaml";
+    String envFilePath = debugEnvPath;
+    String keyToUpdate = 'APP1_FILE_PATH';
+    String newValue = path;
+
+    updateEnvFile(envFilePath, keyToUpdate, newValue);
 
     prefs.setString("excel", path);
   }
 
+  void updateEnvFile(String filePath, String key, String value) {
+    File file = File(filePath);
+    List<String> lines = file.readAsLinesSync();
+
+    for (int i = 0; i < lines.length; i++) {
+      String line = lines[i];
+      if (line.startsWith(key)) {
+        lines[i] = '$key=$value';
+        break;
+      }
+    }
+
+    file.writeAsStringSync(lines.join('\n'));
+  }
+
   Future<String?> getPath() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var prefs = getIt.get<SharedPreferences>();
     print("getPath");
     if (currentPath != null) {
       return currentPath;
@@ -67,7 +97,16 @@ class WindowsRepository {
         print("First robot error ${firstRobotResult.stderr}");
       }
     }
-
+    // Process.run('rcc', [
+    //   'task',
+    //   'run',
+    //   '--robot',
+    //   usePath,
+    //   "--task",
+    //   "app_1_postprocessor"
+    // ]).asStream().listen((event) {
+    //   print(event.stdout);
+    // });
     var secondRobotResult = await Process.run('rcc',
         ['task', 'run', '--robot', usePath, "--task", "app_1_postprocessor"]);
     var secondRobotSuccess = secondRobotResult.exitCode == 0;
@@ -79,15 +118,16 @@ class WindowsRepository {
     }
 
     return firstRobotSuccess && secondRobotSuccess;
+    // return true;
   }
 
   Future<DataAndPlots> getDataAndPlots() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var prefs = getIt.get<SharedPreferences>();
     print("reading json");
     var readJson = await rootBundle
         .loadString("assets/python/output/shared/workitems.json", cache: false);
     _dataAndPlots = dataAndPlotsFromJson(readJson);
-    _hasData = true;
+    _hasData = _dataAndPlots.data.isNotEmpty;
     prefs.setBool("hasData", _hasData);
 
     return _dataAndPlots;

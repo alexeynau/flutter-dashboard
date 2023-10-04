@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/data/models/data.dart';
 import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
 import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
@@ -17,26 +18,39 @@ class NewSalesPage extends StatefulWidget {
 
 class _NewSalesPageState extends State<NewSalesPage> {
   WindowsRepository repository = getIt.get<WindowsRepository>();
-
+  late Future<DataAndPlots> fetchedData;
   @override
   void initState() {
-    repository.eventStream.stream.listen((event) {
-      setState(() {});
-    });
+    fetchedData = repository.getDataAndPlots();
+
     super.initState();
   }
 
+  // @override
+  // void didChangeDependencies() {
+  //   fetchedData = repository.getDataAndPlots();
+  //   super.didChangeDependencies();
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // repository.eventStream.stream.listen((event) {
+    //   setState(() {});
+    // });
     return Container(
       padding: const EdgeInsets.all(20),
       color: ThemeColors().background01,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      child: FutureBuilder(
-          future: repository.getDataAndPlots(),
+      child: StreamBuilder<DataAndPlots>(
+          stream: repository.eventStream.stream,
           builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
+            print("repaint stream builder");
+            return FutureBuilder(
+                future: fetchedData,
+                builder: (context, snapshot) {
+                  print("repaint future builder sales");
+                   switch (snapshot.connectionState) {
               case ConnectionState.done:
                 return snapshot.data != null
                     ? SingleChildScrollView(
@@ -86,6 +100,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
               default:
                 return const Center(child: CircularProgressIndicator());
             }
+                });
           }),
     );
   }

@@ -20,18 +20,30 @@ def spread_quotes(url):
     return quotes
 
 
-def test():
+def start(file_path: str):
+    from openpyxl.cell.cell import MergedCell
     logging.info('parcing_first_table')
     url = 'https://ru.investing.com/commodities/brent-wti-crude-spread-futures-historical-data'
     quotes = spread_quotes(url)
     print(quotes)
 
-    wb = openpyxl.load_workbook('./first_table/Приложение 1.xlsx')
+    wb = openpyxl.load_workbook(file_path)
     sheet = wb['Анализ_БК+ББ']
 
-    print(sheet)
     for i in range(len(quotes)):
         # sheet[] = quotes[i]
-        sheet[f"C{4+i}"].value = quotes[i]
-    wb.save("./first_table/Приложение 1.xlsx")
+        cell = sheet[f"C{4+i}"]
+        print(f"C{4+i}", cell.value, quotes[i])
+        logging.info(f"C{4+i}, {cell.value}, {quotes[i]}")
+        if not isinstance(cell, MergedCell):
+            cell.value = quotes[i]
+            continue
+        for merged_cells_range in sheet.merged_cells.ranges:
+            if f"C{4+i}" in merged_cells_range:
+                print('merged cells range', merged_cells_range)
+                logging.info(f'merged cells range: {merged_cells_range}')
+                merged_cells_range.start_cell.value = quotes[i]
+                break
+
+    wb.save(file_path)
     wb.close()

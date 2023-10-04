@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dashboard/presentation/pages/test_page.dart';
+import 'package:flutter_dashboard/presentation/widgets/file_choose_dialog.dart';
 
 import '../../data/repositories/windows_repository.dart';
 import '../../service_locator.dart';
@@ -156,10 +157,19 @@ class _DashboardPageState extends State<DashboardPage> {
                                                       ),
                                                     ),
                                               onPressed: () {
+
                                                 setState(() {
                                                   _currentIndex =
                                                       _tabs.indexOf(e);
                                                 });
+
+                                                // Navigator.pop(context);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FileChooseDialog(),
+                                                    ));
                                               },
                                             ),
                                           );

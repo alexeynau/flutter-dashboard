@@ -4,6 +4,21 @@ from bs4 import BeautifulSoup as bs
 import logging
 
 
+def start(file_path: str):
+    logging.info('customs_duties_parser')
+    html_list = create_html_list(2022)
+    duties = list([])
+    for url in html_list:
+        duties.append(get_duty(url))
+
+    wb = openpyxl.load_workbook(file_path)
+    sheet = wb['Company ABC_факт_НДПИ (Platts)']
+    for i in range(len(duties)):
+        sheet[f"{chr(67 + i)}{7}"].value = duties[i]
+    wb.save(file_path)
+    wb.close()
+
+
 def leap(year):
     if (year % 4 == 0 and year % 100 != 0) or year % 400 == 0:
         return True
@@ -50,18 +65,3 @@ def get_duty(url):
             duty = float(rows[i].replace(',', '.'))
             break
     return duty
-
-
-def test():
-    logging.info('customs_duties_parser')
-    html_list = create_html_list(2022)
-    duties = list([])
-    for url in html_list:
-        duties.append(get_duty(url))
-
-    wb = openpyxl.load_workbook('./first_table/Приложение 1.xlsx')
-    sheet = wb['Company ABC_факт_НДПИ (Platts)']
-    for i in range(len(duties)):
-        sheet[f"{chr(67 + i)}{7}"].value = duties[i]
-    wb.save("./first_table/Приложение 1.xlsx")
-    wb.close()

@@ -3,11 +3,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+
 import 'package:window_size/window_size.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'data/repositories/windows_repository.dart';
 import 'presentation/pages/dashboard_page.dart';
 import 'presentation/pages/loading_page.dart';
+import 'presentation/widgets/file_choose_dialog.dart';
 import 'service_locator.dart' as dependency_injection;
 
 import 'service_locator.dart';
@@ -15,6 +19,9 @@ import 'service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency_injection.setup();
+
+  // var prefs = await getIt.get<SharedPreferences>();
+  // await prefs.clear();
   // dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -52,127 +59,8 @@ class _AppState extends State<App> {
                   return DashboardPage();
                 } else {
                   print("doesnt have data");
-                  return FutureBuilder(
-                    future: repository.getPath(),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.done:
-                          if (snapshot.data == null) {
-                            return Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text("Файл не выбран"),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      await repository.pickFile();
 
-                                      print(snapshot.data);
-                                      setState(() {});
-                                    },
-                                    child: const Text("Выбрать"),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } else {
-                            return Builder(
-                              builder: (context) {
-                                return Center(
-                                  child: SizedBox(
-                                    width: 600,
-                                    height: 300,
-                                    child: Dialog(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text(
-                                            "${Directory.current.path}  Выбран файл: ",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            "${snapshot.data}",
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          const Text(
-                                            "Заполнить таблицу автоматически?",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    repository.watchExcel(
-                                                        snapshot.data!);
-                                                    parseTable = false;
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) {
-                                                          return LoadingPage(
-                                                            shouldParseTable:
-                                                                parseTable,
-                                                          );
-                                                        },
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: const Text("Нет"),
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () async {
-                                                  await repository.pickFile();
-                                                  print(snapshot.data);
-                                                  setState(() {});
-                                                },
-                                                child: const Text(
-                                                    "Выбрать другой файл"),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    repository.watchExcel(
-                                                        snapshot.data!);
-                                                    parseTable = true;
-                                                  },
-                                                  child: const Text("Да"),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          }
-
-                        default:
-                          return const Center(
-                              child: CircularProgressIndicator());
-                      }
-                    },
-                  );
+                  return FileChooseDialog();
                 }
               default:
                 return const Center(child: CircularProgressIndicator());
@@ -182,4 +70,127 @@ class _AppState extends State<App> {
       ),
     );
   }
+
+  // FutureBuilder<String?> FileChooseDialog() {
+  //   return FutureBuilder(
+  //                 future: repository.getPath(),
+  //                 builder: (context, snapshot) {
+  //                   switch (snapshot.connectionState) {
+  //                     case ConnectionState.done:
+  //                       if (snapshot.data == null) {
+  //                         return Center(
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               const Text("Файл не выбран"),
+  //                               ElevatedButton(
+  //                                 onPressed: () async {
+  //                                   await repository.pickFile();
+
+  //                                   print(snapshot.data);
+  //                                   setState(() {});
+  //                                 },
+  //                                 child: const Text("Выбрать"),
+  //                               ),
+  //                             ],
+  //                           ),
+  //                         );
+  //                       } else {
+  //                         return Builder(
+  //                           builder: (context) {
+  //                             return Center(
+  //                               child: SizedBox(
+  //                                 width: 600,
+  //                                 height: 300,
+  //                                 child: Dialog(
+  //                                   child: Column(
+  //                                     mainAxisAlignment:
+  //                                         MainAxisAlignment.spaceAround,
+  //                                     children: [
+  //                                       Text(
+  //                                         "${Directory.current.path}  Выбран файл: ",
+  //                                         style: TextStyle(
+  //                                           fontSize: 20,
+  //                                         ),
+  //                                         textAlign: TextAlign.center,
+  //                                       ),
+  //                                       Text(
+  //                                         "${snapshot.data}",
+  //                                         style: const TextStyle(
+  //                                           fontSize: 14,
+  //                                         ),
+  //                                         textAlign: TextAlign.center,
+  //                                       ),
+  //                                       const Text(
+  //                                         "Заполнить таблицу автоматически?",
+  //                                         style: TextStyle(
+  //                                           fontSize: 20,
+  //                                         ),
+  //                                         textAlign: TextAlign.center,
+  //                                       ),
+  //                                       Row(
+  //                                         mainAxisAlignment:
+  //                                             MainAxisAlignment.center,
+  //                                         children: [
+  //                                           Padding(
+  //                                             padding:
+  //                                                 const EdgeInsets.all(10),
+  //                                             child: ElevatedButton(
+  //                                               onPressed: () {
+  //                                                 repository.watchExcel(
+  //                                                     snapshot.data!);
+  //                                                 parseTable = false;
+  //                                                 Navigator.push(
+  //                                                   context,
+  //                                                   MaterialPageRoute(
+  //                                                     builder: (context) {
+  //                                                       return LoadingPage(
+  //                                                         shouldParseTable:
+  //                                                             parseTable,
+  //                                                       );
+  //                                                     },
+  //                                                   ),
+  //                                                 );
+  //                                               },
+  //                                               child: const Text("Нет"),
+  //                                             ),
+  //                                           ),
+  //                                           ElevatedButton(
+  //                                             onPressed: () async {
+  //                                               await repository.pickFile();
+  //                                               print(snapshot.data);
+  //                                               setState(() {});
+  //                                             },
+  //                                             child: const Text(
+  //                                                 "Выбрать другой файл"),
+  //                                           ),
+  //                                           Padding(
+  //                                             padding:
+  //                                                 const EdgeInsets.all(10),
+  //                                             child: ElevatedButton(
+  //                                               onPressed: () {
+  //                                                 repository.watchExcel(
+  //                                                     snapshot.data!);
+  //                                                 parseTable = true;
+  //                                               },
+  //                                               child: const Text("Да"),
+  //                                             ),
+  //                                           ),
+  //                                         ],
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             );
+  //                           },
+  //                         );
+  //                       }
+
+  //                     default:
+  //                       return const CircularProgressIndicator();
+  //                   }
+  //                 },
+  //               );
+  // }
 }
