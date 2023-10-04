@@ -41,8 +41,10 @@ class WindowsRepository {
     // var dotEnv = DotEnv();
     // await dotEnv.load(fileName: 'assets/python/.env');
     // dotEnv.env['APP1_FILE_PATH'] = path;
-
-    String envFilePath = 'assets/python/.env';
+    const String debugEnvPath = "assets/python/.env";
+    const String releaseEnvPath =
+        "./data/flutter_assets/assets/python/robot.yaml";
+    String envFilePath = debugEnvPath;
     String keyToUpdate = 'APP1_FILE_PATH';
     String newValue = path;
 
@@ -95,7 +97,16 @@ class WindowsRepository {
         print("First robot error ${firstRobotResult.stderr}");
       }
     }
-
+    // Process.run('rcc', [
+    //   'task',
+    //   'run',
+    //   '--robot',
+    //   usePath,
+    //   "--task",
+    //   "app_1_postprocessor"
+    // ]).asStream().listen((event) {
+    //   print(event.stdout);
+    // });
     var secondRobotResult = await Process.run('rcc',
         ['task', 'run', '--robot', usePath, "--task", "app_1_postprocessor"]);
     var secondRobotSuccess = secondRobotResult.exitCode == 0;
@@ -107,6 +118,7 @@ class WindowsRepository {
     }
 
     return firstRobotSuccess && secondRobotSuccess;
+    // return true;
   }
 
   Future<DataAndPlots> getDataAndPlots() async {

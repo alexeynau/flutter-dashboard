@@ -154,3 +154,62 @@
 {"when":1696331817,"controller":"rcc.user","event":"robot exit","detail":"From rcc point of view, actual main robot run was SUCCESS.","comment":"rcc point of view"}
 {"when":1696331817,"controller":"rcc.user","event":"processes","detail":"final","comment":"count: 0"}
 {"when":1696331818,"controller":"rcc.user","event":"stop","detail":"robot","comment":"done"}
+{"when":1696333425,"controller":"rcc.user","event":"start task","detail":"name=app_1_postprocessor from=assets/python/robot.yaml","comment":"at task environment setup"}
+{"when":1696333425,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 01/15 v16.2.2 0.103s Fresh [private mode] holotree environment 23993618-cce8-bc71-9a40-ec91addb7fed. (parent/pid: 8040/3108)"}
+{"when":1696333425,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 02/15 v16.2.2 0.011s Holotree blueprint is \"9ff2f8bf263f329a\" [windows_amd64 with 3 workers]."}
+{"when":1696333427,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 14/15 v16.2.2 2.278s Restore space from library [with 3 workers]."}
+{"when":1696333429,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 15/15 v16.2.2 1.499s Fresh holotree done [with 3 workers]."}
+{"when":1696333429,"controller":"rcc.user","event":"start","detail":"robot","comment":"started"}
+{"when":1696333429,"controller":"rcc.user","event":"run","detail":"robot","comment":"task run"}
+{"when":1696333429,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 0 to 2 ... map[1656:conhost.exe 14564:python.exe]"}
+{"when":1696333503,"controller":"rcc.user","event":"robot exit","detail":"From rcc point of view, actual main robot run was SUCCESS.","comment":"rcc point of view"}
+{"when":1696333503,"controller":"rcc.user","event":"processes","detail":"final","comment":"count: 0"}
+{"when":1696333504,"controller":"rcc.user","event":"orphan process","detail":"parent=8040 pid=3108 name=rcc.exe","comment":"process pollution"}
+{"when":1696333504,"controller":"rcc.user","event":"orphan process","detail":"parent=3108 pid=1656 name=conhost.exe","comment":"process pollution"}
+{"when":1696333504,"controller":"rcc.user","event":"orphan process","detail":"parent=3108 pid=1656 name=conhost.exe","comment":"process pollution"}
+{"when":1696333505,"controller":"rcc.user","event":"stop","detail":"robot","comment":"done"}
+{"when":1696356414,"controller":"rcc.user","event":"start task","detail":"name=app_1_postprocessor from=assets/python/robot.yaml","comment":"at task environment setup"}
+{"when":1696356414,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 01/15 v16.2.2 0.287s Fresh [private mode] holotree environment 23993618-cce8-bc71-9a40-ec91addb7fed. (parent/pid: 4636/6828)"}
+{"when":1696356414,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 02/15 v16.2.2 0.084s Holotree blueprint is \"9ff2f8bf263f329a\" [windows_amd64 with 3 workers]."}
+{"when":1696356417,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 14/15 v16.2.2 2.359s Restore space from library [with 3 workers]."}
+{"when":1696356419,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 15/15 v16.2.2 1.845s Fresh holotree done [with 3 workers]."}
+{"when":1696356419,"controller":"rcc.user","event":"start","detail":"robot","comment":"started"}
+{"when":1696356419,"controller":"rcc.user","event":"run","detail":"robot","comment":"task run"}
+{"when":1696356419,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 0 to 2 ... map[11084:python.exe 13568:conhost.exe]"}
+{"when":1696356471,"controller":"rcc.user","event":"start task","detail":"name=app_1_postprocessor from=assets/python/robot.yaml","comment":"at task environment setup"}
+{"when":1696356471,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 01/15 v16.2.2 0.131s Fresh [private mode] holotree environment 23993618-cce8-bc71-9a40-ec91addb7fed. (parent/pid: 2860/13904)"}
+{"when":1696356471,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 02/15 v16.2.2 0.024s Holotree blueprint is \"9ff2f8bf263f329a\" [windows_amd64 with 3 workers]."}
+{"when":1696356473,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 14/15 v16.2.2 2.236s Restore space from library [with 3 workers]."}
+{"when":1696356475,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 15/15 v16.2.2 1.865s Fresh holotree done [with 3 workers]."}
+{"when":1696356475,"controller":"rcc.user","event":"start","detail":"robot","comment":"started"}
+{"when":1696356475,"controller":"rcc.user","event":"run","detail":"robot","comment":"task run"}
+{"when":1696356476,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 0 to 2 ... map[14236:python.exe 14404:conhost.exe]"}
+{"when":1696356491,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 2 to 3 ... map[8376:cmd.exe 14236:python.exe 14404:conhost.exe]"}
+{"when":1696356491,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 3 to 2 ... map[14236:python.exe 14404:conhost.exe]"}
+{"when":1696356559,"controller":"rcc.user","event":"robot exit","detail":"From rcc point of view, actual main robot run was FAILURE, reason: exit status 120","comment":"rcc point of view"}
+{"when":1696356559,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 2 to 1 ... map[13568:conhost.exe]"}
+{"when":1696356559,"controller":"rcc.user","event":"processes","detail":"final","comment":"count: 0"}
+{"when":1696356560,"controller":"rcc.user","event":"orphan process","detail":"parent=4636 pid=6828 name=rcc.exe","comment":"process pollution"}
+{"when":1696356560,"controller":"rcc.user","event":"orphan process","detail":"parent=6828 pid=13568 name=conhost.exe","comment":"process pollution"}
+{"when":1696356560,"controller":"rcc.user","event":"orphan process","detail":"parent=6828 pid=13568 name=conhost.exe","comment":"process pollution"}
+{"when":1696356560,"controller":"rcc.user","event":"stop","detail":"robot","comment":"done"}
+{"when":1696356598,"controller":"rcc.user","event":"robot exit","detail":"From rcc point of view, actual main robot run was FAILURE, reason: exit status 120","comment":"rcc point of view"}
+{"when":1696356598,"controller":"rcc.user","event":"processes","detail":"final","comment":"count: 0"}
+{"when":1696356599,"controller":"rcc.user","event":"orphan process","detail":"parent=2860 pid=13904 name=rcc.exe","comment":"process pollution"}
+{"when":1696356599,"controller":"rcc.user","event":"orphan process","detail":"parent=13904 pid=14404 name=conhost.exe","comment":"process pollution"}
+{"when":1696356599,"controller":"rcc.user","event":"orphan process","detail":"parent=13904 pid=14404 name=conhost.exe","comment":"process pollution"}
+{"when":1696356599,"controller":"rcc.user","event":"stop","detail":"robot","comment":"done"}
+{"when":1696356753,"controller":"rcc.user","event":"start task","detail":"name=app_1_postprocessor from=assets/python/robot.yaml","comment":"at task environment setup"}
+{"when":1696356753,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 01/15 v16.2.2 0.072s Fresh [private mode] holotree environment 23993618-cce8-bc71-9a40-ec91addb7fed. (parent/pid: 15364/6152)"}
+{"when":1696356753,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 02/15 v16.2.2 0.026s Holotree blueprint is \"9ff2f8bf263f329a\" [windows_amd64 with 3 workers]."}
+{"when":1696356755,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 14/15 v16.2.2 2.113s Restore space from library [with 3 workers]."}
+{"when":1696356758,"controller":"rcc.user","event":"environment","detail":"build","comment":"Progress: 15/15 v16.2.2 2.527s Fresh holotree done [with 3 workers]."}
+{"when":1696356758,"controller":"rcc.user","event":"start","detail":"robot","comment":"started"}
+{"when":1696356758,"controller":"rcc.user","event":"run","detail":"robot","comment":"task run"}
+{"when":1696356758,"controller":"rcc.user","event":"processes","detail":"updated","comment":"count from 0 to 2 ... map[15524:conhost.exe 17036:python.exe]"}
+{"when":1696356850,"controller":"rcc.user","event":"robot exit","detail":"From rcc point of view, actual main robot run was SUCCESS.","comment":"rcc point of view"}
+{"when":1696356850,"controller":"rcc.user","event":"processes","detail":"final","comment":"count: 0"}
+{"when":1696356851,"controller":"rcc.user","event":"orphan process","detail":"parent=15364 pid=6152 name=rcc.exe","comment":"process pollution"}
+{"when":1696356851,"controller":"rcc.user","event":"orphan process","detail":"parent=6152 pid=15524 name=conhost.exe","comment":"process pollution"}
+{"when":1696356851,"controller":"rcc.user","event":"orphan process","detail":"parent=6152 pid=15524 name=conhost.exe","comment":"process pollution"}
+{"when":1696356852,"controller":"rcc.user","event":"stop","detail":"robot","comment":"done"}
