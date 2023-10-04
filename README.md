@@ -10,6 +10,7 @@
 
 [Скачать установщик](https://github.com/alexeynau/flutter-dashboard/releases/tag/v0.0.2)
 ## User flow:
+0) Установить [приложение](https://github.com/alexeynau/flutter-dashboard/releases/tag/v0.0.2)
 1) Запустить приложение с дэшбордами
 2) Указать путь к таблице
 3) Выбрать - автоматически обновлять таблицу или нет?
@@ -20,19 +21,5 @@
 
 После первого запуска, информация о наличии данных и пути к таблице сохраняется и при повторном запуске приложения робот заново не запускается, а сразу показываются дэшборды
 
-## Запуск дэшбордов
 
-Запустить [робота](https://github.com/alexeynau/flutter-dashboard)
-
-Запустить сервер-наблюдатель watcher.py в одном каталоге с папкой `./output` 
-
-```console
-python watcher.py
-```
-
-Запустить приложение на Flutter
-```console
-flutter pub get
-flutter run
-```
 
