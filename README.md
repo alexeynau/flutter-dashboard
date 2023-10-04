@@ -8,7 +8,7 @@
 
 [Постановка задачи для дэшбордов и требования к автоматизации в приложениях](https://autumn-athlete-fea.notion.site/b0f7889d5f774bfea0f683e0ef71b654?pvs=4)
 
-###[Скачать установщик](https://github.com/alexeynau/flutter-dashboard/releases/tag/v0.0.2)
+[Скачать установщик](https://github.com/alexeynau/flutter-dashboard/releases/tag/v0.0.2)
 ## User flow:
 1) Запустить приложение с дэшбордами
 2) Указать путь к таблице
