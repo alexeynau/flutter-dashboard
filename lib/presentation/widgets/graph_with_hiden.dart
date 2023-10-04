@@ -1,14 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
-// import 'dart:js_interop';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
-import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
-import 'package:flutter_dashboard/presentation/colors.dart';
-import 'package:flutter_dashboard/service_locator.dart';
+import '../../data/repositories/windows_repository.dart';
+import '../colors.dart';
+import '../../service_locator.dart';
 
 class LineChartSampleHidden extends StatefulWidget {
   final List<String>? names;
