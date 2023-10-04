@@ -7,6 +7,7 @@ class ThemeColors {
   // Primary actions, emphasizing navigation elements,
   // backgrounds, text, etc.
   Color get primary => Color.fromARGB(242, 29, 104, 29);
+  Color get primaryWithOpacity => Color.fromARGB(0, 55, 165, 179);
   // Color get selected => Color.fromARGB(255, 112, 186, 107);
   Color get selected => Color.fromARGB(255, 7, 144, 101);
   Color get primarytext => Color.fromARGB(241, 37, 40, 37);
@@ -61,6 +62,7 @@ class ThemeColors {
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
   Color get tooltipBg => Color.fromARGB(255, 233, 230, 230);
+  Color get tooltipBgWithOp => Color.fromARGB(130, 203, 199, 199);
   Color get tooltipBgBar => Color.fromARGB(0, 255, 255, 255);
 
   //for markets

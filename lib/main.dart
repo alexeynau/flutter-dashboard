@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:window_size/window_size.dart';
 
 import 'data/repositories/windows_repository.dart';
 import 'presentation/pages/dashboard_page.dart';
@@ -15,6 +16,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency_injection.setup();
   // dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('My App');
+    // setWindowMaxSize(const Size(max_width, max_height));
+    setWindowMinSize(const Size(1050, 600));
+  }
   runApp(App());
 }
 
@@ -161,13 +168,14 @@ class _AppState extends State<App> {
                           }
 
                         default:
-                          return const CircularProgressIndicator();
+                          return const Center(
+                              child: CircularProgressIndicator());
                       }
                     },
                   );
                 }
               default:
-                return CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
             }
           },
         ),

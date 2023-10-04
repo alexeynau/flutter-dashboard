@@ -19,7 +19,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   WindowsRepository repository = getIt.get<WindowsRepository>();
 
-  int _currentIndex = 2;
+  int _currentIndex = 0;
   final List<Widget> _tabs = [
     const NewHomePage(),
     const NewSalesPage(),
@@ -62,66 +62,6 @@ class _DashboardPageState extends State<DashboardPage> {
                       });
 
                       return Scaffold(
-                        // appBar: AppBar(
-                        //   backgroundColor: ThemeColors().secondary,
-                        //   title: TabBar(
-                        //     overlayColor: MaterialStatePropertyAll(
-                        //         ThemeColors().secondary),
-                        //     automaticIndicatorColorAdjustment: false,
-                        //     indicatorColor: ThemeColors().secondary,
-                        //     unselectedLabelStyle: TextStyle(fontSize: 14),
-                        //     labelStyle: TextStyle(fontSize: 20),
-                        //     tabs: [
-                        //       Container(
-                        //         color: _currentIndex == 0
-                        //             ? ThemeColors().selected
-                        //             : ThemeColors().secondary,
-                        //         width: MediaQuery.of(context).size.width,
-                        //         child: Tab(
-                        //           height: MediaQuery.of(context).size.height,
-                        //           child: Text(
-                        //             "Главная",
-                        //             style: TextStyle(
-                        //               color: ThemeColors().primarytext,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       Container(
-                        //         padding: EdgeInsets.all(0),
-                        //         margin: EdgeInsets.all(0),
-                        //         color: _currentIndex == 1
-                        //             ? ThemeColors().selected
-                        //             : ThemeColors().secondary,
-                        //         width: double.infinity,
-                        //         child: Tab(
-                        //           height: MediaQuery.of(context).size.height,
-                        //           child: Text(
-                        //             "Продажи",
-                        //             style: TextStyle(
-                        //               color: ThemeColors().primarytext,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       Container(
-                        //         color: _currentIndex == 2
-                        //             ? ThemeColors().selected
-                        //             : ThemeColors().secondary,
-                        //         width: MediaQuery.of(context).size.width,
-                        //         child: Tab(
-                        //           height: MediaQuery.of(context).size.height,
-                        //           child: Text(
-                        //             "Тест",
-                        //             style: TextStyle(
-                        //               color: ThemeColors().primarytext,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         body: Row(
                           children: [
                             Expanded(
@@ -138,42 +78,48 @@ class _DashboardPageState extends State<DashboardPage> {
                                         Radius.circular(15)),
                                     color: ThemeColors().secondary,
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      top: 35.0,
-                                      right: 3,
-                                      left: 3,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        ..._tabs.map(
-                                          (e) {
-                                            return Expanded(
-                                              child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    right: 10, left: 10),
-                                                child: GestureDetector(
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        _tabsIcons[
-                                                            _tabs.indexOf(e)],
-                                                        size: 18,
-                                                        color: _currentIndex ==
-                                                                _tabs.indexOf(e)
-                                                            ? ThemeColors()
-                                                                .navigationButtonColor
-                                                            : ThemeColors()
-                                                                .greyText,
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                        _tabsNames[
-                                                            _tabs.indexOf(e)],
-                                                        style: TextStyle(
-                                                            fontSize: 15,
+                                  padding: const EdgeInsets.only(
+                                    top: 65.0,
+                                    right: 3,
+                                    left: 3,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      ..._tabs.map(
+                                        (e) {
+                                          return Expanded(
+                                            child: TextButton(
+                                              style: ButtonStyle(
+                                                overlayColor:
+                                                    MaterialStatePropertyAll(
+                                                        ThemeColors()
+                                                            .primaryWithOpacity),
+                                              ),
+                                              child: MediaQuery.of(context)
+                                                          .size
+                                                          .width <=
+                                                      1080
+                                                  ? Icon(
+                                                      _tabsIcons[
+                                                          _tabs.indexOf(e)],
+                                                      size: 18,
+                                                      color: _currentIndex ==
+                                                              _tabs.indexOf(e)
+                                                          ? ThemeColors()
+                                                              .navigationButtonColor
+                                                          : ThemeColors()
+                                                              .greyText,
+                                                    )
+                                                  : Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 10),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            _tabsIcons[_tabs
+                                                                .indexOf(e)],
+                                                            size: 18,
                                                             color: _currentIndex ==
                                                                     _tabs
                                                                         .indexOf(
@@ -182,71 +128,105 @@ class _DashboardPageState extends State<DashboardPage> {
                                                                     .navigationButtonColor
                                                                 : ThemeColors()
                                                                     .greyText,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Container(
+                                                            width: 70,
+                                                            child: Text(
+                                                              _tabsNames[_tabs
+                                                                  .indexOf(e)],
+                                                              style: TextStyle(
+                                                                  fontSize: 15,
+                                                                  color: _currentIndex ==
+                                                                          _tabs.indexOf(
+                                                                              e)
+                                                                      ? ThemeColors()
+                                                                          .navigationButtonColor
+                                                                      : ThemeColors()
+                                                                          .greyText,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                              softWrap: true,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                  onTap: () {
-                                                    setState(() {
-                                                      _currentIndex =
-                                                          _tabs.indexOf(e);
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                        Expanded(
-                                          flex: 11,
-                                          child: Container(
-                                            alignment: Alignment.bottomCenter,
-                                            padding: const EdgeInsets.only(
-                                                right: 5, left: 5, bottom: 30),
-                                            child: TextButton(
+                                                    ),
                                               onPressed: () {
-                                                //Леха сюда пиши что делает кнопка
+                                                setState(() {
+                                                  _currentIndex =
+                                                      _tabs.indexOf(e);
+                                                });
                                               },
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStatePropertyAll(
-                                                  ThemeColors()
-                                                      .navigationButtonColor,
-                                                ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Expanded(
+                                        flex: 11,
+                                        child: Container(
+                                          alignment: Alignment.bottomCenter,
+                                          padding: const EdgeInsets.only(
+                                              right: 5, left: 5, bottom: 30),
+                                          child: TextButton(
+                                            onPressed: () {
+                                              //Леха сюда пиши что делает кнопка
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                ThemeColors()
+                                                    .navigationButtonColor,
                                               ),
-                                              child: SizedBox(
-                                                height: 40,
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 4,
-                                                        child: Text(
-                                                          "Выбрать другой файл",
-                                                          style: TextStyle(
+                                            ),
+                                            child: SizedBox(
+                                              height: 40,
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                child: MediaQuery.of(context)
+                                                            .size
+                                                            .width >
+                                                        1150
+                                                    ? Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 4,
+                                                            child: Text(
+                                                              "Выбрать другой файл",
+                                                              style: TextStyle(
+                                                                  color: ThemeColors()
+                                                                      .navigationButtonText,
+                                                                  fontSize: 12),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Icon(
+                                                              Icons.add,
                                                               color: ThemeColors()
                                                                   .navigationButtonText,
-                                                              fontSize: 12),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                          child: Icon(
-                                                        Icons.add,
-                                                        color: ThemeColors()
-                                                            .navigationButtonText,
-                                                      ))
-                                                    ],
-                                                  ),
-                                                ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : MediaQuery.of(context)
+                                                                .size
+                                                                .width >
+                                                            620
+                                                        ? Icon(
+                                                            Icons.add,
+                                                            color: ThemeColors()
+                                                                .navigationButtonText,
+                                                          )
+                                                        : Container(),
                                               ),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
