@@ -69,7 +69,6 @@ class _HomePageState extends State<HomePage> {
                                                     .map((e) => Expanded(
                                                           child:
                                                               LineChartSample2(
-                                                            hidden: e.hidden,
                                                             isChosen:
                                                                 List.filled(
                                                                     e.y.length,
