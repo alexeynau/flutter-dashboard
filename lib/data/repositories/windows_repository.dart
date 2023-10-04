@@ -42,9 +42,8 @@ class WindowsRepository {
     // await dotEnv.load(fileName: 'assets/python/.env');
     // dotEnv.env['APP1_FILE_PATH'] = path;
     const String debugEnvPath = "assets/python/.env";
-    const String releaseEnvPath =
-        "./data/flutter_assets/assets/python/robot.yaml";
-    String envFilePath = debugEnvPath;
+    const String releaseEnvPath = "./data/flutter_assets/assets/python/.env";
+    String envFilePath = releaseEnvPath;
     String keyToUpdate = 'APP1_FILE_PATH';
     String newValue = path;
 
@@ -84,7 +83,7 @@ class WindowsRepository {
     const String debugRobotPath = "assets/python/robot.yaml";
     const String releaseRobotPath =
         "./data/flutter_assets/assets/python/robot.yaml";
-    var usePath = debugRobotPath;
+    var usePath = releaseRobotPath;
     bool firstRobotSuccess = true;
     if (shouldParseTable) {
       var firstRobotResult = await Process.run('rcc',

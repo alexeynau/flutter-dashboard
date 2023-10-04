@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:window_size/window_size.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 import 'data/repositories/windows_repository.dart';
 import 'presentation/pages/dashboard_page.dart';
 import 'presentation/pages/loading_page.dart';

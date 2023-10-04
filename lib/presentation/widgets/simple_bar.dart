@@ -86,6 +86,7 @@ class _SimpleBarState extends State<SimpleBar> {
                 ),
               ),
               maxY: getMax() * 1.2,
+              minY: getMin() < 0 ? getMin() * 1.2 : 0,
               gridData: const FlGridData(
                 drawVerticalLine: false,
                 show: false,
@@ -160,5 +161,20 @@ class _SimpleBarState extends State<SimpleBar> {
     });
 
     return max;
+  }
+
+  double getMin() {
+    double min = 0;
+    int index = 0;
+    widget.value!.forEach((element) {
+      if (widget.isChosen![index++]) {
+        element.forEach((e) {
+          double a = double.parse(e);
+          a < min ? min = a : min = min;
+        });
+      }
+    });
+
+    return min;
   }
 }

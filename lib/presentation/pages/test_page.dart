@@ -91,21 +91,55 @@ class _TestPageState extends State<TestPage> {
                                   ),
                                   height: 600,
                                   child: LineChartSampleHidden(
-                                    nameX: snapshot.data!.charts.plots[4].x,
+                                    nameX: snapshot.data!.charts.plots[7].x,
                                     hidden:
-                                        snapshot.data!.charts.plots[4].hidden,
+                                        snapshot.data!.charts.plots[7].hidden,
                                     isChosen: List.filled(
-                                        snapshot.data!.charts.plots[4].y.length,
+                                        snapshot.data!.charts.plots[7].y.length,
                                         true),
-                                    names: snapshot.data!.charts.plots[4].y,
+                                    names: snapshot.data!.charts.plots[7].y,
                                     name:
-                                        snapshot.data!.charts.plots[4].plotName,
+                                        snapshot.data!.charts.plots[7].plotName,
                                     data: repository
                                         .getSeriesByName(
-                                            snapshot.data!.charts.plots[4].x)
+                                            snapshot.data!.charts.plots[7].x)
                                         .map((e) => e.toString())
                                         .toList(),
-                                    value: snapshot.data!.charts.plots[4].y
+                                    value: snapshot.data!.charts.plots[7].y
+                                        .map((seriesName) => repository
+                                            .getSeriesByName(seriesName)
+                                            .map((e) => e.toString())
+                                            .toList())
+                                        .toList(),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10, right: 30),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
+                                  height: 600,
+                                  child: LineChartSampleHidden(
+                                    nameX: snapshot.data!.charts.plots[8].x,
+                                    hidden:
+                                        snapshot.data!.charts.plots[8].hidden,
+                                    isChosen: List.filled(
+                                        snapshot.data!.charts.plots[8].y.length,
+                                        true),
+                                    names: snapshot.data!.charts.plots[8].y,
+                                    name:
+                                        snapshot.data!.charts.plots[8].plotName,
+                                    data: repository
+                                        .getSeriesByName(
+                                            snapshot.data!.charts.plots[8].x)
+                                        .map((e) => e.toString())
+                                        .toList(),
+                                    value: snapshot.data!.charts.plots[8].y
                                         .map((seriesName) => repository
                                             .getSeriesByName(seriesName)
                                             .map((e) => e.toString())

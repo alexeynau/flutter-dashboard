@@ -99,7 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                               child: MediaQuery.of(context)
                                                           .size
                                                           .width <=
-                                                      1080
+                                                      1200
                                                   ? Icon(
                                                       _tabsIcons[
                                                           _tabs.indexOf(e)],
@@ -157,19 +157,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                                       ),
                                                     ),
                                               onPressed: () {
-
                                                 setState(() {
                                                   _currentIndex =
                                                       _tabs.indexOf(e);
                                                 });
 
                                                 // Navigator.pop(context);
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FileChooseDialog(),
-                                                    ));
                                               },
                                             ),
                                           );
@@ -183,6 +176,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                               right: 5, left: 5, bottom: 30),
                                           child: TextButton(
                                             onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FileChooseDialog(),
+                                                  ));
                                               //Леха сюда пиши что делает кнопка
                                             },
                                             style: ButtonStyle(
