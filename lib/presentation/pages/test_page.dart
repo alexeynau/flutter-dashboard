@@ -37,6 +37,7 @@ class _TestPageState extends State<TestPage> {
       child: FutureBuilder(
           future: repository.getDataAndPlots(),
           builder: (context, snapshot) {
+            print("repaint future builder test");
             switch (snapshot.connectionState) {
               case ConnectionState.done:
                 return snapshot.data != null

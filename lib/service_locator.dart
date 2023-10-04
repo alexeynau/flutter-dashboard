@@ -7,6 +7,7 @@ import 'package:flutter_dashboard/data/repositories/json_repository_impl.dart';
 import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
 // import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasources/json_http.dart';
 import 'data/repositories/windows_repository.dart';
@@ -25,6 +26,8 @@ Future<void> setup() async {
   //   ),
   // );
 
+  final sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerLazySingleton(() => sharedPreferences);
   getIt.registerLazySingleton<WindowsRepository>(() => WindowsRepository());
   // getIt.registerFactory(() => ChartBloc(repository: getIt()));
   // getIt.registerFactory(() => SelectorBloc());
