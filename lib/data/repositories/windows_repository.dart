@@ -96,16 +96,7 @@ class WindowsRepository {
         print("First robot error ${firstRobotResult.stderr}");
       }
     }
-    // Process.run('rcc', [
-    //   'task',
-    //   'run',
-    //   '--robot',
-    //   usePath,
-    //   "--task",
-    //   "app_1_postprocessor"
-    // ]).asStream().listen((event) {
-    //   print(event.stdout);
-    // });
+
     var secondRobotResult = await Process.run('rcc',
         ['task', 'run', '--robot', usePath, "--task", "app_1_postprocessor"]);
     var secondRobotSuccess = secondRobotResult.exitCode == 0;
@@ -117,7 +108,6 @@ class WindowsRepository {
     }
 
     return firstRobotSuccess && secondRobotSuccess;
-    // return true;
   }
 
   Future<DataAndPlots> getDataAndPlots() async {
@@ -155,4 +145,6 @@ class WindowsRepository {
         .firstWhere((element) => element.name == name)
         .series;
   }
+
+  DataAndPlots get dataAndPlots => _dataAndPlots;
 }

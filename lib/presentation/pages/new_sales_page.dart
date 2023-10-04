@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/data/models/data.dart';
-import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
-import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
-import 'package:flutter_dashboard/presentation/colors.dart';
-import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
-import 'package:flutter_dashboard/presentation/widgets/pie_graph.dart';
-import 'package:flutter_dashboard/presentation/widgets/simple_bar.dart';
-import 'package:flutter_dashboard/presentation/widgets/waterfall.dart';
-import 'package:flutter_dashboard/service_locator.dart';
+import '../../data/models/data.dart';
+import '../../data/repositories/windows_repository.dart';
+import '../colors.dart';
+import '../widgets/simple_bar.dart';
+import '../../service_locator.dart';
 
 class NewSalesPage extends StatefulWidget {
   const NewSalesPage({super.key});

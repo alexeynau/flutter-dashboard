@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
-import 'package:flutter_dashboard/service_locator.dart';
+import '../../data/repositories/windows_repository.dart';
+import '../../service_locator.dart';
 
 import '../pages/loading_page.dart';
 

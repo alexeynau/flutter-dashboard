@@ -1,14 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
-// import 'dart:js_interop';
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
-import 'package:flutter_dashboard/presentation/colors.dart';
-import 'package:flutter_dashboard/service_locator.dart';
-import 'package:http/http.dart';
+
+import '../colors.dart';
 
 class LineChartSample2 extends StatefulWidget {
   final List<String>? names;

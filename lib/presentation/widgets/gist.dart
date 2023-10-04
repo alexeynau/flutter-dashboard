@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/data/models/data.dart';
-import 'package:flutter_dashboard/presentation/colors.dart';
+import '../colors.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ColumnChart extends StatefulWidget {

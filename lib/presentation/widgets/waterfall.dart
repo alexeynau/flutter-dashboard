@@ -1,11 +1,9 @@
-/// Package imports
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/presentation/colors.dart';
 
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../colors.dart';
 
 class WaterFall extends StatefulWidget {
   List<List<String>> data = [];
@@ -212,7 +210,7 @@ class _WaterFallState extends State<WaterFall> {
   SfCartesianChart _buildDefaultWaterfallChart() {
     double sum = 0;
     return SfCartesianChart(
-      zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
+      zoomPanBehavior: ZoomPanBehavior(enablePinching: false),
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: widget.name),
       primaryXAxis: CategoryAxis(
