@@ -216,7 +216,13 @@ class _WaterFallState extends State<WaterFall> {
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: widget.name),
       primaryXAxis: CategoryAxis(
-        labelStyle: const TextStyle(fontSize: 10),
+        labelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: MediaQuery.of(context).size.width < 1265
+                ? MediaQuery.of(context).size.width > 960
+                    ? 6
+                    : 5
+                : 8),
         majorGridLines: const MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
@@ -308,41 +314,3 @@ class _ChartSampleData {
   final bool? intermediateSumPredicate;
   final bool? totalSumPredicate;
 }
-
-// child: Stack(
-//   children: [
-//     StatefulBuilder(
-//       builder: (context, setState) {
-//         return ListView.builder(
-//           itemCount: widget.names!.length,
-//           itemBuilder: (context, index) {
-//             bool a = index == widget.chosenIndex;
-//             return StatefulBuilder(
-//                 builder: (context, setState) {
-//               return CheckboxListTile(
-//                 value: a,
-//                 title: Text(widget.names![index]),
-//                 onChanged: (newBool) {
-//                   setState(() {
-//                     widget.chosenIndex = index;
-//                     a = newBool!;
-//                   });
-//                 },
-//               );
-//             });
-//           },
-//         );
-//       },
-//     ),
-//     Align(
-//       alignment: Alignment.bottomRight,
-//       child: TextButton(
-//         child: Text("OK"),
-//         onPressed: () {
-//           setState(() {});
-//           Navigator.pop(context);
-//         },
-//       ),
-//     )
-//   ],
-// ),

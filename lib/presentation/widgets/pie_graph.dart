@@ -102,8 +102,7 @@ class _PieGraphState extends State<PieGraph> {
                           });
                         },
                       ),
-                      centerSpaceRadius:
-                          h >= w ? (w / 2) * 0.17 : (h / 2) * 0.17,
+                      centerSpaceRadius: w < 1200 ? w / 2 * 0.07 : w / 2 * 0.08,
                       sectionsSpace: 2,
                       borderData: FlBorderData(show: false),
                       sections: [
@@ -117,13 +116,7 @@ class _PieGraphState extends State<PieGraph> {
                               color: ThemeColors().pieTextColor,
                               fontSize: isTouched ? 20 : 15,
                             ),
-                            radius: isTouched
-                                ? h >= w
-                                    ? (w / 2) * 0.22
-                                    : (h / 2) * 0.22
-                                : h >= w
-                                    ? (w / 2) * 0.15
-                                    : (h / 2) * 0.15,
+                            radius: isTouched ? (w / 2) * 0.15 : (w / 2) * 0.10,
                             value: double.parse(e[1]),
                             color: getColorCircle(ind),
                           );
@@ -144,26 +137,26 @@ class _PieGraphState extends State<PieGraph> {
                   (e) {
                     ind2 += 1;
                     return Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 15,
+                      padding: EdgeInsets.only(
+                        bottom: h < 600 ? 5 : 10,
                         left: 15,
                       ),
                       child: Row(
                         children: [
                           Container(
-                            width: 25,
-                            height: 25,
+                            width: h < 600 ? 18 : 23,
+                            height: h < 600 ? 18 : 23,
                             decoration: BoxDecoration(
                                 color: getColorCircle(ind2),
                                 shape: BoxShape.circle),
                           ),
-                          const SizedBox(
-                            width: 10,
+                          SizedBox(
+                            width: h < 600 ? 4 : 10,
                           ),
                           Text(
                             e[0],
-                            style: const TextStyle(
-                              fontSize: 15,
+                            style: TextStyle(
+                              fontSize: h < 600 ? 12 : 14,
                             ),
                           ),
                         ],

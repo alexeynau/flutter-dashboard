@@ -5,44 +5,43 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
 import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
 import 'package:flutter_dashboard/presentation/colors.dart';
 import 'package:flutter_dashboard/service_locator.dart';
-import 'package:http/http.dart';
 
-class LineChartSample2 extends StatefulWidget {
+class LineChartSampleHidden extends StatefulWidget {
   final List<String>? names;
-  String selectedValue = "";
-  int chosenIndex = 0;
   final List<String>? data;
+  final List<List<String>>? hidden;
   final String? name;
+  final String? nameX;
   final List<List<String>>? value;
   final List<bool>? isChosen;
-  LineChartSample2({
-    this.name,
-    this.data,
-    this.value,
-    this.names,
-    this.isChosen,
-    super.key,
-  });
+  const LineChartSampleHidden(
+      {this.name,
+      this.data,
+      this.value,
+      this.names,
+      this.isChosen,
+      this.nameX,
+      super.key,
+      this.hidden});
 
   @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
+  State<LineChartSampleHidden> createState() => _LineChartSampleHiddenState();
 }
 
-class _LineChartSample2State extends State<LineChartSample2> {
-  List<List<String>>? chosenSeries;
-
+class _LineChartSampleHiddenState extends State<LineChartSampleHidden> {
+  WindowsRepository repository = getIt.get<WindowsRepository>();
   @override
   void initState() {
-    widget.selectedValue = widget.names![0];
     super.initState();
   }
 
-  List<bool> getChosen() {
-    return List.filled(widget.value!.length, true);
-  }
+  // List<bool> getChosen() {
+  //   return List.filled(widget.value!.length, true);
+  // }
 
   List<LineChartBarData> getLineBarsData() {
     List<LineChartBarData> data = [];
@@ -50,22 +49,15 @@ class _LineChartSample2State extends State<LineChartSample2> {
     int _indexForElem = 0;
     widget.value!.forEach((element) {
       _indexForElem = -1;
-      if (widget.chosenIndex == _currentIndex - 1) {
+      if (widget.isChosen![_currentIndex - 1]) {
         data.add(
           LineChartBarData(
             showingIndicators: [0],
-            color: getGradColor(_currentIndex).first,
-            barWidth: 3,
-            dotData: FlDotData(
-              show: true,
-              getDotPainter: (p0, p1, p2, p3) {
-                return FlDotCirclePainter(
-                  radius: 0,
-                  color: p2.color!,
-                  strokeColor: p2.color!,
-                );
-              },
+            gradient: LinearGradient(
+              colors: getGradColor(_currentIndex),
             ),
+            barWidth: 3,
+            dotData: FlDotData(show: false),
             belowBarData: BarAreaData(
               show: false,
               gradient: LinearGradient(
@@ -92,141 +84,96 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return data;
   }
 
-  double getChosenLen() {
-    double len = 0;
-    widget.isChosen!.forEach((element) {
-      element ? len++ : len = len;
-    });
-    return len;
-  }
-
   @override
   Widget build(BuildContext context) {
-    int currentDot = 0;
-
+    int indexData = -1;
     return Stack(
       children: <Widget>[
-        Row(
-          children: [
-            Expanded(
-              flex: 10,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  padding: EdgeInsets.only(top: 10, left: 50),
-                  child: Text(
+        Container(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              padding: EdgeInsets.only(top: 10, left: 45),
+              child: Row(
+                children: [
+                  Text(
                     widget.name!,
                     style: TextStyle(
-                      fontSize:
-                          MediaQuery.of(context).size.width < 1000 ? 10 : 13,
+                      fontSize: 15,
                       color: ThemeColors().primarytext,
                     ),
                   ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  margin: EdgeInsets.only(
-                    top: 18,
-                    right: 0,
-                  ),
-                  width: 30,
-                  height: 20,
-                  color: ThemeColors().opacityColor,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return Dialog(
-                                  child: Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 10, bottom: 10, left: 5, right: 5),
+                  SizedBox(
+                    width: 40,
+                    height: 15,
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                child: SizedBox(
                                     width: 400,
                                     height: 500,
                                     child: Stack(
                                       children: [
-                                        SingleChildScrollView(
-                                          child: StatefulBuilder(
-                                            builder: (context, setState1) {
-                                              return Column(
-                                                children: [
-                                                  ...widget.names!.map(
-                                                    (e) => RadioListTile(
-                                                      title: Text(e),
-                                                      value: e,
-                                                      groupValue:
-                                                          widget.selectedValue,
-                                                      onChanged: (value) {
-                                                        setState1(() {
-                                                          widget.selectedValue =
-                                                              value!;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
-                                                ],
+                                        ListView.builder(
+                                          itemCount: widget.names!.length,
+                                          itemBuilder: (context, index) {
+                                            bool isSelected =
+                                                widget.isChosen![index];
+                                            return StatefulBuilder(
+                                                builder: (context, setState) {
+                                              return CheckboxListTile(
+                                                value: isSelected,
+                                                title:
+                                                    Text(widget.names![index]),
+                                                onChanged: (newBool) {
+                                                  setState(() {
+                                                    widget.isChosen?[index] =
+                                                        newBool!;
+                                                    isSelected = newBool!;
+                                                  });
+                                                },
                                               );
-                                            },
-                                          ),
+                                            });
+                                          },
                                         ),
-                                        Container(
+                                        Align(
                                           alignment: Alignment.bottomRight,
-                                          padding: const EdgeInsets.only(
-                                              bottom: 15, right: 15),
                                           child: TextButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStatePropertyAll(
-                                                      ThemeColors().barColor),
-                                            ),
-                                            child: const Text(
-                                              "OK",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
+                                            child: Text("OK"),
                                             onPressed: () {
-                                              setState(() {
-                                                widget.chosenIndex =
-                                                    widget.names!.indexOf(
-                                                        widget.selectedValue);
-                                              });
+                                              setState(() {});
                                               Navigator.pop(context);
                                             },
                                           ),
                                         )
                                       ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Icon(
-                            Icons.filter_alt_rounded,
-                            color: ThemeColors().primarytext,
-                          ),
-                        ),
+                                    )),
+                              );
+                            },
+                          );
+                        });
+                      },
+                      child: Icon(
+                        Icons.filter_alt_rounded,
+                        color: ThemeColors().primarytext,
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
         Container(
-          child: Container(
-            padding: EdgeInsets.only(
+          child: Padding(
+            padding: const EdgeInsets.only(
               right: 0,
               left: 0,
-              top: 48,
+              top: 40,
               bottom: 20,
             ),
             child: LineChart(
@@ -299,7 +246,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     double max = 2;
     int index = 0;
     widget.value!.forEach((element) {
-      if (widget.chosenIndex == widget.value!.indexOf(element)) {
+      if (widget.isChosen![index++]) {
         element.forEach((e) {
           double a = double.parse(e);
           a > max ? max = a : max = max;
@@ -314,7 +261,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     double min = double.maxFinite;
     int index = 0;
     widget.value!.forEach((element) {
-      if (widget.chosenIndex == widget.value!.indexOf(element)) {
+      if (widget.isChosen![index++]) {
         element.forEach((e) {
           double a = double.parse(e);
           a < min ? min = a : min = min;
@@ -329,7 +276,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     double min = double.maxFinite;
     int index = 0;
     widget.value!.forEach((element) {
-      if (widget.chosenIndex == widget.value!.indexOf(element)) {
+      if (widget.isChosen![index++]) {
         element.forEach((e) {
           double a = double.parse(e);
           a < min ? min = a : min = min;
@@ -364,13 +311,19 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 ...touchedSpots.map(
                   (LineBarSpot touchedSpot) {
                     final textStyle = TextStyle(
+                        color: touchedSpot.bar.gradient?.colors.first ??
+                            touchedSpot.bar.color ??
+                            ThemeColors().tooltipBg,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold);
+                    final textStyle1 = TextStyle(
                       color: touchedSpot.bar.gradient?.colors.first ??
                           touchedSpot.bar.color ??
                           ThemeColors().tooltipBg,
-                      fontWeight: FontWeight.bold,
                       fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
                     );
-
                     final textStyle2 = TextStyle(
                         color: ThemeColors().primarytext,
                         fontSize: 12,
@@ -381,22 +334,40 @@ class _LineChartSample2State extends State<LineChartSample2> {
                         fontWeight: FontWeight.normal);
 
                     return LineTooltipItem(
-                      "${widget.data![touchedSpot.spotIndex]}:\n",
+                      touchedSpot.barIndex == 0
+                          ? "${widget.nameX} = ${widget.data![touchedSpot.spotIndex]}:\n\n"
+                          : "",
                       textStyle2,
                       children: [
                         TextSpan(
-                          style: TextStyle(
-                              color: touchedSpot.bar.gradient?.colors.first ??
-                                  touchedSpot.bar.color ??
-                                  ThemeColors().tooltipBg,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold),
-                          text: "${widget.names![touchedSpot.barIndex]}",
-                        ),
-                        TextSpan(
-                          text: "= ${touchedSpot.y}",
-                          style: textStyle4,
-                        ),
+                            text: "${widget.names![touchedSpot.barIndex]}",
+                            style: textStyle1),
+                        TextSpan(text: "\n", style: textStyle1),
+                        widget.isChosen![widget.names!
+                                .indexOf(widget.names![touchedSpot.barIndex])]
+                            ? TextSpan(
+                                text: null,
+                                children: [
+                                  ...widget.hidden![widget.names!.indexOf(
+                                          widget.names![touchedSpot.barIndex])]
+                                      .map(
+                                    (element) {
+                                      return TextSpan(
+                                        text: element,
+                                        style: textStyle,
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                "= ${repository.getSeriesByName(element)[touchedSpot.spotIndex]} \n",
+                                            style: textStyle4,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  )
+                                ],
+                              )
+                            : TextSpan(),
                       ],
                     );
                   },
@@ -491,10 +462,10 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: widget.data!.length.toDouble() - 1,
       minY: getMin() > 0
-          ? getMin() * 0.7
+          ? getMin() * 0.5
           : getMin() == 0
               ? -3
-              : getMin() * 1.3,
+              : getMin() * 1.5,
       maxY: getMax() < 5 ? 5 : getMax() * 1.2,
       lineBarsData: getLineBarsData(),
     );

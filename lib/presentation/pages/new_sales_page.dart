@@ -50,61 +50,56 @@ class _NewSalesPageState extends State<NewSalesPage> {
                 future: fetchedData,
                 builder: (context, snapshot) {
                   print("repaint future builder sales");
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.done:
-                      return snapshot.data != null
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    margin: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(15)),
-                                      color: ThemeColors().secondary,
-                                    ),
-                                    child: WaterFall(
-                                      name: snapshot
-                                          .data!.charts.waterfall[0].plotName,
-                                      names:
-                                          snapshot.data!.charts.waterfall[0].y,
-                                      labels: repository
-                                          .getSeriesByName(snapshot
-                                              .data!.charts.waterfall[0].x)
-                                          .map((e) => e.toString())
-                                          .toList(),
-                                      value: snapshot
-                                          .data!.charts.waterfall[0].y
-                                          .map((seriesName) => repository
-                                                  .getSeriesByName(seriesName)
-                                                  .map((e) {
-                                                if (e == null) return "None";
-                                                return e.toString();
-                                              }).toList())
-                                          .toList(),
-                                    ),
+                   switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                return snapshot.data != null
+                    ? SingleChildScrollView(
+                        child: Container(
+                          child: Column(
+                            children: [
+                              ...snapshot.data!.charts.barChart.map(
+                                (e) => Container(
+                                  margin: EdgeInsets.only(
+                                      bottom: snapshot.data!.charts.barChart
+                                                  .indexOf(e) !=
+                                              snapshot.data!.charts.barChart
+                                                      .length -
+                                                  1
+                                          ? 20
+                                          : 0),
+                                  padding: const EdgeInsets.only(
+                                      top: 10, bottom: 10),
+                                  height: 400,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
+                                  child: SimpleBar(
+                                    isChosen: const [true],
+                                    data: repository
+                                        .getSeriesByName(e.x)
+                                        .map((e) => e.toString())
+                                        .toList(),
+                                    name: e.plotName,
+                                    value: e.y
+                                        .map((seriesName) => repository
+                                            .getSeriesByName(seriesName)
+                                            .map((e) => e.toString())
+                                            .toList())
+                                        .toList(),
                                   ),
                                 ),
-                                // Expanded(
-                                //   flex: 1,
-                                //   child: Container(
-                                //     margin: EdgeInsets.all(10),
-                                //     decoration: BoxDecoration(
-                                //       shape: BoxShape.rectangle,
-                                //       borderRadius:
-                                //           const BorderRadius.all(Radius.circular(15)),
-                                //       color: ThemeColors().secondary,
-                                //     ),
-                                //   ),
-                                // ),
-                              ],
-                            )
-                          : Center(child: CircularProgressIndicator());
-                    default:
-                      return Center(child: CircularProgressIndicator());
-                  }
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    : const Center(child: CircularProgressIndicator());
+              default:
+                return const Center(child: CircularProgressIndicator());
+            }
                 });
           }),
     );

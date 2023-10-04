@@ -43,72 +43,168 @@ class _NewHomePageState extends State<NewHomePage> {
                     ? Row(
                         children: [
                           Expanded(
-                            flex: 3,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  flex: 3,
+                              child: Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    right: 5,
+                                    bottom: 5,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
                                   child: Container(
-                                    margin: const EdgeInsets.only(
-                                        top: 10, bottom: 10, right: 10),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(15)),
-                                      color: ThemeColors().secondary,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(right: 30),
-                                            child: Row(
-                                              children: [
-                                                ...snapshot.data!.charts.plots
-                                                    .getRange(0, 1)
-                                                    .map((e) => Expanded(
-                                                          child:
-                                                              LineChartSample2(
-                                                            hidden: e.hidden,
-                                                            isChosen:
-                                                                List.filled(
-                                                                    e.y.length,
-                                                                    true),
-                                                            names: e.y,
-                                                            name: e.plotName,
-                                                            data: repository
-                                                                .getSeriesByName(
-                                                                    e.x)
-                                                                .map((e) => e
-                                                                    .toString())
-                                                                .toList(),
-                                                            value: e.y
-                                                                .map((seriesName) => repository
-                                                                    .getSeriesByName(
-                                                                        seriesName)
-                                                                    .map((e) =>
-                                                                        e.toString())
-                                                                    .toList())
-                                                                .toList(),
-                                                          ),
-                                                        ))
-                                                    .toList(),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: LineChartSample2(
+                                      isChosen: List.filled(
+                                          snapshot
+                                              .data!.charts.plots[0].y.length,
+                                          true),
+                                      names: snapshot.data!.charts.plots[0].y,
+                                      name: snapshot
+                                          .data!.charts.plots[0].plotName,
+                                      data: repository
+                                          .getSeriesByName(
+                                              snapshot.data!.charts.plots[0].x)
+                                          .map((e) => e.toString())
+                                          .toList(),
+                                      value: snapshot.data!.charts.plots[0].y
+                                          .map((seriesName) => repository
+                                              .getSeriesByName(seriesName)
+                                              .map((e) => e.toString())
+                                              .toList())
+                                          .toList(),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          )
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    right: 5,
+                                    top: 5,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: LineChartSample2(
+                                      isChosen: List.filled(
+                                          snapshot
+                                              .data!.charts.plots[1].y.length,
+                                          true),
+                                      names: snapshot.data!.charts.plots[1].y,
+                                      name: snapshot
+                                          .data!.charts.plots[1].plotName,
+                                      data: repository
+                                          .getSeriesByName(
+                                              snapshot.data!.charts.plots[1].x)
+                                          .map((e) => e.toString())
+                                          .toList(),
+                                      value: snapshot.data!.charts.plots[1].y
+                                          .map((seriesName) => repository
+                                              .getSeriesByName(seriesName)
+                                              .map((e) => e.toString())
+                                              .toList())
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                          Expanded(
+                              child: Column(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    left: 5,
+                                    bottom: 5,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: LineChartSample2(
+                                      isChosen: List.filled(
+                                          snapshot
+                                              .data!.charts.plots[2].y.length,
+                                          true),
+                                      names: snapshot.data!.charts.plots[2].y,
+                                      name: snapshot
+                                          .data!.charts.plots[2].plotName,
+                                      data: repository
+                                          .getSeriesByName(
+                                              snapshot.data!.charts.plots[2].x)
+                                          .map((e) => e.toString())
+                                          .toList(),
+                                      value: snapshot.data!.charts.plots[2].y
+                                          .map((seriesName) => repository
+                                              .getSeriesByName(seriesName)
+                                              .map((e) => e.toString())
+                                              .toList())
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                    top: 5,
+                                    left: 5,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
+                                    color: ThemeColors().secondary,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: LineChartSample2(
+                                      isChosen: List.filled(
+                                          snapshot
+                                              .data!.charts.plots[3].y.length,
+                                          true),
+                                      names: snapshot.data!.charts.plots[3].y,
+                                      name: snapshot
+                                          .data!.charts.plots[3].plotName,
+                                      data: repository
+                                          .getSeriesByName(
+                                              snapshot.data!.charts.plots[3].x)
+                                          .map((e) => e.toString())
+                                          .toList(),
+                                      value: snapshot.data!.charts.plots[3].y
+                                          .map((seriesName) => repository
+                                              .getSeriesByName(seriesName)
+                                              .map((e) => e.toString())
+                                              .toList())
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
                         ],
                       )
-                    : CircularProgressIndicator();
+                    : Center(child: CircularProgressIndicator());
               default:
-                return CircularProgressIndicator();
+                return Center(child: CircularProgressIndicator());
             }
           }),
     );
