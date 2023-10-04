@@ -1,25 +1,33 @@
 // import 'dart:js_util';
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_dashboard/data/datasources/json_http.dart';
-import 'package:flutter_dashboard/presentation/bloc/canvas_bloc/canvas_bloc.dart';
-// import 'package:flutter_dashboard/presentation/bloc/chart_bloc/chart_bloc.dart';
-import 'package:flutter_dashboard/presentation/colors.dart';
-// import 'package:flutter_dashboard/presentation/pages/home_page.dart';
-import 'package:flutter_dashboard/presentation/pages/new_home_page.dart';
-import 'package:flutter_dashboard/presentation/pages/test_page.dart';
-// import 'package:flutter_dashboard/presentation/pages/sales_page.dart';
-import 'presentation/bloc/bloc/selector_bloc.dart';
-import 'presentation/pages/new_sales_page.dart';
+
+import 'package:window_size/window_size.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'data/repositories/windows_repository.dart';
+import 'presentation/pages/dashboard_page.dart';
+import 'presentation/pages/loading_page.dart';
+import 'presentation/widgets/file_choose_dialog.dart';
 import 'service_locator.dart' as dependency_injection;
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependency_injection.setup();
-  dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
+
+  // var prefs = await getIt.get<SharedPreferences>();
+  // await prefs.clear();
+  // dependency_injection.getIt.get<JsonRemoteData>().serverWatcher(1);
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    setWindowTitle('My App');
+    // setWindowMaxSize(const Size(max_width, max_height));
+    setWindowMinSize(const Size(1050, 600));
+  }
   runApp(App());
 }
 
@@ -31,111 +39,157 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 2;
-
-  final List<Widget> _tabs = [
-    const NewHomePage(),
-    const NewSalesPage(),
-    const TestPage(),
-  ];
-
+  WindowsRepository repository = getIt.get<WindowsRepository>();
+  bool parseTable = false;
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        // BlocProvider<ChartBloc>(create: (context) => getIt<ChartBloc>()),
-        BlocProvider<SelectorBloc>(create: (context) => getIt<SelectorBloc>()),
-        BlocProvider<CanvasBloc>(create: (context) => getIt<CanvasBloc>()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // add MultiBlockProvider
-        home: DefaultTabController(
-          initialIndex: _currentIndex,
-          length: _tabs.length,
-          child: Builder(
-            builder: (BuildContext context) {
-              final TabController tabController =
-                  DefaultTabController.of(context);
-              tabController.addListener(() {
-                if (tabController.indexIsChanging) {
-                  setState(() {
-                    _currentIndex = tabController.index;
-                  });
-                }
-              });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // add MultiBlockProvider
+      home: Scaffold(
+        body: FutureBuilder(
+          future: repository.hasData(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                if (snapshot.data == true) {
+                  print("has data");
+                  repository.watchExcel(repository.currentPath!);
+                  return DashboardPage();
+                } else {
+                  print("doesnt have data");
 
-              return Scaffold(
-                appBar: AppBar(
-                  backgroundColor: ThemeColors().secondary,
-                  title: TabBar(
-                    overlayColor:
-                        MaterialStatePropertyAll(ThemeColors().secondary),
-                    automaticIndicatorColorAdjustment: false,
-                    indicatorColor: ThemeColors().secondary,
-                    unselectedLabelStyle: TextStyle(fontSize: 14),
-                    labelStyle: TextStyle(fontSize: 20),
-                    tabs: [
-                      Container(
-                        color: _currentIndex == 0
-                            ? ThemeColors().selected
-                            : ThemeColors().secondary,
-                        width: MediaQuery.of(context).size.width,
-                        child: Tab(
-                          height: MediaQuery.of(context).size.height,
-                          child: Text(
-                            "Главная",
-                            style: TextStyle(
-                              color: ThemeColors().primarytext,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(0),
-                        margin: EdgeInsets.all(0),
-                        color: _currentIndex == 1
-                            ? ThemeColors().selected
-                            : ThemeColors().secondary,
-                        width: double.infinity,
-                        child: Tab(
-                          height: MediaQuery.of(context).size.height,
-                          child: Text(
-                            "Продажи",
-                            style: TextStyle(
-                              color: ThemeColors().primarytext,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        color: _currentIndex == 2
-                            ? ThemeColors().selected
-                            : ThemeColors().secondary,
-                        width: MediaQuery.of(context).size.width,
-                        child: Tab(
-                          height: MediaQuery.of(context).size.height,
-                          child: Text(
-                            "Тест",
-                            style: TextStyle(
-                              color: ThemeColors().primarytext,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                body: TabBarView(
-                  children: _tabs.map((e) {
-                    return e;
-                  }).toList(),
-                ),
-              );
-            },
-          ),
+                  return FileChooseDialog();
+                }
+              default:
+                return const Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
     );
   }
+
+  // FutureBuilder<String?> FileChooseDialog() {
+  //   return FutureBuilder(
+  //                 future: repository.getPath(),
+  //                 builder: (context, snapshot) {
+  //                   switch (snapshot.connectionState) {
+  //                     case ConnectionState.done:
+  //                       if (snapshot.data == null) {
+  //                         return Center(
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               const Text("Файл не выбран"),
+  //                               ElevatedButton(
+  //                                 onPressed: () async {
+  //                                   await repository.pickFile();
+
+  //                                   print(snapshot.data);
+  //                                   setState(() {});
+  //                                 },
+  //                                 child: const Text("Выбрать"),
+  //                               ),
+  //                             ],
+  //                           ),
+  //                         );
+  //                       } else {
+  //                         return Builder(
+  //                           builder: (context) {
+  //                             return Center(
+  //                               child: SizedBox(
+  //                                 width: 600,
+  //                                 height: 300,
+  //                                 child: Dialog(
+  //                                   child: Column(
+  //                                     mainAxisAlignment:
+  //                                         MainAxisAlignment.spaceAround,
+  //                                     children: [
+  //                                       Text(
+  //                                         "${Directory.current.path}  Выбран файл: ",
+  //                                         style: TextStyle(
+  //                                           fontSize: 20,
+  //                                         ),
+  //                                         textAlign: TextAlign.center,
+  //                                       ),
+  //                                       Text(
+  //                                         "${snapshot.data}",
+  //                                         style: const TextStyle(
+  //                                           fontSize: 14,
+  //                                         ),
+  //                                         textAlign: TextAlign.center,
+  //                                       ),
+  //                                       const Text(
+  //                                         "Заполнить таблицу автоматически?",
+  //                                         style: TextStyle(
+  //                                           fontSize: 20,
+  //                                         ),
+  //                                         textAlign: TextAlign.center,
+  //                                       ),
+  //                                       Row(
+  //                                         mainAxisAlignment:
+  //                                             MainAxisAlignment.center,
+  //                                         children: [
+  //                                           Padding(
+  //                                             padding:
+  //                                                 const EdgeInsets.all(10),
+  //                                             child: ElevatedButton(
+  //                                               onPressed: () {
+  //                                                 repository.watchExcel(
+  //                                                     snapshot.data!);
+  //                                                 parseTable = false;
+  //                                                 Navigator.push(
+  //                                                   context,
+  //                                                   MaterialPageRoute(
+  //                                                     builder: (context) {
+  //                                                       return LoadingPage(
+  //                                                         shouldParseTable:
+  //                                                             parseTable,
+  //                                                       );
+  //                                                     },
+  //                                                   ),
+  //                                                 );
+  //                                               },
+  //                                               child: const Text("Нет"),
+  //                                             ),
+  //                                           ),
+  //                                           ElevatedButton(
+  //                                             onPressed: () async {
+  //                                               await repository.pickFile();
+  //                                               print(snapshot.data);
+  //                                               setState(() {});
+  //                                             },
+  //                                             child: const Text(
+  //                                                 "Выбрать другой файл"),
+  //                                           ),
+  //                                           Padding(
+  //                                             padding:
+  //                                                 const EdgeInsets.all(10),
+  //                                             child: ElevatedButton(
+  //                                               onPressed: () {
+  //                                                 repository.watchExcel(
+  //                                                     snapshot.data!);
+  //                                                 parseTable = true;
+  //                                               },
+  //                                               child: const Text("Да"),
+  //                                             ),
+  //                                           ),
+  //                                         ],
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             );
+  //                           },
+  //                         );
+  //                       }
+
+  //                     default:
+  //                       return const CircularProgressIndicator();
+  //                   }
+  //                 },
+  //               );
+  // }
 }

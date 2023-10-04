@@ -7,7 +7,9 @@ class ThemeColors {
   // Primary actions, emphasizing navigation elements,
   // backgrounds, text, etc.
   Color get primary => Color.fromARGB(242, 29, 104, 29);
-  Color get selected => Color.fromARGB(255, 112, 186, 107);
+  Color get primaryWithOpacity => Color.fromARGB(0, 55, 165, 179);
+  // Color get selected => Color.fromARGB(255, 112, 186, 107);
+  Color get selected => Color.fromARGB(255, 7, 144, 101);
   Color get primarytext => Color.fromARGB(241, 37, 40, 37);
   Color get secondary => Color.fromARGB(255, 255, 255, 255);
 
@@ -60,6 +62,7 @@ class ThemeColors {
   Color get secondgrad10 => Color.fromARGB(255, 45, 46, 2);
   //bg fot tooltip
   Color get tooltipBg => Color.fromARGB(255, 233, 230, 230);
+  Color get tooltipBgWithOp => Color.fromARGB(130, 203, 199, 199);
   Color get tooltipBgBar => Color.fromARGB(0, 255, 255, 255);
 
   //for markets
@@ -70,13 +73,34 @@ class ThemeColors {
   Color get outMarket => Color.fromARGB(255, 152, 3, 3);
 
   // for bar
-  Color get barColor => Color.fromARGB(255, 202, 32, 182);
+  Color get barColor => Color.fromARGB(255, 7, 144, 101);
 
   // for pie
   Color get pieTextColor => Color.fromARGB(255, 255, 255, 255);
+  Color get pieBg1 => const Color.fromARGB(255, 180, 23, 23);
+  Color get pieBg3 => Color.fromARGB(255, 197, 155, 38);
+  Color get pieBg2 => Color.fromARGB(255, 225, 93, 40);
+  Color get pieBg4 => Color.fromARGB(255, 149, 182, 43);
+  Color get pieBg5 => Color.fromARGB(255, 50, 166, 41);
+  Color get pieBg6 => Color.fromARGB(255, 41, 178, 133);
+  Color get pieBg7 => Color.fromARGB(255, 43, 156, 168);
+  Color get pieBg8 => Color.fromARGB(255, 43, 46, 157);
+  Color get pieBg9 => Color.fromARGB(255, 120, 47, 169);
+  Color get pieBg10 => Color.fromARGB(255, 160, 39, 164);
 
   // for waterflow
   Color get add => Color.fromARGB(255, 58, 207, 13);
-  Color get delete => Color.fromARGB(255, 233, 2, 2);
-  Color get summary => Color.fromARGB(255, 116, 118, 120);
+  Color get delete => Color.fromARGB(255, 197, 3, 3);
+  Color get summary => Color.fromARGB(255, 37, 80, 172);
+  Color get addText => Color.fromARGB(255, 8, 19, 5);
+  Color get deleteText => Color.fromARGB(255, 255, 254, 254);
+  Color get summaryText => Color.fromARGB(255, 255, 255, 255);
+  Color get zeroText => Color.fromARGB(255, 15, 16, 14);
+  //
+  Color get opacityColor => Color.fromARGB(0, 15, 16, 14);
+  Color get greyText => Color.fromARGB(255, 143, 144, 142);
+  // Color get navigationButtonColor => Color.fromARGB(255, 50, 166, 41);
+
+  Color get navigationButtonColor => Color.fromARGB(255, 9, 137, 84);
+  Color get navigationButtonText => Color.fromARGB(255, 254, 255, 252);
 }

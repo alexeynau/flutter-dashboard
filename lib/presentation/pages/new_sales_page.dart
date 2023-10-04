@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dashboard/data/models/data.dart';
+import 'package:flutter_dashboard/data/repositories/windows_repository.dart';
+import 'package:flutter_dashboard/domain/repositories/json_repository.dart';
+import 'package:flutter_dashboard/presentation/colors.dart';
+import 'package:flutter_dashboard/presentation/widgets/graph_widget.dart';
+import 'package:flutter_dashboard/presentation/widgets/pie_graph.dart';
 import 'package:flutter_dashboard/presentation/widgets/simple_bar.dart';
-
-import '../../domain/repositories/json_repository.dart';
-import '../../service_locator.dart';
-
-import '../colors.dart';
-import '../widgets/graph_widget.dart';
+import 'package:flutter_dashboard/presentation/widgets/waterfall.dart';
+import 'package:flutter_dashboard/service_locator.dart';
 
 class NewSalesPage extends StatefulWidget {
   const NewSalesPage({super.key});
@@ -15,95 +17,91 @@ class NewSalesPage extends StatefulWidget {
 }
 
 class _NewSalesPageState extends State<NewSalesPage> {
-  JsonRepository repository = getIt.get<JsonRepository>();
-
+  WindowsRepository repository = getIt.get<WindowsRepository>();
+  late Future<DataAndPlots> fetchedData;
   @override
   void initState() {
-    print("repaint");
-    repository.eventStream.stream.listen((event) {
-      setState(() {});
-    });
+    fetchedData = repository.getDataAndPlots();
+
     super.initState();
   }
 
+  // @override
+  // void didChangeDependencies() {
+  //   fetchedData = repository.getDataAndPlots();
+  //   super.didChangeDependencies();
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // repository.eventStream.stream.listen((event) {
+    //   setState(() {});
+    // });
     return Container(
+      padding: const EdgeInsets.all(20),
       color: ThemeColors().background01,
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      child: FutureBuilder(
-          future: repository.getDataAndPlots(),
+      child: StreamBuilder<DataAndPlots>(
+          stream: repository.eventStream.stream,
           builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                return snapshot.data != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ...snapshot.data!.charts.plots
-                              .getRange(4, 5)
-                              .map(
-                                (e) => Expanded(
-                                  child: Container(
-                                    color: ThemeColors().background01,
-                                    child: LineChartSample2(
-                                      hidden: e.hidden,
-                                      isChosen: List.filled(e.y.length, true),
-                                      names: e.y,
-                                      name: e.plotName,
-                                      data: repository
-                                          .getSeriesByName(e.x)
-                                          .map((e) => e.toString())
-                                          .toList(),
-                                      value: e.y
-                                          .map((seriesName) => repository
-                                              .getSeriesByName(seriesName)
+            print("repaint stream builder");
+            return FutureBuilder(
+                future: fetchedData,
+                builder: (context, snapshot) {
+                  print("repaint future builder sales");
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      return snapshot.data != null
+                          ? SingleChildScrollView(
+                              child: Container(
+                                child: Column(
+                                  children: [
+                                    ...snapshot.data!.charts.barChart.map(
+                                      (e) => Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: snapshot
+                                                        .data!.charts.barChart
+                                                        .indexOf(e) !=
+                                                    snapshot.data!.charts
+                                                            .barChart.length -
+                                                        1
+                                                ? 20
+                                                : 0),
+                                        padding: const EdgeInsets.only(
+                                            top: 10, bottom: 10),
+                                        height: 500,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(15)),
+                                          color: ThemeColors().secondary,
+                                        ),
+                                        child: SimpleBar(
+                                          isChosen: const [true],
+                                          data: repository
+                                              .getSeriesByName(e.x)
                                               .map((e) => e.toString())
-                                              .toList())
-                                          .toList(),
-                                    ),
-                                  ),
+                                              .toList(),
+                                          name: e.plotName,
+                                          value: e.y
+                                              .map((seriesName) => repository
+                                                  .getSeriesByName(seriesName)
+                                                  .map((e) => e.toString())
+                                                  .toList())
+                                              .toList(),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                              .toList(),
-                          Container(
-                            padding: const EdgeInsets.only(
-                              top: 40,
-                              left: 30,
-                            ),
-                            width: 400,
-                            height: 600,
-                            child: SimpleBar(
-                              name: snapshot.data!.charts.barChart[0].plotName,
-                              isChosen: const [true],
-                              data: repository
-                                  .getSeriesByName(
-                                      snapshot.data!.charts.barChart[0].x)
-                                  .map((e) => e.toString())
-                                  .toList(),
-                              value: snapshot.data!.charts.barChart[0].y
-                                  .map((seriesName) => repository
-                                      .getSeriesByName(seriesName)
-                                      .map((e) => e.toString())
-                                      .toList())
-                                  .toList(),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 40,
-                          )
-                        ],
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      );
-
-              default:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-            }
+                              ),
+                            )
+                          : const Center(child: CircularProgressIndicator());
+                    default:
+                      return const Center(child: CircularProgressIndicator());
+                  }
+                });
           }),
     );
   }
