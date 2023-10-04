@@ -22,4 +22,20 @@
 После первого запуска, информация о наличии данных и пути к таблице сохраняется и при повторном запуске приложения робот заново не запускается, а сразу показываются дэшборды
 
 
+## Сборка проекта:
+1) Установите актуальную версию [Flutter](https://docs.flutter.dev/get-started/install)
+2) Склонируйте репозиторий
+```shell
+git clone https://github.com/alexeynau/flutter-dashboard.git
+```
+3) Запустите приложение
+```shell
+flutter pub get
+flutter run
+```
+4) Для билда под Windows
+```shell
+flutter pub get
+flutter build windows --release
+```
 
