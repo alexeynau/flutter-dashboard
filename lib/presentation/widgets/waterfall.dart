@@ -75,6 +75,7 @@ class _WaterFallState extends State<WaterFall> {
   void initState() {
     widget.selectedValue = widget.names[0];
     _tooltipBehavior = TooltipBehavior(
+      tooltipPosition: TooltipPosition.pointer,
       enable: true,
       header: '',
     );
@@ -84,7 +85,6 @@ class _WaterFallState extends State<WaterFall> {
   Widget build(BuildContext context) {
     widget.data = getData();
     return Stack(children: [
-      _buildDefaultWaterfallChart(),
       Align(
         alignment: Alignment.topRight,
         child: Container(
@@ -172,6 +172,7 @@ class _WaterFallState extends State<WaterFall> {
           ),
         ),
       ),
+      _buildDefaultWaterfallChart(),
     ]);
   }
 
@@ -212,7 +213,7 @@ class _WaterFallState extends State<WaterFall> {
   SfCartesianChart _buildDefaultWaterfallChart() {
     double sum = 0;
     return SfCartesianChart(
-      zoomPanBehavior: ZoomPanBehavior(enablePinching: true),
+      zoomPanBehavior: ZoomPanBehavior(enablePinching: false),
       plotAreaBorderWidth: 0,
       title: ChartTitle(text: widget.name),
       primaryXAxis: CategoryAxis(
